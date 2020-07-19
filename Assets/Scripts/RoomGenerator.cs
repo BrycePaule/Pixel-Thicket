@@ -9,21 +9,20 @@ using UnityEditor;
 public class RoomGenerator : MonoBehaviour
 {
 
-    
     public Tilemap tilemap;
     public Texture2D grassland;
     public Tile tileTest;
-
-    public Tile[] grass;
-    public Tile[] walls;
-    public Tile[] pads;
-    public Tile[] rocks;
 
     [Range(10, 40)]
     public int roomWidth;
 
     [Range(10, 40)]
     public int roomHeight;
+
+    public Tile[] grass;
+    public Tile[] walls;
+    public Tile[] pads;
+    public Tile[] rocks;
 
     private int[,] numMap;
     private Sprite[] tiles;
@@ -55,14 +54,16 @@ public class RoomGenerator : MonoBehaviour
         {
             for (int y = 0; y < roomHeight; y++)
             {
-                if (x == 0 | x == (roomWidth - 1) | y == 0 | y == (roomHeight - 1))
-                {
-                    numMap[x, y] = 1;
-                }
-                else
-                {
-                    numMap[x, y] = 0;
-                }
+                numMap[x, y] = 1;
+
+                // if (x == 0 | x == (roomWidth - 1) | y == 0 | y == (roomHeight - 1))
+                // {
+                //     numMap[x, y] = 1;
+                // }
+                // else
+                // {
+                //     numMap[x, y] = 0;
+                // }
             }
         }
     }
@@ -87,9 +88,32 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (numMap[x, y] == 1) 
                 {
-                    tilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), tileTest);
+                    tilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), GetRandomGrass());
                 }
             }
         }
+    }
+
+    private Tile GetRandomGrass()
+    {
+        Tile selectedTile = grass[0];
+        int roll = 0;
+
+        // roll for shrub
+        roll = (int)Random.Range(0, 100);
+        if (roll <= 30)
+        {
+            selectedTile = grass[(int)Random.Range(4, 7)];
+
+            // roll shrub for flower
+            roll = (int)Random.Range(0, 100);
+            if (roll <= 8)
+            {
+                selectedTile = grass[(int)Random.Range(1, 4)];
+            }
+        }
+
+        return selectedTile;
+        
     }
 }

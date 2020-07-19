@@ -201,6 +201,31 @@ MonoBehaviour:
   tileTest: {fileID: 11400000, guid: 182f407be87456b4f9802675fc4c452c, type: 2}
   roomWidth: 20
   roomHeight: 20
+  grass:
+  - {fileID: 11400000, guid: cba52624df5f85445b0945a8035c8d50, type: 2}
+  - {fileID: 11400000, guid: 182f407be87456b4f9802675fc4c452c, type: 2}
+  - {fileID: 11400000, guid: 2232491d29f189045a59560dc608a355, type: 2}
+  - {fileID: 11400000, guid: 656f2ee7d4bae4045900492bf3e40981, type: 2}
+  - {fileID: 11400000, guid: ebead63dc3243f340bf1d82ada4e6031, type: 2}
+  - {fileID: 11400000, guid: 7e727ed63b507ae4cae30aaccbfe6b4c, type: 2}
+  - {fileID: 11400000, guid: 823002ff1cd4fab4c8f64a1484dceb02, type: 2}
+  walls:
+  - {fileID: 11400000, guid: 777421e3337cf554e8b5f88cc8b2724e, type: 2}
+  - {fileID: 11400000, guid: 8b972dd24c0b92d4b9475f30ab871430, type: 2}
+  - {fileID: 11400000, guid: ea08a9f94c77567448685027c3fa22e6, type: 2}
+  - {fileID: 11400000, guid: 2325d45d2c529e543a63b6be399dc60d, type: 2}
+  - {fileID: 11400000, guid: 0b44d26040c361f43b594e6b7c3f91af, type: 2}
+  - {fileID: 11400000, guid: 34ce46d9c18112d49811bc846bd4a34b, type: 2}
+  - {fileID: 11400000, guid: 3d87d776d9c054640947ef8078479b54, type: 2}
+  - {fileID: 11400000, guid: b9581b800ba2c9d4c87e31ca19a122b9, type: 2}
+  - {fileID: 11400000, guid: 2697123efecf2f148b05884dcefc3ad6, type: 2}
+  - {fileID: 11400000, guid: 9c1e3ba39d0a2fd47bc5da495e791b67, type: 2}
+  - {fileID: 11400000, guid: 5ad34473ce73ed040a8ea788e1c4a9bb, type: 2}
+  - {fileID: 11400000, guid: 56ebd4dfd0b6551408d5613dfbee6d85, type: 2}
+  - {fileID: 11400000, guid: e9e52e8676b4f1e44bd06bc99190a703, type: 2}
+  - {fileID: 11400000, guid: e2db0102e2250d34dace30478a8d3712, type: 2}
+  pads: []
+  rocks: []
 --- !u!4 &267083528
 Transform:
   m_ObjectHideFlags: 0
@@ -214,49 +239,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &453880950
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 453880952}
-  - component: {fileID: 453880951}
-  m_Layer: 0
-  m_Name: RandomGrassTile
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &453880951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453880950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b7f8699c625764dbd9f8929aff2745, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &453880952
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453880950}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5063775, y: -1.5398326, z: -2.1817858}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &498177865
 GameObject:
