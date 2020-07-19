@@ -14,6 +14,11 @@ public class RoomGenerator : MonoBehaviour
     public Texture2D grassland;
     public Tile tileTest;
 
+    public Tile[] grass;
+    public Tile[] walls;
+    public Tile[] pads;
+    public Tile[] rocks;
+
     [Range(10, 40)]
     public int roomWidth;
 
@@ -41,15 +46,6 @@ public class RoomGenerator : MonoBehaviour
         ConvertNumToTiles();
 
 
-    }
-
-    private void InitialiseTileConvert()
-    {
-        tileConvert = new Dictionary<string, Tile>()
-        {
-            // {"grass1", tiles[0]},
-            
-        };
     }
 
     // NUMBER MAP GENERATION
