@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
     public PlayerInput PlayerInput;
     public Animator animator;
 
-    private float moveSpeed = 5f;
-    private float sprintMultiplier = 1.5f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float sprintMultiplier = 1.5f;
     private bool sprinting = false;
 
     private Vector2 moveAxis;
