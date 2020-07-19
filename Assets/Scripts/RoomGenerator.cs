@@ -13,6 +13,7 @@ public class RoomGenerator : MonoBehaviour
         1 = grass
         2 = walls
         3 = rocks
+        4 = gateway
     */
 
     public Tilemap baseTilemap;
@@ -96,7 +97,7 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (x == 0 | y == 0 | x == (roomWidth - 1) | y == (roomHeight - 1))
                 {
-                    _collidableTilemapGrid[x, y] = 3;
+                    _collidableTilemapGrid[x, y] = 2;
                 }
 
             }
@@ -114,7 +115,7 @@ public class RoomGenerator : MonoBehaviour
                     int roll = (int) Random.Range(0, 100);
                     if (roll <= 33)
                     {
-                        _collidableTilemapGrid[x, y] = 3;
+                        _collidableTilemapGrid[x, y] = 2;
                     }
                 }
 
@@ -133,7 +134,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    // TILE PLACEMENT LOGIC
+    // TILE PLACEMENT
     private void SetGridTiles()
     {
         for (int x = 0; x < roomWidth; x++)
@@ -147,18 +148,19 @@ public class RoomGenerator : MonoBehaviour
 
                 if (_collidableTilemapGrid[x, y] == 2) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), SelectRandomRockTile());
+                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), CalculateWallTileDirection(new Vector2Int(x, y)));
                 }
 
                 if (_collidableTilemapGrid[x, y] == 3) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), CalculateWallTileDirection(new Vector2Int(x, y)));
+                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), SelectRandomRockTile());
                 }
 
                 if (_collidableTilemapGrid[x, y] == 99) 
                 {
                     collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), DISPLAYTILE);
                 }
+
             }
         }
     }
@@ -191,26 +193,38 @@ public class RoomGenerator : MonoBehaviour
         return rocks[(int) Random.Range(0, rocks.Length)];
     }
 
-    private Tile CalculateWallTileDirection(Vector2Int location)
+    private Tile CalculateWallTileDirection(Vector2Int loc)
     {
 
-        if (location.x == 0 & location.y == 0) { return _walls["wall_corner_bottom_left"]; }
-        if (location.x == 0 & location.y == roomHeight - 1) { return _walls["wall_corner_top_left"]; }
-        if (location.x == roomWidth - 1 & location.y == 0) { return _walls["wall_corner_bottom_right"]; }
-        if (location.x == roomWidth - 1 & location.y == roomHeight - 1) { return _walls["wall_corner_top_right"]; }
+        int[,] neighbours = GridCalc.GetNeighbours(_collidableTilemapGrid, loc);
+        string gridType = GridCalc.CompareGrid(neighbours);
 
-        if (location.x == 0) { return _walls["wall_left"]; }
-        if (location.x == roomWidth - 1) { return _walls["wall_right"]; }
-        if (location.y == 0) { return _walls["wall_bottom"]; }
-        if (location.y == roomHeight - 1) { return _walls["wall_top"]; }
+        if (loc.x == 0 & loc.y == 0)
+        {
+            foreach (var item in neighbours)
+            {
+                print(item);
+            }
+            print(gridType);
+        }
 
+        
+        if (gridType != null)
+        {
+            return _walls[gridType];
+        }
+
+        // if (loc.x == 0 & loc.y == 0) { return _walls["wall_corner_bottom_left"]; }
+        // if (loc.x == 0 & loc.y == roomHeight - 1) { return _walls["wall_corner_top_left"]; }
+        // if (loc.x == roomWidth - 1 & loc.y == 0) { return _walls["wall_corner_bottom_right"]; }
+        // if (loc.x == roomWidth - 1 & loc.y == roomHeight - 1) { return _walls["wall_corner_top_right"]; }
+
+        // if (loc.x == 0) { return _walls["wall_left"]; }
+        // if (loc.x == roomWidth - 1) { return _walls["wall_right"]; }
+        // if (loc.y == 0) { return _walls["wall_bottom"]; }
+        // if (loc.y == roomHeight - 1) { return _walls["wall_top"]; }
 
         return _walls["wall"];
-    }
-
-    private void GetTileNeighbours(int[,] grid, Vector2Int location)
-    {
-        
     }
 
     // UTILITIES
@@ -235,3 +249,4 @@ public class RoomGenerator : MonoBehaviour
         _walls.Add("wall_bend_bottom_left", walls[13]);
     }
 }
+
