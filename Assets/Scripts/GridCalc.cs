@@ -5,7 +5,7 @@ using UnityEngine;
 public static class GridCalc
 {
 
-    private static Dictionary<int[,], string> GridTypes = new Dictionary<int[,], string>()
+    private static Dictionary<int[,], string> WallComparisonGrids = new Dictionary<int[,], string>()
     {
 
         // COVER
@@ -208,17 +208,15 @@ public static class GridCalc
         return neighbours;
     }
 
-    public static string CompareGrid(int[,] grid)
+    public static string WallComparison(int[,] grid)
     {
 
         bool skip = false;
 
-        foreach (var TileGridStringPair in GridTypes)
+        foreach (var wallComparisonGridPair in WallComparisonGrids)
         {
-            int[,] gridType = TileGridStringPair.Key;
+            int[,] comparisonGrid = wallComparisonGridPair.Key;
             skip = false;
-
-            Debug.Log(TileGridStringPair.Value);
 
             for (int y = 0; y < 3; y++)
             {
@@ -228,8 +226,8 @@ public static class GridCalc
                 for (int x = 0; x < 3; x++)
                 {
                 
-                    if (gridType[y, x] == 0) { continue; }
-                    if (grid[y, x] != gridType[y, x]) 
+                    if (comparisonGrid[y, x] == 0) { continue; }
+                    if (grid[y, x] != comparisonGrid[y, x]) 
                     { 
                         skip = true;
                         break; 
@@ -237,7 +235,7 @@ public static class GridCalc
                 }  
             }
 
-            if (!skip) { return TileGridStringPair.Value; }
+            if (!skip) { return wallComparisonGridPair.Value; }
 
         }
 
@@ -245,5 +243,20 @@ public static class GridCalc
         
     }
 
+    public static bool CheckSurrounded(int[,] neighbourGrid, int surroundingBlockType)
+    {
+        
+        int[,] surrounded = new int[3,3] {{0, surroundingBlockType, 0}, {surroundingBlockType, 0, surroundingBlockType}, {0, surroundingBlockType, 0}};
 
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                if (surrounded[y, x] == 0) { continue; }
+                if (surrounded[y, x] != neighbourGrid[y, x]) { return false; }
+            }
+        }
+
+        return true;
+    }
 }
