@@ -71,17 +71,17 @@ public static class GridCalc
 
         {new int[,] {{0, 0, 0},
                      {2, 0, 2},
-                     {2, 2, 2}}, "wall_bottom"},
+                     {2, 2, 2}}, "wall_bottom_grass"},
 
         
         // BENDS
         {new int[,] {{0, 0, 0},
                      {0, 0, 2},
-                     {2, 2, 2}}, "wall_bend_top_left"},
+                     {2, 2, 2}}, "wall_bend_top_left_grass"},
 
         {new int[,] {{0, 0, 0},
                      {2, 0, 0},
-                     {2, 2, 2}}, "wall_bend_top_right"},
+                     {2, 2, 2}}, "wall_bend_top_right_grass"},
 
         {new int[,] {{2, 2, 2},
                      {0, 0, 2},
@@ -107,6 +107,24 @@ public static class GridCalc
         {new int[,] {{0, 2, 2},
                      {0, 0, 2},
                      {0, 0, 2}}, "wall_bend_bottom_left"},
+
+
+        // GATEWAY EDGES
+        {new int[,] {{0, 0, 0},
+                     {0, 0, 2},
+                     {0, 2, 2}}, "wall_bend_top_left_grass"},
+
+        {new int[,] {{0, 0, 0},
+                     {2, 0, 0},
+                     {2, 2, 0}}, "wall_bend_top_right_grass"},
+
+        {new int[,] {{0, 2, 2},
+                     {0, 0, 2},
+                     {0, 0, 0}}, "wall_bend_bottom_left"},
+
+        {new int[,] {{2, 2, 0},
+                     {2, 0, 0},
+                     {0, 0, 0}}, "wall_bend_bottom_right"},
    
         
         // DEFAULT

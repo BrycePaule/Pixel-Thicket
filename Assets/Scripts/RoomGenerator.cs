@@ -106,9 +106,9 @@ public class RoomGenerator : MonoBehaviour
 
         GenerateGrassArea(room);
         GenerateOuterWalls(room);
-        GenerateInnerWalls(room);
-        GenerateInnerWalls(room);
+        GenerateInnerWalls(room, 40);
         FillEmptiesSurroundedByWalls(room);
+        FillSingleSpaceGapsInWalls(room);
 
         GenerateGateways(room);
         RemoveGatewayBlockers(room);
@@ -154,7 +154,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateInnerWalls(Room room)
+    private void GenerateInnerWalls(Room room, int convertThreshold = 33)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
@@ -165,7 +165,7 @@ public class RoomGenerator : MonoBehaviour
                     if (_collidableTilemapGrid[y, x] == 0)
                     {
                         int roll = (int) Random.Range(0, 100);
-                        if (roll <= 33)
+                        if (roll <= convertThreshold)
                         {
                             _collidableTilemapGrid[y, x] = 2;
                         }
@@ -178,6 +178,10 @@ public class RoomGenerator : MonoBehaviour
 
     private void GenerateGateways(Room room)
     {
+
+        // extra steps to remove walls near gateways is to make tile selection easier
+        // should be improved, but currently manually can't find a fix
+
         int middleX = Mathf.RoundToInt(room.roomWidth / 2);
         int middleY = Mathf.RoundToInt(room.roomHeight / 2);
 
@@ -186,20 +190,33 @@ public class RoomGenerator : MonoBehaviour
         _padTilemapGrid[room.roomHeight - 1, middleX - 1] = 4;
         _padTilemapGrid[room.roomHeight - 1, middleX + 1] = 4;
 
+        _collidableTilemapGrid[room.roomHeight - 2, middleX - 2] = 0;
+        _collidableTilemapGrid[room.roomHeight - 2, middleX + 2] = 0;
+
         // SOUTH
         _padTilemapGrid[0, middleX] = 4;
         _padTilemapGrid[0, middleX - 1] = 4;
         _padTilemapGrid[0, middleX + 1] = 4;
 
+        _collidableTilemapGrid[1, middleX - 2] = 0;
+        _collidableTilemapGrid[1, middleX + 2] = 0;
+
         // EAST
+        _padTilemapGrid[middleY, room.roomWidth - 1] = 4;
+        _padTilemapGrid[middleY - 1, room.roomWidth - 1] = 4;
+        _padTilemapGrid[middleY + 1, room.roomWidth - 1] = 4;
+
+        _collidableTilemapGrid[middleY - 2, room.roomWidth - 2] = 0;
+        _collidableTilemapGrid[middleY + 2, room.roomWidth - 2] = 0;
+
+        // WEST
         _padTilemapGrid[middleY, 0] = 4;
         _padTilemapGrid[middleY - 1, 0] = 4;
         _padTilemapGrid[middleY + 1, 0] = 4;
 
-        // WEST
-        _padTilemapGrid[middleY, room.roomWidth - 1] = 4;
-        _padTilemapGrid[middleY - 1, room.roomWidth - 1] = 4;
-        _padTilemapGrid[middleY + 1, room.roomWidth - 1] = 4;
+        _collidableTilemapGrid[middleY - 2, 1] = 0;
+        _collidableTilemapGrid[middleY + 2, 1] = 0;
+
     }
 
     private void FillEmptiesSurroundedByWalls(Room room)
@@ -222,6 +239,39 @@ public class RoomGenerator : MonoBehaviour
         }
     }
     
+    private void FillSingleSpaceGapsInWalls(Room room)
+    {
+
+        bool changed = true;
+
+        while (changed)
+        {
+
+            changed = false;
+
+            for (int y = 0; y < room.roomHeight; y++)
+            {
+                for (int x = 0; x < room.roomWidth; x++)
+                {
+                    if (_collidableTilemapGrid[y, x] != 0) { continue; }
+
+                    if (_collidableTilemapGrid[y - 1, x] == 2 & _collidableTilemapGrid[y + 1, x] == 2)
+                    {
+                        _collidableTilemapGrid[y, x] = 2;
+                        changed = true;
+                    }
+
+                    if (_collidableTilemapGrid[y, x - 1] == 2 & _collidableTilemapGrid[y, x + 1] == 2)
+                    {
+                        _collidableTilemapGrid[y, x] = 2;
+                        changed = true;
+                    }                    
+                }
+            }
+        }
+
+    }
+
     private void RemoveGatewayBlockers(Room room)
     {
         for (int y = 0; y < room.roomHeight; y++)
@@ -367,23 +417,31 @@ public class RoomGenerator : MonoBehaviour
     // UTILITIES
     private void FillWallsDictionary()
     {
+
+
+
         _wallTiles.Add("wall", walls[0]);
-        _wallTiles.Add("wall_cover", walls[6]);
 
-        _wallTiles.Add("wall_left", walls[8]);
-        _wallTiles.Add("wall_right", walls[7]);
-        _wallTiles.Add("wall_top", walls[9]);
-        _wallTiles.Add("wall_bottom", walls[1]);
+        _wallTiles.Add("wall_top", walls[1]);
+        _wallTiles.Add("wall_bottom", walls[2]);
+        _wallTiles.Add("wall_bottom_grass", walls[16]);
+        _wallTiles.Add("wall_left", walls[3]);
+        _wallTiles.Add("wall_right", walls[4]);
 
-        _wallTiles.Add("wall_corner_bottom_left", walls[2]);
-        _wallTiles.Add("wall_corner_bottom_right", walls[4]);
-        _wallTiles.Add("wall_corner_top_left", walls[10]);
-        _wallTiles.Add("wall_corner_top_right", walls[12]);
+        _wallTiles.Add("wall_cover", walls[5]);
 
-        _wallTiles.Add("wall_bend_top_right", walls[3]);
-        _wallTiles.Add("wall_bend_top_left", walls[5]);
-        _wallTiles.Add("wall_bend_bottom_right", walls[11]);
-        _wallTiles.Add("wall_bend_bottom_left", walls[13]);
+        _wallTiles.Add("wall_corner_top_left", walls[6]);
+        _wallTiles.Add("wall_corner_top_right", walls[7]);
+        _wallTiles.Add("wall_corner_bottom_left", walls[8]);
+        _wallTiles.Add("wall_corner_bottom_right", walls[9]);
+
+        _wallTiles.Add("wall_bend_bottom_right", walls[10]);
+        _wallTiles.Add("wall_bend_bottom_left", walls[11]);
+        _wallTiles.Add("wall_bend_top_left", walls[12]);
+        _wallTiles.Add("wall_bend_top_right", walls[13]);
+        _wallTiles.Add("wall_bend_top_left_grass", walls[14]);
+        _wallTiles.Add("wall_bend_top_right_grass", walls[15]);
+
     }
 }
 
