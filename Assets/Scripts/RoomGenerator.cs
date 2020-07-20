@@ -69,35 +69,35 @@ public class RoomGenerator : MonoBehaviour
     // NUMBER MAP GENERATION
     private void GenerateEmptyGrid(int[,] grid)
     {
-        for (int x = 0; x < roomWidth; x++)
+        for (int y = 0; y < roomWidth; y++)
         {
-            for (int y = 0; y < roomHeight; y++)
+            for (int x = 0; x < roomHeight; x++)
             {
-                grid[x, y] = 0;
+                grid[y, x] = 0;
             }
         }
     }
 
     private void GenerateGrassArea()
     {
-        for (int x = 0; x < roomWidth; x++)
+        for (int y = 0; y < roomWidth; y++)
         {
-            for (int y = 0; y < roomHeight; y++)
+            for (int x = 0; x < roomHeight; x++)
             {
-                _baseTilemapGrid[x, y] = 1;
+                _baseTilemapGrid[y, x] = 1;
             }
         }
     }
 
     private void GenerateOuterWalls()
     {
-        for (int x = 0; x < roomWidth; x++)
+        for (int y = 0; y < roomWidth; y++)
         {
-            for (int y = 0; y < roomHeight; y++)
+            for (int x = 0; x < roomHeight; x++)
             {
-                if (x == 0 | y == 0 | x == (roomWidth - 1) | y == (roomHeight - 1))
+                if (y == 0 | x == 0 | y == (roomWidth - 1) | x == (roomHeight - 1))
                 {
-                    _collidableTilemapGrid[x, y] = 2;
+                    _collidableTilemapGrid[y, x] = 2;
                 }
 
             }
@@ -106,16 +106,16 @@ public class RoomGenerator : MonoBehaviour
 
     private void GenerateInnerWalls()
     {
-        for (int x = 0; x < roomWidth; x++)
+        for (int y = 0; y < roomWidth; y++)
         {
-            for (int y = 0; y < roomHeight; y++)
+            for (int x = 0; x < roomHeight; x++)
             {
-                if (x == 1 | y == 1 | x == (roomWidth - 2) | y == (roomHeight - 2))
+                if (y == 1 | x == 1 | y == (roomWidth - 2) | x == (roomHeight - 2))
                 {
                     int roll = (int) Random.Range(0, 100);
                     if (roll <= 33)
                     {
-                        _collidableTilemapGrid[x, y] = 2;
+                        _collidableTilemapGrid[y, x] = 2;
                     }
                 }
 
@@ -125,11 +125,11 @@ public class RoomGenerator : MonoBehaviour
     
     private void PrintGrid(int[,] grid)
     {
-        for (int x = 0; x < roomWidth; x++)
+        for (int y = 0; y < roomWidth; y++)
         {
-            for (int y = 0; y < roomHeight; y++)
+            for (int x = 0; x < roomHeight; x++)
             {
-                print(grid[x, y]);
+                print(grid[y, x]);
             }
         }
     }
@@ -137,28 +137,28 @@ public class RoomGenerator : MonoBehaviour
     // TILE PLACEMENT
     private void SetGridTiles()
     {
-        for (int x = 0; x < roomWidth; x++)
+        for (int y = 0; y < roomWidth; y++)
         {
-            for (int y = 0; y < roomHeight; y++)
+            for (int x = 0; x < roomHeight; x++)
             {
-                if (_baseTilemapGrid[x, y] == 1) 
+                if (_baseTilemapGrid[y, x] == 1) 
                 {
-                    baseTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), SelectRandomGrassTile());
+                    baseTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomHeight / 2), 0), SelectRandomGrassTile());
                 }
 
-                if (_collidableTilemapGrid[x, y] == 2) 
+                if (_collidableTilemapGrid[y, x] == 2) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), CalculateWallTileDirection(new Vector2Int(x, y)));
+                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomHeight / 2), 0), CalculateWallTileDirection(new Vector2Int(x, y)));
                 }
 
-                if (_collidableTilemapGrid[x, y] == 3) 
+                if (_collidableTilemapGrid[y, x] == 3) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), SelectRandomRockTile());
+                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomHeight / 2), 0), SelectRandomRockTile());
                 }
 
-                if (_collidableTilemapGrid[x, y] == 99) 
+                if (_collidableTilemapGrid[y, x] == 99) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomWidth / 2), 0), DISPLAYTILE);
+                    collidableTilemap.SetTile(new Vector3Int(x - (roomWidth / 2), y - (roomHeight / 2), 0), DISPLAYTILE);
                 }
 
             }
@@ -198,16 +198,6 @@ public class RoomGenerator : MonoBehaviour
 
         int[,] neighbours = GridCalc.GetNeighbours(_collidableTilemapGrid, loc);
         string gridType = GridCalc.CompareGrid(neighbours);
-
-        if (loc.x == 0 & loc.y == 0)
-        {
-            foreach (var item in neighbours)
-            {
-                print(item);
-            }
-            print(gridType);
-        }
-
         
         if (gridType != null)
         {

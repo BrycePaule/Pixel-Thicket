@@ -8,74 +8,108 @@ public static class GridCalc
     private static Dictionary<int[,], string> GridTypes = new Dictionary<int[,], string>()
     {
 
-        {new int[,] {{0, 0, 0},
-                     {0, 0, 2},
-                     {0, 2, 2}}, "wall_bend_top_left"},
+        // COVER
+        {new int[,] {{2, 2, 2},
+                     {2, 0, 2},
+                     {2, 2, 2}}, "wall_cover"},
 
-        {new int[,] {{0, 0, 0},
+       
+        // CORNERS 
+        {new int[,] {{2, 2, 2},
+                     {2, 0, 2},
+                     {2, 2, 0}}, "wall_corner_top_left"},
+
+        {new int[,] {{2, 2, 2},
+                     {2, 0, 2},
+                     {0, 2, 2}}, "wall_corner_top_right"},
+
+        {new int[,] {{2, 2, 0},
+                     {2, 0, 2},
+                     {2, 2, 2}}, "wall_corner_bottom_left"},
+
+        {new int[,] {{0, 2, 2},
+                     {2, 0, 2},
+                     {2, 2, 2}}, "wall_corner_bottom_right"},
+
+                
+        // PENINSULA
+        {new int[,] {{0, 2, 0},
+                     {2, 0, 2},
+                     {2, 2, 2}}, "wall_bottom"},
+
+        {new int[,] {{2, 2, 2},
+                     {2, 0, 2},
+                     {0, 2, 0}}, "wall_top"},
+
+        {new int[,] {{0, 2, 2},
+                     {2, 0, 2},
+                     {0, 2, 2}}, "wall_right"},
+
+        {new int[,] {{2, 2, 0},
+                     {2, 0, 2},
+                     {2, 2, 0}}, "wall_left"},
+
+
+        // COVER
+        {new int[,] {{0, 2, 0},
+                     {2, 0, 2},
+                     {0, 2, 0}}, "wall_cover"},
+
+        
+        // WALLS
+        {new int[,] {{2, 2, 0},
                      {2, 0, 0},
-                     {2, 2, 0}}, "wall_bend_top_right"},
+                     {2, 2, 0}}, "wall_left"},
 
         {new int[,] {{0, 2, 2},
                      {0, 0, 2},
-                     {0, 0, 0}}, "wall_bend_bottom_left"},
+                     {0, 2, 2}}, "wall_right"},
 
-        {new int[,] {{2, 2, 0},
-                     {2, 0, 0},
-                     {0, 0, 0}}, "wall_bend_bottom_left"},
-
-        
-        {new int[,] {{0, 0, 0},
-                     {0, 0, 2},
-                     {0, 2, 0}}, "wall_corner_top_left"},
-
-        {new int[,] {{0, 0, 0},
-                     {2, 0, 0},
-                     {0, 2, 0}}, "wall_corner_top_right"},
-
-        {new int[,] {{0, 2, 0},
-                     {0, 0, 2},
-                     {0, 0, 0}}, "wall_corner_bottom_left"},
-
-        {new int[,] {{0, 2, 0},
-                     {2, 0, 0},
-                     {0, 0, 0}}, "wall_corner_bottom_left"},
-
-
-        {new int[,] {{0, 2, 0},
-                     {0, 0, 0},
-                     {0, 2, 0}}, "wall_left"},
-
-        {new int[,] {{0, 2, 0},
-                     {0, 0, 0},
-                     {0, 2, 0}}, "wall_right"},
-
-        {new int[,] {{0, 0, 0},
+        {new int[,] {{2, 2, 2},
                      {2, 0, 2},
                      {0, 0, 0}}, "wall_top"},
 
         {new int[,] {{0, 0, 0},
                      {2, 0, 2},
-                     {0, 0, 0}}, "wall_bottom"},
+                     {2, 2, 2}}, "wall_bottom"},
 
+        
+        // BENDS
+        {new int[,] {{0, 0, 0},
+                     {0, 0, 2},
+                     {2, 2, 2}}, "wall_bend_top_left"},
 
         {new int[,] {{0, 0, 0},
-                     {2, 0, 2},
-                     {0, 2, 0}}, "wall_cover"},
-
-        {new int[,] {{0, 2, 0},
-                     {2, 0, 2},
-                     {0, 0, 0}}, "wall_cover"},
-
-        {new int[,] {{0, 2, 0},
-                     {0, 0, 2},
-                     {0, 2, 0}}, "wall_cover"},
-
-        {new int[,] {{0, 2, 0},
                      {2, 0, 0},
-                     {0, 2, 0}}, "wall_cover"},
+                     {2, 2, 2}}, "wall_bend_top_right"},
+
+        {new int[,] {{2, 2, 2},
+                     {0, 0, 2},
+                     {0, 0, 0}}, "wall_bend_bottom_left"},
+
+        {new int[,] {{2, 2, 2},
+                     {2, 0, 0},
+                     {0, 0, 0}}, "wall_bend_bottom_right"},
+
+
+        {new int[,] {{0, 0, 2},
+                     {0, 0, 2},
+                     {0, 2, 2}}, "wall_bend_top_left"},
+
+        {new int[,] {{2, 0, 0},
+                     {2, 0, 0},
+                     {2, 2, 0}}, "wall_bend_top_right"},
+
+        {new int[,] {{2, 2, 0},
+                     {2, 0, 0},
+                     {2, 0, 0}}, "wall_bend_bottom_right"},
+
+        {new int[,] {{0, 2, 2},
+                     {0, 0, 2},
+                     {0, 0, 2}}, "wall_bend_bottom_left"},
+   
         
-        
+        // DEFAULT
         {new int[,] {{0, 0, 0},
                      {0, 0, 0},
                      {0, 0, 0}}, "wall"},
@@ -90,85 +124,85 @@ public static class GridCalc
         // top row
         try
         {
-            neighbours[0, 0] = grid[loc.x - 1, loc.y - 1];
+            neighbours[0, 0] = grid[loc.y + 1, loc.x - 1];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[0, 0] = 0;
+            neighbours[0, 0] = 2;
         }
 
         try
         {
-            neighbours[0, 1] = grid[loc.x, loc.y - 1];
+            neighbours[0, 1] = grid[loc.y + 1, loc.x];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[0, 1] = 0;
+            neighbours[0, 1] = 2;
         }
 
         try
         {
-            neighbours[0, 2] = grid[loc.x + 1, loc.y - 1];
+            neighbours[0, 2] = grid[loc.y + 1, loc.x + 1];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[0, 2] = 0;
+            neighbours[0, 2] = 2;
         }
 
         // middle row
         try
         {
-            neighbours[1, 0] = grid[loc.x - 1, loc.y];
+            neighbours[1, 0] = grid[loc.y, loc.x - 1];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[1, 0] = 0;
+            neighbours[1, 0] = 2;
         }
 
         try
         {
-            neighbours[1, 1] = grid[loc.x, loc.y];
+            neighbours[1, 1] = grid[loc.y, loc.x];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[1, 1] = 0;
+            neighbours[1, 1] = 2;
         }
 
         try
         {
-            neighbours[1, 2] = grid[loc.x + 1, loc.y];
+            neighbours[1, 2] = grid[loc.y, loc.x + 1];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[1, 2] = 0;
+            neighbours[1, 2] = 2;
         }
 
         // bottom row
         try
         {
-            neighbours[2, 0] = grid[loc.x - 1, loc.y + 1];
+            neighbours[2, 0] = grid[loc.y - 1, loc.x - 1];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[2, 0] = 0;
+            neighbours[2, 0] = 2;
         }
 
         try
         {
-            neighbours[2, 1] = grid[loc.x, loc.y + 1];
+            neighbours[2, 1] = grid[loc.y - 1, loc.x];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[2, 1] = 0;
+            neighbours[2, 1] = 2;
         }
 
         try
         {
-            neighbours[2, 2] = grid[loc.x + 1, loc.y + 1];
+            neighbours[2, 2] = grid[loc.y - 1, loc.x + 1];
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[2, 2] = 0;
+            neighbours[2, 2] = 2;
         }
         
         return neighbours;
@@ -184,16 +218,18 @@ public static class GridCalc
             int[,] gridType = TileGridStringPair.Key;
             skip = false;
 
-            for (int x = 0; x < 3; x++)
+            Debug.Log(TileGridStringPair.Value);
+
+            for (int y = 0; y < 3; y++)
             {
 
                 if (skip) { break; }
 
-                for (int y = 0; y < 3; y++)
+                for (int x = 0; x < 3; x++)
                 {
                 
-                    if (gridType[x, y] == 0) { continue; }
-                    if (grid[x, y] != gridType[x, y]) 
+                    if (gridType[y, x] == 0) { continue; }
+                    if (grid[y, x] != gridType[y, x]) 
                     { 
                         skip = true;
                         break; 
