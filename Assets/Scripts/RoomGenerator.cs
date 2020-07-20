@@ -16,35 +16,25 @@ public class RoomGenerator : MonoBehaviour
         4 = gateway
     */
 
-    private static RoomGenerator _instance;
 
+    [Range(0, 100)] public int roomLowerBound;
+    [Range(0, 100)] public int roomUpperBound;
+    [Space(10)]
     public Room roomPrefab;
-
-    [Space]
-
-    [Range(10, 40)] public int roomLowerBound;
-    [Range(10, 40)] public int roomUpperBound;
-
-    [Space]
+    public Tile RedTestTile;
     public Tile[] grass;
     public Tile[] walls;
     public Tile[] pads;
     public Tile[] rocks;
 
-    [Space]
-    public Tile RedTestTile;
-
+    private static RoomGenerator _instance;
     private Dictionary<string, Tile> _wallTiles;
-
-    private Tilemap baseTilemap;
-    private Tilemap padTilemap;
-    private Tilemap collidableTilemap;
-
-    private int[,] _baseTilemapGrid;
-    private int[,] _padTilemapGrid;
-    private int[,] _collidableTilemapGrid;
-
-    Room room1;
+    private Tilemap _baseTilemap;
+    private Tilemap _padTilemap;
+    private Tilemap _collideTilemap;
+    private int[,] _baseGrid;
+    private int[,] _padGrid;
+    private int[,] _collideGrid;
 
 
     // Singleton Pattern
@@ -74,50 +64,51 @@ public class RoomGenerator : MonoBehaviour
         if (_instance != null) { Destroy(this); }
         // DontDestroyOnLoad(this);
 
+        _wallTiles = new Dictionary<string, Tile>();
+        FillWallsDictionary();
+
     }
 
     private void Start()
     {
-        room1 = Instantiate(roomPrefab);
-
-        baseTilemap = room1.transform.Find("Base Tiles").gameObject.GetComponent<Tilemap>();
-        padTilemap = room1.transform.Find("Pads").gameObject.GetComponent<Tilemap>();
-        collidableTilemap = room1.transform.Find("Collidables").gameObject.GetComponent<Tilemap>();
-
-        _baseTilemapGrid = new int[room1.roomHeight, room1.roomWidth];
-        _padTilemapGrid = new int[room1.roomHeight, room1.roomWidth];
-        _collidableTilemapGrid = new int[room1.roomHeight, room1.roomWidth];
-
-        _wallTiles = new Dictionary<string, Tile>();
-        FillWallsDictionary();
-
-        GenerateRoom(room1);
+        
     }
 
 
     // NUMBER MAP GENERATION
 
-    private void GenerateRoom(Room room)
+    public Room GenerateRoom()
     {
 
-        GenerateEmptyGrid(room, _baseTilemapGrid);
-        GenerateEmptyGrid(room, _padTilemapGrid);
-        GenerateEmptyGrid(room, _collidableTilemapGrid);
+        Room room = Instantiate(roomPrefab);
 
-        GenerateGrassArea(room);
-        GenerateOuterWalls(room);
-        GenerateInnerWalls(room, 40);
-        FillEmptiesSurroundedByWalls(room);
-        FillSingleSpaceGapsInWalls(room);
+        _baseTilemap = room.transform.Find("Base Tiles").gameObject.GetComponent<Tilemap>();
+        _padTilemap = room.transform.Find("Pads").gameObject.GetComponent<Tilemap>();
+        _collideTilemap = room.transform.Find("Collidables").gameObject.GetComponent<Tilemap>();
 
-        GenerateGateways(room);
-        RemoveGatewayBlockers(room);
+        _baseGrid = new int[room.roomHeight, room.roomWidth];
+        _padGrid = new int[room.roomHeight, room.roomWidth];
+        _collideGrid = new int[room.roomHeight, room.roomWidth];
 
-        SetGridTiles(room);
+        GenerateZeroGrid(room, _baseGrid);
+        GenerateZeroGrid(room, _padGrid);
+        GenerateZeroGrid(room, _collideGrid);
+
+        GenerateGrassArea(room, _baseGrid);
+        GenerateOuterWalls(room, _collideGrid);
+        GenerateInnerWalls(room, _collideGrid, 40);
+        FillEmptiesSurroundedByWalls(room, _collideGrid);
+        FillSingleSpaceGapsInWalls(room, _collideGrid);
+        GenerateGateways(room, _padGrid, _collideGrid);
+        RemoveGatewayBlockers(room, _padGrid, _collideGrid);
+
+        SetGridTiles(room, _baseGrid, _collideGrid, _padGrid, _baseTilemap, _collideTilemap, _padTilemap);
+
+        return room;
 
     }
 
-    private void GenerateEmptyGrid(Room room, int[,] grid)
+    private void GenerateZeroGrid(Room room, int[,] grid)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
@@ -128,18 +119,18 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateGrassArea(Room room)
+    private void GenerateGrassArea(Room room, int[,] baseGrid)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
             for (int x = 0; x < room.roomWidth; x++)
             {
-                _baseTilemapGrid[y, x] = 1;
+                baseGrid[y, x] = 1;
             }
         }
     }
 
-    private void GenerateOuterWalls(Room room)
+    private void GenerateOuterWalls(Room room, int[,] wallGrid)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
@@ -147,14 +138,14 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (y == 0 | x == 0 | y == (room.roomHeight - 1) | x == (room.roomWidth - 1))
                 {
-                    _collidableTilemapGrid[y, x] = 2;
+                    wallGrid[y, x] = 2;
                 }
 
             }
         }
     }
 
-    private void GenerateInnerWalls(Room room, int convertThreshold = 33)
+    private void GenerateInnerWalls(Room room, int[,] wallGrid, int conversionThreshold = 33)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
@@ -162,12 +153,12 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (y == 1 | x == 1 | y == (room.roomHeight - 2) | x == (room.roomWidth - 2))
                 {
-                    if (_collidableTilemapGrid[y, x] == 0)
+                    if (wallGrid[y, x] == 0)
                     {
                         int roll = (int) Random.Range(0, 100);
-                        if (roll <= convertThreshold)
+                        if (roll <= conversionThreshold)
                         {
-                            _collidableTilemapGrid[y, x] = 2;
+                            wallGrid[y, x] = 2;
                         }
                     }
                 }
@@ -176,7 +167,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateGateways(Room room)
+    private void GenerateGateways(Room room, int[,] padGrid, int[,] wallGrid)
     {
 
         // extra steps to remove walls near gateways is to make tile selection easier
@@ -186,60 +177,59 @@ public class RoomGenerator : MonoBehaviour
         int middleY = Mathf.RoundToInt(room.roomHeight / 2);
 
         // NORTH
-        _padTilemapGrid[room.roomHeight - 1, middleX] = 4;
-        _padTilemapGrid[room.roomHeight - 1, middleX - 1] = 4;
-        _padTilemapGrid[room.roomHeight - 1, middleX + 1] = 4;
+        padGrid[room.roomHeight - 1, middleX] = 4;
+        padGrid[room.roomHeight - 1, middleX - 1] = 4;
+        padGrid[room.roomHeight - 1, middleX + 1] = 4;
 
-        _collidableTilemapGrid[room.roomHeight - 2, middleX - 2] = 0;
-        _collidableTilemapGrid[room.roomHeight - 2, middleX + 2] = 0;
+        wallGrid[room.roomHeight - 2, middleX - 2] = 0;
+        wallGrid[room.roomHeight - 2, middleX + 2] = 0;
 
         // SOUTH
-        _padTilemapGrid[0, middleX] = 4;
-        _padTilemapGrid[0, middleX - 1] = 4;
-        _padTilemapGrid[0, middleX + 1] = 4;
+        padGrid[0, middleX] = 4;
+        padGrid[0, middleX - 1] = 4;
+        padGrid[0, middleX + 1] = 4;
 
-        _collidableTilemapGrid[1, middleX - 2] = 0;
-        _collidableTilemapGrid[1, middleX + 2] = 0;
+        wallGrid[1, middleX - 2] = 0;
+        wallGrid[1, middleX + 2] = 0;
 
         // EAST
-        _padTilemapGrid[middleY, room.roomWidth - 1] = 4;
-        _padTilemapGrid[middleY - 1, room.roomWidth - 1] = 4;
-        _padTilemapGrid[middleY + 1, room.roomWidth - 1] = 4;
+        padGrid[middleY, room.roomWidth - 1] = 4;
+        padGrid[middleY - 1, room.roomWidth - 1] = 4;
+        padGrid[middleY + 1, room.roomWidth - 1] = 4;
 
-        _collidableTilemapGrid[middleY - 2, room.roomWidth - 2] = 0;
-        _collidableTilemapGrid[middleY + 2, room.roomWidth - 2] = 0;
+        wallGrid[middleY - 2, room.roomWidth - 2] = 0;
+        wallGrid[middleY + 2, room.roomWidth - 2] = 0;
 
         // WEST
-        _padTilemapGrid[middleY, 0] = 4;
-        _padTilemapGrid[middleY - 1, 0] = 4;
-        _padTilemapGrid[middleY + 1, 0] = 4;
+        padGrid[middleY, 0] = 4;
+        padGrid[middleY - 1, 0] = 4;
+        padGrid[middleY + 1, 0] = 4;
 
-        _collidableTilemapGrid[middleY - 2, 1] = 0;
-        _collidableTilemapGrid[middleY + 2, 1] = 0;
+        wallGrid[middleY - 2, 1] = 0;
+        wallGrid[middleY + 2, 1] = 0;
 
     }
 
-    private void FillEmptiesSurroundedByWalls(Room room)
+    private void FillEmptiesSurroundedByWalls(Room room, int[,] wallGrid)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
             for (int x = 0; x < room.roomWidth; x++)
             {
-
-                if (_collidableTilemapGrid[y, x] == 0)
+                if (wallGrid[y, x] == 0)
                 {
                     Vector2Int loc = new Vector2Int(x, y);
-                    int[,] neighbours = GridCalc.GetNeighbours(_collidableTilemapGrid, loc);
-                    if (GridCalc.CheckSurrounded(neighbours, 2)) 
+                    int[,] neighbours = GridMath.GetNeighbours(wallGrid, loc);
+                    if (GridMath.CheckSurroundedCardinal(neighbours, 2)) 
                     {
-                        _collidableTilemapGrid[y, x] = 2;
+                        wallGrid[y, x] = 2;
                     }
                 } 
             }
         }
     }
     
-    private void FillSingleSpaceGapsInWalls(Room room)
+    private void FillSingleSpaceGapsInWalls(Room room, int[,] wallGrid)
     {
 
         bool changed = true;
@@ -253,17 +243,17 @@ public class RoomGenerator : MonoBehaviour
             {
                 for (int x = 0; x < room.roomWidth; x++)
                 {
-                    if (_collidableTilemapGrid[y, x] != 0) { continue; }
+                    if (wallGrid[y, x] != 0) { continue; }
 
-                    if (_collidableTilemapGrid[y - 1, x] == 2 & _collidableTilemapGrid[y + 1, x] == 2)
+                    if (wallGrid[y - 1, x] == 2 & wallGrid[y + 1, x] == 2)
                     {
-                        _collidableTilemapGrid[y, x] = 2;
+                        wallGrid[y, x] = 2;
                         changed = true;
                     }
 
-                    if (_collidableTilemapGrid[y, x - 1] == 2 & _collidableTilemapGrid[y, x + 1] == 2)
+                    if (wallGrid[y, x - 1] == 2 & wallGrid[y, x + 1] == 2)
                     {
-                        _collidableTilemapGrid[y, x] = 2;
+                        wallGrid[y, x] = 2;
                         changed = true;
                     }                    
                 }
@@ -272,50 +262,50 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
-    private void RemoveGatewayBlockers(Room room)
+    private void RemoveGatewayBlockers(Room room, int[,] padGrid, int[,] wallGrid)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
             for (int x = 0; x < room.roomWidth; x++)
             {
-                if (_padTilemapGrid[y, x] == 4)
+                if (padGrid[y, x] == 4)
                 {
-                    _collidableTilemapGrid[y, x] = 0;
+                    wallGrid[y, x] = 0;
                 }
 
                 // NORTH
                 if (y == room.roomHeight - 1)
                 {
-                    if (_padTilemapGrid[y, x] == 4)
+                    if (padGrid[y, x] == 4)
                     {
-                        _collidableTilemapGrid[y - 1, x] = 0;
+                        wallGrid[y - 1, x] = 0;
                     }
                 }
 
                 // SOUTH
                 if (y == 0)
                 {
-                    if (_padTilemapGrid[y, x] == 4)
+                    if (padGrid[y, x] == 4)
                     {
-                        _collidableTilemapGrid[y + 1, x] = 0;
+                        wallGrid[y + 1, x] = 0;
                     }
                 }
 
                 // WEST
                 if (x == 0)
                 {
-                    if (_padTilemapGrid[y, x] == 4)
+                    if (padGrid[y, x] == 4)
                     {
-                        _collidableTilemapGrid[y, x + 1] = 0;
+                        wallGrid[y, x + 1] = 0;
                     }
                 }
 
                 // EAST
                 if (x == room.roomWidth - 1)
                 {
-                    if (_padTilemapGrid[y, x] == 4)
+                    if (padGrid[y, x] == 4)
                     {
-                        _collidableTilemapGrid[y, x - 1] = 0;
+                        wallGrid[y, x - 1] = 0;
                     }
                 }
 
@@ -336,33 +326,33 @@ public class RoomGenerator : MonoBehaviour
     
     
     // TILE PLACEMENT
-    private void SetGridTiles(Room room)
+    private void SetGridTiles(Room room, int[,] baseGrid, int[,] wallGrid, int[,] padGrid, Tilemap baseTilemap, Tilemap wallTilemap, Tilemap padTilemap)
     {
         for (int y = 0; y < room.roomHeight; y++)
         {
             for (int x = 0; x < room.roomWidth; x++)
             {
-                if (_baseTilemapGrid[y, x] == 1) 
+                if (baseGrid[y, x] == 1) 
                 {
                     baseTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), SelectRandomGrassTile());
                 }
 
-                if (_collidableTilemapGrid[y, x] == 2) 
+                if (wallGrid[y, x] == 2) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), SelectWallTile(new Vector2Int(x, y)));
+                    wallTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), SelectWallTile(new Vector2Int(x, y), wallGrid));
                 }
 
-                if (_collidableTilemapGrid[y, x] == 3) 
+                if (wallGrid[y, x] == 3) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), SelectRandomRockTile());
+                    wallTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), SelectRandomRockTile());
                 }
 
-                if (_collidableTilemapGrid[y, x] == 99) 
+                if (wallGrid[y, x] == 99) 
                 {
-                    collidableTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), RedTestTile);
+                    wallTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), RedTestTile);
                 }
 
-                if (_padTilemapGrid[y, x] == 4) 
+                if (padGrid[y, x] == 4) 
                 {
                     padTilemap.SetTile(new Vector3Int(x - (room.roomWidth / 2), y - (room.roomHeight / 2), 0), RedTestTile);
                 }
@@ -399,11 +389,11 @@ public class RoomGenerator : MonoBehaviour
         return rocks[(int) Random.Range(0, rocks.Length)];
     }
 
-    private Tile SelectWallTile(Vector2Int loc)
+    private Tile SelectWallTile(Vector2Int loc, int[,] wallGrid)
     {
 
-        int[,] neighbours = GridCalc.GetNeighbours(_collidableTilemapGrid, loc);
-        string gridType = GridCalc.WallComparison(neighbours);
+        int[,] neighbours = GridMath.GetNeighbours(wallGrid, loc);
+        string gridType = GridMath.WallComparison(neighbours);
         
         if (gridType != null)
         {
@@ -417,8 +407,6 @@ public class RoomGenerator : MonoBehaviour
     // UTILITIES
     private void FillWallsDictionary()
     {
-
-
 
         _wallTiles.Add("wall", walls[0]);
 

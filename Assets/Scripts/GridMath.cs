@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GridCalc
+public static class GridMath
 {
 
     private static Dictionary<int[,], string> WallComparisonGrids = new Dictionary<int[,], string>()
@@ -261,20 +261,48 @@ public static class GridCalc
         
     }
 
-    public static bool CheckSurrounded(int[,] neighbourGrid, int surroundingBlockType)
+    public static bool CheckSurroundedCardinal(int[,] neighbourGrid, int surroundingBlockType)
     {
+        int empty = 87;
         
-        int[,] surrounded = new int[3,3] {{0, surroundingBlockType, 0}, {surroundingBlockType, 0, surroundingBlockType}, {0, surroundingBlockType, 0}};
+        int[,] surrounded = new int[3,3] {{empty, surroundingBlockType, empty}, {surroundingBlockType, empty, surroundingBlockType}, {empty, surroundingBlockType, empty}};
 
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
-                if (surrounded[y, x] == 0) { continue; }
+                if (surrounded[y, x] == empty) { continue; }
                 if (surrounded[y, x] != neighbourGrid[y, x]) { return false; }
             }
         }
 
         return true;
     }
+
+    public static bool NeighboursContainsX(int[,] grid, int searchValue)
+    {
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                if (grid[y, x] == searchValue) { return true; }
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+    public static int PointDistance(Vector2Int A, Vector2Int B)
+    {
+        int distx = Mathf.Abs(A.x - B.x);
+        int disty = Mathf.Abs(A.y - B.y);
+
+        int dist = distx + disty;
+
+        return dist;
+    }
+
 }
