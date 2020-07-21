@@ -108,6 +108,7 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
+    // ROOM GENERATION
     private void GenerateZeroGrid(Room room, int[,] grid)
     {
         for (int y = 0; y < room.roomHeight; y++)
@@ -324,8 +325,8 @@ public class RoomGenerator : MonoBehaviour
         }
     }
     
-    
-    // TILE PLACEMENT
+
+    // TILE DRAWING
     private void SetGridTiles(Room room, int[,] baseGrid, int[,] wallGrid, int[,] padGrid, Tilemap baseTilemap, Tilemap wallTilemap, Tilemap padTilemap)
     {
         for (int y = 0; y < room.roomHeight; y++)

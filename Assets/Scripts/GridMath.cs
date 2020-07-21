@@ -135,7 +135,7 @@ public static class GridMath
 
     };
 
-    public static int[,] GetNeighbours(int[,] grid, Vector2Int loc)
+    public static int[,] GetNeighbours(int[,] grid, Vector2Int loc, int outOfBoundsVal = 2)
     {
         int[,] neighbours = new int[3, 3];
 
@@ -146,7 +146,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[0, 0] = 2;
+            neighbours[0, 0] = outOfBoundsVal;
         }
 
         try
@@ -155,7 +155,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[0, 1] = 2;
+            neighbours[0, 1] = outOfBoundsVal;
         }
 
         try
@@ -164,7 +164,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[0, 2] = 2;
+            neighbours[0, 2] = outOfBoundsVal;
         }
 
         // middle row
@@ -174,7 +174,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[1, 0] = 2;
+            neighbours[1, 0] = outOfBoundsVal;
         }
 
         try
@@ -183,7 +183,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[1, 1] = 2;
+            neighbours[1, 1] = outOfBoundsVal;
         }
 
         try
@@ -192,7 +192,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[1, 2] = 2;
+            neighbours[1, 2] = outOfBoundsVal;
         }
 
         // bottom row
@@ -202,7 +202,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[2, 0] = 2;
+            neighbours[2, 0] = outOfBoundsVal;
         }
 
         try
@@ -211,7 +211,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[2, 1] = 2;
+            neighbours[2, 1] = outOfBoundsVal;
         }
 
         try
@@ -220,7 +220,7 @@ public static class GridMath
         }
         catch (System.IndexOutOfRangeException)
         {
-            neighbours[2, 2] = 2;
+            neighbours[2, 2] = outOfBoundsVal;
         }
         
         return neighbours;
@@ -266,6 +266,24 @@ public static class GridMath
         int empty = 87;
         
         int[,] surrounded = new int[3,3] {{empty, surroundingBlockType, empty}, {surroundingBlockType, empty, surroundingBlockType}, {empty, surroundingBlockType, empty}};
+
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                if (surrounded[y, x] == empty) { continue; }
+                if (surrounded[y, x] != neighbourGrid[y, x]) { return false; }
+            }
+        }
+
+        return true;
+    }
+
+    public static bool CheckSurroundedFully(int[,] neighbourGrid, int surroundingBlockType)
+    {
+        int empty = 87;
+        
+        int[,] surrounded = new int[3,3] {{surroundingBlockType, surroundingBlockType, surroundingBlockType}, {surroundingBlockType, empty, surroundingBlockType}, {surroundingBlockType, surroundingBlockType, surroundingBlockType}};
 
         for (int y = 0; y < 3; y++)
         {
