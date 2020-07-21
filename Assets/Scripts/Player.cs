@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float sprintMultiplier = 1.5f;
-    private bool sprinting = false;
+    private float sprinting;
 
     private Vector2 moveAxis;
     private float hSpeed;
@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         moveAxis = PlayerInput.Movement.Move.ReadValue<Vector2>();
+        sprinting = PlayerInput.Movement.Sprint.ReadValue<float>();
+
         animator.SetFloat("Horizontal", moveAxis.x);
         animator.SetFloat("Vertical", moveAxis.y);
         animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(moveAxis.x), Mathf.Abs(moveAxis.y)));
@@ -41,7 +43,7 @@ public class Player : MonoBehaviour
     // PLAYER MOVEMENT
     void Move()
     {   
-        if (sprinting)
+        if (sprinting != 0f)
         {
             transform.position += new Vector3(moveAxis.x * moveSpeed * sprintMultiplier * Time.deltaTime, moveAxis.y * moveSpeed * sprintMultiplier * Time.deltaTime, 0f);
         }

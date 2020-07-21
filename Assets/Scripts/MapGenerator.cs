@@ -288,4 +288,5 @@ public class MapGenerator : MonoBehaviour
             GenerateNodes();
         }
     }
+
 }
