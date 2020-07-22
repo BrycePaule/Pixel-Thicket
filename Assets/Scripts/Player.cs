@@ -8,11 +8,13 @@ public class Player : MonoBehaviour
 {
     public PlayerInput PlayerInput;
     public Animator animator;
+    public Rigidbody2D rb;
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float sprintMultiplier = 1.5f;
     private float sprinting;
 
+    private Transform _transform;
     private Vector2 moveAxis;
     private float hSpeed;
     private float vSpeed;
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
+        _transform = transform;
         PlayerInput = new PlayerInput();
         // PlayerInput.Movement.Move.performed += context => OnMoveInput(context);
     }
@@ -45,11 +48,13 @@ public class Player : MonoBehaviour
     {   
         if (sprinting != 0f)
         {
-            transform.position += new Vector3(moveAxis.x * moveSpeed * sprintMultiplier * Time.deltaTime, moveAxis.y * moveSpeed * sprintMultiplier * Time.deltaTime, 0f);
+            _transform.position += new Vector3(moveAxis.x * moveSpeed * sprintMultiplier * Time.deltaTime, moveAxis.y * moveSpeed * sprintMultiplier * Time.deltaTime, 0f);
+            // rb.AddForce(new Vector2(moveAxis.x * moveSpeed * sprintMultiplier * Time.deltaTime, moveAxis.y * moveSpeed * sprintMultiplier * Time.deltaTime), ForceMode2D.Impulse);
         }
         else
         {
-            transform.position += new Vector3(moveAxis.x * moveSpeed * Time.deltaTime, moveAxis.y * moveSpeed * Time.deltaTime, 0f);
+            _transform.position += new Vector3(moveAxis.x * moveSpeed * Time.deltaTime, moveAxis.y * moveSpeed * Time.deltaTime, 0f);
+            // rb.AddForce(new Vector2(moveAxis.x * moveSpeed * sprintMultiplier * Time.deltaTime, moveAxis.y * moveSpeed * sprintMultiplier * Time.deltaTime), ForceMode2D.Impulse);
         }
     }
 
@@ -61,5 +66,9 @@ public class Player : MonoBehaviour
     void OnMoveInput(InputAction.CallbackContext context)
     {
         moveAxis = context.ReadValue<Vector2>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        // print(other.name);
     }
 }

@@ -141,6 +141,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""3ca62c5b-9e6f-4db1-b971-36941aa787c5"",
                     ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=2,pressPoint=0.5)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""270bf4cc-fa2b-4c8c-a30b-cfd626bb31bb"",
+                    ""path"": ""<Keyboard>/t"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBall : RangedAttack
+public class FireBall : MonoBehaviour
 {
 
     private Transform _transform;
@@ -15,11 +15,10 @@ public class FireBall : RangedAttack
 
     private void OnTriggerEnter2D(Collider2D hitInfo) 
     {
-        if (!_transform.IsChildOf(hitInfo.transform))
-        {
-            // print(hitInfo.name);
-            // Destroy(hitInfo.gameObject);
-            Destroy(this);
-        }
+        if (_transform.IsChildOf(hitInfo.transform)) { return; }
+        if (_transform.parent == hitInfo.transform.parent) { return; }
+
+        Destroy(_transform.gameObject);
     }
+
 }

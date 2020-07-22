@@ -69,14 +69,8 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        
-    }
-
 
     // NUMBER MAP GENERATION
-
     public Room GenerateRoom()
     {
 
@@ -208,7 +202,6 @@ public class RoomGenerator : MonoBehaviour
 
         wallGrid[middleY - 2, 1] = 0;
         wallGrid[middleY + 2, 1] = 0;
-
     }
 
     private void FillEmptiesSurroundedByWalls(Room room, int[,] wallGrid)

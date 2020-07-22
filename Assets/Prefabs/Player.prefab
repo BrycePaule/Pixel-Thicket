@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 680316030}
   - component: {fileID: 680316031}
+  - component: {fileID: 272852917}
   m_Layer: 0
   m_Name: RangedAttack
   m_TagString: Untagged
@@ -38,11 +39,34 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680316029}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41293777c0f65fb4eaf1b23ff8b36440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RangedAttackManager: {fileID: 0}
+  SpellPrefab: {fileID: 5149841129019552928, guid: 7a2706bc7416cbb49913f29086084369,
+    type: 3}
+  Camera: {fileID: 0}
+--- !u!114 &272852917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680316029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 408ed770ec8db534cbd2ec2c421fd45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpellPrefab: {fileID: 5149841129019552928, guid: 7a2706bc7416cbb49913f29086084369,
+    type: 3}
+  Camera: {fileID: 0}
+  FireBall: {fileID: 11400000, guid: 62f9739c5c246d549925b345c039f598, type: 2}
+  FrostBolt: {fileID: 11400000, guid: 40a1a563fa776e24a9b1324bc5b7eaf4, type: 2}
+  PoisonBolt: {fileID: 11400000, guid: 1398285cd66e95d40a9a7db3706d6035, type: 2}
+  ShadowBolt: {fileID: 11400000, guid: 5ea87ea7ad4cbb04585e10ba0d49ea9b, type: 2}
 --- !u!1 &8949773459772442732
 GameObject:
   m_ObjectHideFlags: 0
@@ -52,11 +76,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8949773459772442734}
-  - component: {fileID: 8949773459772442728}
   - component: {fileID: 8949773459772442733}
   - component: {fileID: 8949773459772442735}
   - component: {fileID: 8949773459772442730}
   - component: {fileID: 8949773459772442729}
+  - component: {fileID: 8949773459772442728}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -79,21 +103,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8949773459772442728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8949773459772442732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0585ce0273612d42a7a82174fde97f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 8949773459772442735}
-  moveSpeed: 10
-  sprintMultiplier: 1.5
 --- !u!212 &8949773459772442733
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -182,7 +191,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &8949773459772442729
 BoxCollider2D:
@@ -210,3 +219,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8135431, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8949773459772442728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8949773459772442732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0585ce0273612d42a7a82174fde97f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8949773459772442735}
+  rb: {fileID: 8949773459772442730}
+  moveSpeed: 10
+  sprintMultiplier: 1.5
