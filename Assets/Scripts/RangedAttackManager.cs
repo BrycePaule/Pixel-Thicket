@@ -7,30 +7,27 @@ public class RangedAttackManager : MonoBehaviour
 
     public GameObject SpellPrefab;
     public Camera Camera;
+    public RangedAttackSO[] RangedAttacks;
 
-    public RangedAttackSO FireBall;
-    public RangedAttackSO FrostBolt;
-    public RangedAttackSO PoisonBolt;
-    public RangedAttackSO ShadowBolt;
-
+    public Dictionary<int, RangedAttackSO> IDLookup;
 
     private Transform _transform;
     private Transform _playerTransform;
     private PlayerInput _playerInput;
     private float shoot = 0f;
-    private float force = 20f;
 
 
     private void Awake() 
     {
         _transform = transform;
-        
+        IDLookup = new Dictionary<int, RangedAttackSO>();
     }
 
     private void Start()
     {
         _playerTransform = _transform.GetComponentInParent<Transform>();
         _playerInput = _transform.GetComponentInParent<Player>().PlayerInput;
+        BuildIDLookup();
     }
     
 
@@ -56,29 +53,33 @@ public class RangedAttackManager : MonoBehaviour
         float shootAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - 35f);
 
-        GameObject projectile = CreateByIndex(0);
+        GameObject projectile = GetAttackByIndex(0);
         Rigidbody2D rb = projectile.transform.GetComponent<Rigidbody2D>();
 
-        projectile.transform.SetParent(_playerTransform);
+        // projectile.transform.SetParent(_playerTransform);
         projectile.transform.position = _playerTransform.position;
+        projectile.transform.rotation = rotation;
+        float force = projectile.GetComponent<RangedAttack>().MissileSpeed;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
     }
 
 
-    public enum SpellID
-    {
-        FireBall,
-        FrostBolt,
-        PoisonBolt,
-        ShadowBolt,
-    };
-
-
-    public GameObject CreateByIndex(int index)
+    public GameObject GetAttackByIndex(int index)
     {
         GameObject newSpell = Instantiate(SpellPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        newSpell.GetComponent<RangedAttack>().RangedAttackType = FrostBolt;
+        RangedAttack spellData = newSpell.GetComponent<RangedAttack>();
+        spellData.RangedAttackType = IDLookup[index];
+        spellData.SetSOData();
+        
         return newSpell;
+    }
+
+    public void BuildIDLookup()
+    {
+        foreach (var attack in RangedAttacks)
+        {
+            IDLookup.Add(attack.ID, attack);
+        }
     }
 
 }

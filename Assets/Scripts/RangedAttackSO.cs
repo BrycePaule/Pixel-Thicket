@@ -7,6 +7,7 @@ public class RangedAttackSO : ScriptableObject
 {
 
     public string Name;
+    public int ID;
     public float Damage;
     public float Cooldown;
     public float MissileSpeed;

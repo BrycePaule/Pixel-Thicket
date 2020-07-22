@@ -11,8 +11,10 @@ public class RangedAttack : MonoBehaviour
     public string Name;
     public float Damage;
     public float Cooldown;
-    public Sprite Icon;
-    public Sprite Sprite;
+    public float MissileSpeed;
+
+    // public Sprite Icon;
+    // public Sprite Sprite;
 
     private Transform _transform;
 
@@ -20,14 +22,21 @@ public class RangedAttack : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+
+        // Name = RangedAttackType.Name;
+        // Damage = RangedAttackType.Damage;
+        // Cooldown = RangedAttackType.Cooldown;
+        // MissileSpeed = RangedAttackType.MissileSpeed;
+
+        // SR.sprite = RangedAttackType.Sprite;
     }
 
-
-    private void Start()
+    public void SetSOData()
     {
         Name = RangedAttackType.Name;
         Damage = RangedAttackType.Damage;
         Cooldown = RangedAttackType.Cooldown;
+        MissileSpeed = RangedAttackType.MissileSpeed;
 
         SR.sprite = RangedAttackType.Sprite;
     }
