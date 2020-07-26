@@ -16,6 +16,8 @@ public class RangedAttackManager : MonoBehaviour
     private PlayerInput _playerInput;
     private float shoot = 0f;
 
+    private float shootCooldown;
+
 
     private void Awake() 
     {
@@ -26,15 +28,18 @@ public class RangedAttackManager : MonoBehaviour
     private void Start()
     {
         _playerTransform = _transform.GetComponentInParent<Transform>();
-        _playerInput = _transform.GetComponentInParent<Player>().PlayerInput;
+        _playerInput = _transform.GetComponentInParent<Player>()._playerInput;
         BuildIDLookup();
+        shootCooldown = Time.time;
     }
     
 
     private void FixedUpdate()
     {
         shoot = _playerInput.Attack.Shoot.ReadValue<float>();
-        if (shoot != 0f)
+
+        if (shoot == 0f) { return; }
+        if (Time.time >= shootCooldown)
         {
             Shoot();
         }
@@ -56,13 +61,16 @@ public class RangedAttackManager : MonoBehaviour
         GameObject projectile = GetAttackByIndex(0);
         Rigidbody2D rb = projectile.transform.GetComponent<Rigidbody2D>();
             
-        projectile.transform.SetParent(_playerTransform);
+        // projectile.transform.SetParent(_playerTransform);
         projectile.transform.position = _playerTransform.position;
         projectile.transform.rotation = rotation;
-        float force = projectile.GetComponent<RangedAttack>().MissileSpeed;
+        RangedAttack projectileStats = projectile.GetComponent<RangedAttack>();
+        float force = projectileStats.MissileSpeed;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
-    }
 
+        // set cooldown time
+        shootCooldown = Time.time + projectileStats.Cooldown;
+    }
 
     public GameObject GetAttackByIndex(int index)
     {
@@ -79,7 +87,6 @@ public class RangedAttackManager : MonoBehaviour
         foreach (var attack in RangedAttacks)
         {
             IDLookup.Add(attack.ID, attack);
-            print("test");
         }
     }
 
