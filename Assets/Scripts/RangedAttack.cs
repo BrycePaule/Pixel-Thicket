@@ -6,8 +6,9 @@ public class RangedAttack : MonoBehaviour
 {
 
     public SpriteRenderer SR;
-    public RangedAttackSO RangedAttackType;
 
+    [Header("These should be null")]
+    public RangedAttackSO RangedAttackType;
     public string Name;
     public float Damage;
     public float Cooldown;
@@ -22,13 +23,20 @@ public class RangedAttack : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+        
+    }
 
-        // Name = RangedAttackType.Name;
-        // Damage = RangedAttackType.Damage;
-        // Cooldown = RangedAttackType.Cooldown;
-        // MissileSpeed = RangedAttackType.MissileSpeed;
+    private void Start() {
 
-        // SR.sprite = RangedAttackType.Sprite;
+        ParticleSystem[] particles = _transform.GetComponentsInChildren<ParticleSystem>(true);
+        foreach (var particle in particles)
+        {
+            if (particle.name == Name)
+            {
+                particle.gameObject.SetActive(true);
+            }
+        }
+
     }
 
     public void SetSOData()
@@ -40,6 +48,17 @@ public class RangedAttack : MonoBehaviour
 
         SR.sprite = RangedAttackType.Sprite;
 }
+
+    // FOR WHATEVER REASON, THIS DOESN'T WORK
+    // private void OnCollisionEnter2D(Collision2D hitInfo) 
+    // {
+    //     print(hitInfo.collider.name);
+
+    //     if (_transform.IsChildOf(hitInfo.transform)) { return; }
+    //     if (_transform.parent == hitInfo.transform.parent) { return; }
+
+    //     Destroy(_transform.gameObject);
+    // }
 
     private void OnTriggerEnter2D(Collider2D hitInfo) 
     {

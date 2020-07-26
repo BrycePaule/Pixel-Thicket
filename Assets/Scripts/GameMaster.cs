@@ -5,33 +5,40 @@ using UnityEngine;
 public class GameMaster : MonoBehaviour
 {
 
-    [SerializeField] private GameObject _roomContainer;
     [SerializeField] private Texture2D _cursorSprite;
-    [SerializeField] MapGenerator _mapGenerator;
-    [SerializeField] Player _player;
+
+    [SerializeField] private MapGenerator _mapGenerator;
+    [SerializeField] private GameObject _roomContainer;
+    [SerializeField] private Player _player;
     
 
     private void Awake()
     {
         Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
-        _mapGenerator.PopulateGridWithRooms();
     }
 
     private void Start()
     {
-        InitialiseFirstRoom();
+        _mapGenerator.GenerateMap();
+        InitialiseRooms();
+        // _player.transform.position = new Vector3(0.5f, 0f, 0f);
     }
 
-    private void InitialiseFirstRoom()
+    private void InitialiseRooms()
     {
         Transform[] rooms = _roomContainer.GetComponentsInChildren<Transform>();
 
+        // Disable all rooms
         foreach (Transform room in rooms)
         {
             room.gameObject.SetActive(false);
         }
 
-        rooms[0].gameObject.SetActive(true);
+        // Enable lobby room
+        for (int i = 0; i < 5; i++)
+        {
+            rooms[i].gameObject.SetActive(true);
+        }
     }
 
 

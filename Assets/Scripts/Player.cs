@@ -18,13 +18,14 @@ public class Player : MonoBehaviour
     private Transform _transform;
     private Vector2 _moveAxis;
 
-    void OnEnable(){ _playerInput.Enable(); }
-    void OnDisable(){ _playerInput.Disable(); }
+    // void OnEnable(){ _playerInput.Enable(); }
+    // void OnDisable(){ _playerInput.Disable(); }
 
     void Awake()
     {
         _transform = transform;
         _playerInput = new PlayerInput();
+        _playerInput.Enable();
     }
 
     void Update()

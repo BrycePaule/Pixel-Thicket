@@ -59,12 +59,13 @@ public class RangedAttackManager : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - 35f);
 
         GameObject projectile = GetAttackByIndex(0);
+        RangedAttack projectileStats = projectile.GetComponent<RangedAttack>();
         Rigidbody2D rb = projectile.transform.GetComponent<Rigidbody2D>();
             
-        // projectile.transform.SetParent(_playerTransform);
+        projectile.name = projectileStats.Name;
         projectile.transform.position = _playerTransform.position;
         projectile.transform.rotation = rotation;
-        RangedAttack projectileStats = projectile.GetComponent<RangedAttack>();
+
         float force = projectileStats.MissileSpeed;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
 

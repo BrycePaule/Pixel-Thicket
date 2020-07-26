@@ -45,17 +45,11 @@ public class MapGenerator : MonoBehaviour
         if (_instance != null) { Destroy(this); }
         // DontDestroyOnLoad(this);
 
-        _mapGrid = GenerateZeroGrid();
-        _Rooms = new Room[mapSize,mapSize];
-
-        _nodeCap = Mathf.RoundToInt(mapSize / 2) + 1;
-        _nodeSize = 3;
-        _nodeDist = _nodeSize + 1;
-
     }
 
     private void Start() {
-        PopulateGridWithRooms();
+
+        // PopulateGridWithRooms();
 
         // // TESTING
         // // TestNodeGeneration(50000);
@@ -281,10 +275,17 @@ public class MapGenerator : MonoBehaviour
     }
 
     // MAP INITIALISATION
-    public void PopulateGridWithRooms()
+    public void GenerateMap()
     {
+        _mapGrid = GenerateZeroGrid();
+        _Rooms = new Room[mapSize,mapSize];
+
+        _nodeCap = Mathf.RoundToInt(mapSize / 2) + 1;
+        _nodeSize = 3;
+        _nodeDist = _nodeSize + 1;
 
         bool placedLobby = false;
+        Transform containerTransform = roomContainer.transform;
 
         for (int y = 0; y < mapSize; y++)
         {
@@ -295,7 +296,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     Room room = RoomGenerator.Instance.GenerateLobbyRoom();
                     room.name = "Room (" + x + ", " + y + ") - Lobby";
-                    room.transform.SetParent(roomContainer.transform);
+                    room.transform.SetParent(containerTransform);
                     _Rooms[y, x] = room;
 
                     placedLobby = true;
@@ -304,7 +305,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     Room room = RoomGenerator.Instance.GenerateRoom();
                     room.name = "Room (" + x + ", " + y + ")";
-                    room.transform.SetParent(roomContainer.transform);
+                    room.transform.SetParent(containerTransform);
                     _Rooms[y, x] = room;
                 }
 

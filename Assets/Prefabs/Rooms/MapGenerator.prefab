@@ -43,7 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd07e64f48315c47be48e8440cde161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: 0
+  mapSize: 10
   tilemap: {fileID: 0}
+  tilemap2: {fileID: 0}
   empty: {fileID: 11400000, guid: 3c07c599886b51541bad61f050bb1991, type: 2}
   node: {fileID: 11400000, guid: 28391ca2b2f038642ab0b4e20d1985e1, type: 2}
+  roomContainer: {fileID: 0}
