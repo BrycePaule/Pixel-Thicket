@@ -44,12 +44,21 @@ TagManager:
   - name: Background
     uniqueID: 1401198387
     locked: 0
+  - name: Background particles
+    uniqueID: 723260037
+    locked: 0
   - name: Tiles
     uniqueID: 2623647289
+    locked: 0
+  - name: Above ground Particles
+    uniqueID: 2896698683
     locked: 0
   - name: Player
     uniqueID: 3765753153
     locked: 0
   - name: Foreground
     uniqueID: 2307337121
+    locked: 0
+  - name: Foreground Particles
+    uniqueID: 798177387
     locked: 0

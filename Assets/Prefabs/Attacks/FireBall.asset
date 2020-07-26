@@ -16,6 +16,6 @@ MonoBehaviour:
   ID: 0
   Damage: 20
   Cooldown: 0.5
-  MissileSpeed: 20
+  MissileSpeed: 14
   Icon: {fileID: 21300000, guid: 64b2330a270f14b41a175d77ace9a6de, type: 3}
   Sprite: {fileID: 21300000, guid: 64b2330a270f14b41a175d77ace9a6de, type: 3}

@@ -47,7 +47,7 @@ MonoBehaviour:
   roomUpperBound: 40
   roomPrefab: {fileID: 5627320684880336813, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
     type: 3}
-  RedTestTile: {fileID: 0}
+  RedTestTile: {fileID: 11400000, guid: 476c5042e52764544bc555d69b7f5736, type: 2}
   grass:
   - {fileID: 11400000, guid: 8cfcf6d244ac47c46a41574544641ea6, type: 2}
   - {fileID: 11400000, guid: 5bc3f37ac6ca132469c3ffc1e35ebd3f, type: 2}

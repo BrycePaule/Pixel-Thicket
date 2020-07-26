@@ -20,7 +20,11 @@ public class RoomGenerator : MonoBehaviour
     [Range(0, 100)] public int roomLowerBound;
     [Range(0, 100)] public int roomUpperBound;
     [Space(10)]
+
+    public Room lobbyPrefab;
     public Room roomPrefab;
+    [Space(10)]
+
     public Tile RedTestTile;
     public Tile[] grass;
     public Tile[] walls;
@@ -55,7 +59,6 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-
     // UNITY METHODS
     private void Awake()
     {
@@ -69,8 +72,7 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
-
-    // NUMBER MAP GENERATION
+    // ROOM INITIALISATION
     public Room GenerateRoom()
     {
 
@@ -100,6 +102,11 @@ public class RoomGenerator : MonoBehaviour
 
         return room;
 
+    }
+
+    public Room GenerateLobbyRoom()
+    {
+        return Instantiate(lobbyPrefab);
     }
 
     // ROOM GENERATION
@@ -318,7 +325,6 @@ public class RoomGenerator : MonoBehaviour
         }
     }
     
-
     // TILE DRAWING
     private void SetGridTiles(Room room, int[,] baseGrid, int[,] wallGrid, int[,] padGrid, Tilemap baseTilemap, Tilemap wallTilemap, Tilemap padTilemap)
     {
@@ -396,7 +402,6 @@ public class RoomGenerator : MonoBehaviour
 
         return _wallTiles["wall"];
     }
-
 
     // UTILITIES
     private void FillWallsDictionary()
