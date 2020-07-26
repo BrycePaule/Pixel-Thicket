@@ -39,7 +39,7 @@ public class RangedAttack : MonoBehaviour
         MissileSpeed = RangedAttackType.MissileSpeed;
 
         SR.sprite = RangedAttackType.Sprite;
-    }
+}
 
     private void OnTriggerEnter2D(Collider2D hitInfo) 
     {

@@ -55,7 +55,7 @@ public class RangedAttackManager : MonoBehaviour
 
         GameObject projectile = GetAttackByIndex(0);
         Rigidbody2D rb = projectile.transform.GetComponent<Rigidbody2D>();
-
+            
         projectile.transform.SetParent(_playerTransform);
         projectile.transform.position = _playerTransform.position;
         projectile.transform.rotation = rotation;
@@ -79,6 +79,7 @@ public class RangedAttackManager : MonoBehaviour
         foreach (var attack in RangedAttacks)
         {
             IDLookup.Add(attack.ID, attack);
+            print("test");
         }
     }
 
