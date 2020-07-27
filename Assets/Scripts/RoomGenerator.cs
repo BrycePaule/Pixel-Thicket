@@ -48,7 +48,7 @@ public class RoomGenerator : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<RoomGenerator>();
+                _instance = FindObjectOfType<RoomGenerator>();
                 if (_instance == null)
                 {
                     _instance = new RoomGenerator();

@@ -33,7 +33,6 @@ public class RangedAttackManager : MonoBehaviour
         shootCooldown = Time.time;
     }
     
-
     private void FixedUpdate()
     {
         shoot = _playerInput.Attack.Shoot.ReadValue<float>();
