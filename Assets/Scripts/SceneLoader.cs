@@ -31,7 +31,7 @@ public class SceneLoader : MonoBehaviour
     private void Awake()
     {
         if (_instance != null) { Destroy(this); }
-        DontDestroyOnLoad(this);
+        // DontDestroyOnLoad(this);
     }
 
     private void LoadGame()

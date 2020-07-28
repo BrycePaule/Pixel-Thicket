@@ -16,10 +16,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float sprintMultiplier;
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldown;
 
     private float _sprinting;
     private float _dashPress;
     private float dashTimeCounter;
+    private float dashCooldownTracker;
     private bool _dashing = false;
 
     private Transform _transform;
@@ -48,32 +50,15 @@ public class Player : MonoBehaviour
 
     void FixedUpdate() {
         
-        if (_dashPress != 0 & _dashing == false)
+        // DASHING
+        if ((_dashPress != 0 | _dashing) & _moveAxis != Vector2.zero)
         {
-            dashTimeCounter = dashTime;
-            _dashing = true;
             Dash();
         }
 
-        if (_dashing == true)
-        {
-            dashTimeCounter -= Time.deltaTime;
-            _dashParticle.Play();
-
-            if (dashTimeCounter <= 0)
-            {
-                print("ending dash");
-                rb.velocity = new Vector2(0, 0);
-                _dashing = false;
-            }
-        }
-
-        if (!_dashing) {
-            if (_moveAxis != new Vector2(0f, 0f))
-            {
-                Move();
-                _leafParticle.Play();
-            }
+        // MOVING
+        if (_moveAxis != Vector2.zero & !_dashing) {
+            Move();
         }
         
     }
@@ -82,30 +67,50 @@ public class Player : MonoBehaviour
     void Move()
     {   
         float timeDelta = Time.deltaTime;
+        _leafParticle.Play();
 
         if (_sprinting != 0f)
         {
             _transform.position += new Vector3(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta, 0f);
-            // rb.AddForce(new Vector2(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta), ForceMode2D.Impulse);
         }
         else
         {
             _transform.position += new Vector3(_moveAxis.x * moveSpeed * timeDelta, _moveAxis.y * moveSpeed * timeDelta, 0f);
-            // rb.AddForce(new Vector2(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta), ForceMode2D.Impulse);
         }
     }
 
     void Dash()
     {
-        rb.AddForce(new Vector2(_moveAxis.x * dashSpeed, _moveAxis.y * dashSpeed), ForceMode2D.Impulse);
+        
+        // start dash
+        if (_dashing == false)
+        {
+            if (Time.time <= dashCooldownTracker) { return; }
+
+            _dashing = true;
+            dashTimeCounter = dashTime;
+            dashCooldownTracker = Time.time + dashCooldown;
+            rb.AddForce(new Vector2(_moveAxis.x * dashSpeed, _moveAxis.y * dashSpeed), ForceMode2D.Impulse);
+        }
+
+        // continue dash
+        else if (_dashing == true)
+        {
+            dashTimeCounter -= Time.deltaTime;
+            _dashParticle.Play();
+        }
+
+        // end dash
+        if (dashTimeCounter <= 0)
+        {
+            rb.velocity = new Vector2(0, 0);
+            _dashing = false;
+        }
+
     }
 
-    void OnMoveInput(InputAction.CallbackContext context)
-    {
-        _moveAxis = context.ReadValue<Vector2>();
-    }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        // print(other.name);
+        print(other.name);
     }
 }
