@@ -35,10 +35,13 @@ public class GameMaster : MonoBehaviour
         }
 
         // Enable lobby room
-        for (int i = 0; i < 5; i++)
+        rooms[0].gameObject.SetActive(true);
+        Transform[] lobbyTransforms = rooms[10].GetComponentsInChildren<Transform>(true);
+        foreach (Transform trans in lobbyTransforms)
         {
-            rooms[i].gameObject.SetActive(true);
+            trans.gameObject.SetActive(true);
         }
+
     }
 
 

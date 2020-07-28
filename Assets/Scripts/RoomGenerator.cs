@@ -171,6 +171,8 @@ public class RoomGenerator : MonoBehaviour
 
     private void GenerateGateways(Room room, int[,] padGrid, int[,] wallGrid)
     {
+        // GATE TILE PLACEMENT MADE OBSELETE
+        // now gateways are handled by gameobjects with colliders placed after room gen
 
         // extra steps to remove walls near gateways is to make tile selection easier
         // should be improved, but currently manually can't find a fix

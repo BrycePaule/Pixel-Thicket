@@ -49,7 +49,6 @@ public class Player : MonoBehaviour
     }
 
     void FixedUpdate() {
-        
         // DASHING
         if (_dashPress != 0 | _dashing)
         {
@@ -60,7 +59,6 @@ public class Player : MonoBehaviour
         if (_moveAxis != Vector2.zero & !_dashing) {
             Move();
         }
-        
     }
 
     // PLAYER MOVEMENT
@@ -81,7 +79,6 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
-        
         // start dash
         if (!_dashing & _moveAxis != Vector2.zero)
         {
@@ -106,7 +103,6 @@ public class Player : MonoBehaviour
             rb.velocity = Vector2.zero;
             _dashing = false;
         }
-
     }
 
 

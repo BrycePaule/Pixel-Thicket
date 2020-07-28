@@ -56,7 +56,7 @@ public class RangedAttack : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D hitInfo) 
     {
-        print(hitInfo.collider.name);
+        // print(hitInfo.collider.name);
 
         if (_transform.IsChildOf(hitInfo.transform)) { return; }
         if (_transform.parent == hitInfo.transform.parent) { return; }
