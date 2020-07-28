@@ -5,9 +5,16 @@ using UnityEngine;
 public class Gateway : MonoBehaviour
 {
 
-    [SerializeField] public direction Direction;
+    [SerializeField] public Direction direction;
 
-    public enum direction 
+    private SceneLoader _sceneLoader;
+
+    private void Awake()
+    {
+        _sceneLoader = SceneLoader.Instance;
+    }
+
+    public enum Direction 
     {
         North = 0,
         East = 1,
@@ -15,11 +22,12 @@ public class Gateway : MonoBehaviour
         West = 3
     }
 
-
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.layer == 12)
         {
-            print(Direction);
+            // _sceneLoader.FadeToBlack();
+            GameEventSystem.Instance.OnGatewayEnter((int)direction);
         }
+
     }
 }

@@ -31,7 +31,7 @@ public class SceneLoader : MonoBehaviour
     private void Awake()
     {
         if (_instance != null) { Destroy(this); }
-        // DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this);
     }
 
     private void LoadGame()
@@ -39,17 +39,26 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(LoadScene(1));
     }
 
-    IEnumerator LoadScene(int sceneIndex)
+    public IEnumerator LoadScene(int sceneIndex)
     {
-        // player animation
-        _transition.SetTrigger("Start");
-
-        // wait
+        FadeToBlack();
         yield return new WaitForSeconds(_transitionTime);
 
-        // load scene
         SceneManager.LoadScene(sceneIndex);
     }
+
+    // TRANSITIONS
+    public void FadeFromBlack()
+    {
+        _transition.SetBool("Curtain", true);
+    }
+
+    public void FadeToBlack()
+    {
+        _transition.SetBool("Curtain", false);
+    }
+
+
 
     // UTILITIES
     private enum SceneIndexes
@@ -57,4 +66,6 @@ public class SceneLoader : MonoBehaviour
         MAIN_MENU = 0,
         GAME = 1,
     }
+
+
 }
