@@ -76,6 +76,7 @@ public class RangedAttackManager : MonoBehaviour
     {
         GameObject newSpell = Instantiate(SpellPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         RangedAttack spellData = newSpell.GetComponent<RangedAttack>();
+        spellData.Shooter = _transform;
         spellData.RangedAttackType = IDLookup[index];
         spellData.SetSOData();
         

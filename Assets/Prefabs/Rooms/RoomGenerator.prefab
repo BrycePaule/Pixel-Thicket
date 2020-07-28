@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomLowerBound: 20
   roomUpperBound: 40
-  lobbyPrefab: {fileID: 8892194073627116136, guid: 2a9eed393dfafed4f833b572f0d93890,
+  lobbyPrefab: {fileID: 7507824548313547558, guid: 696664019fee15b45a2772d479f7c169,
     type: 3}
   roomPrefab: {fileID: 5627320684880336813, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
     type: 3}

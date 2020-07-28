@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     void FixedUpdate() {
         
         // DASHING
-        if ((_dashPress != 0 | _dashing) & _moveAxis != Vector2.zero)
+        if (_dashPress != 0 | _dashing)
         {
             Dash();
         }
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
     {
         
         // start dash
-        if (_dashing == false)
+        if (!_dashing & _moveAxis != Vector2.zero)
         {
             if (Time.time <= dashCooldownTracker) { return; }
 
@@ -94,16 +94,16 @@ public class Player : MonoBehaviour
         }
 
         // continue dash
-        else if (_dashing == true)
+        else if (_dashing)
         {
             dashTimeCounter -= Time.deltaTime;
             _dashParticle.Play();
         }
 
         // end dash
-        if (dashTimeCounter <= 0)
+        if (_dashing & dashTimeCounter <= 0)
         {
-            rb.velocity = new Vector2(0, 0);
+            rb.velocity = Vector2.zero;
             _dashing = false;
         }
 
@@ -111,6 +111,6 @@ public class Player : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D other) {
-        print(other.name);
+        // print(other.name);
     }
 }
