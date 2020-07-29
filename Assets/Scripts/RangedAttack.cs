@@ -15,6 +15,9 @@ public class RangedAttack : MonoBehaviour
     public float MissileSpeed;
     public Transform Shooter;
 
+    private float _maxLifetime = 10f;
+    private float _birthTime;
+
     // public Sprite Icon;
     // public Sprite Sprite;
 
@@ -24,8 +27,7 @@ public class RangedAttack : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-
-        
+        _birthTime = Time.time;       
     }
 
     private void Start() 
@@ -40,6 +42,10 @@ public class RangedAttack : MonoBehaviour
         }
     }
 
+    private void Update() {
+        if (Time.time >= _birthTime + _maxLifetime) { Destroy(_transform.gameObject); }
+    }
+
     public void SetSOData()
     {
         Name = RangedAttackType.Name;
@@ -52,7 +58,7 @@ public class RangedAttack : MonoBehaviour
         if (Shooter.gameObject.layer == 13) {
             _transform.gameObject.layer = 13;
         }
-}
+    }
 
     private void OnCollisionEnter2D(Collision2D hitInfo) 
     {
