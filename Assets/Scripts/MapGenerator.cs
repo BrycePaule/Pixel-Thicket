@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class MapGenerator : MonoBehaviour
 {
 
-    [Range(0, 20)] public int mapSize;
+    [Range(1, 20)] public int mapSize;
 
     public Tilemap tilemap;
     public Tilemap tilemap2;
@@ -42,7 +42,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null) { Destroy(this); }
+        // if (_instance != null) { Destroy(this); }
         // DontDestroyOnLoad(this);
 
     }
@@ -275,7 +275,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     // MAP INITIALISATION
-    public void GenerateMap()
+    public Room[,] GenerateMap()
     {
         _mapGrid = GenerateZeroGrid();
         _Rooms = new Room[mapSize,mapSize];
@@ -295,6 +295,8 @@ public class MapGenerator : MonoBehaviour
                 if (!placedLobby)
                 {
                     Room room = RoomGenerator.Instance.GenerateLobbyRoom();
+                    room.x = x;
+                    room.y = y;
                     room.name = "Room (" + x + ", " + y + ") - Lobby";
                     room.transform.SetParent(containerTransform);
                     _Rooms[y, x] = room;
@@ -304,6 +306,8 @@ public class MapGenerator : MonoBehaviour
                 else
                 {
                     Room room = RoomGenerator.Instance.GenerateRoom();
+                    room.x = x;
+                    room.y = y;
                     room.name = "Room (" + x + ", " + y + ")";
                     room.transform.SetParent(containerTransform);
                     _Rooms[y, x] = room;
@@ -311,5 +315,7 @@ public class MapGenerator : MonoBehaviour
 
             }
         }
+
+        return _Rooms;
     }
 }
