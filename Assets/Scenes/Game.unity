@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6da8bccceeb8574abc38d470210ac50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 8949773460302801570}
   _transition: {fileID: 1272572013}
   _transitionTime: 1
 --- !u!4 &28498987
@@ -10303,7 +10304,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1910938628}
@@ -10432,7 +10433,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cursorSprite: {fileID: 2800000, guid: 8a4269055cf5b8f4491a55bc0341ee4f, type: 3}
-  _mapGenerator: {fileID: 1182434430}
   _roomContainer: {fileID: 2079201157}
   _player: {fileID: 8949773460302801570}
 --- !u!4 &536480973
@@ -10800,18 +10800,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3233887410819715688}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1182434430 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8313119899605319336, guid: a4448dc23fb1a154a80b5243edd0bbc1,
-    type: 3}
-  m_PrefabInstance: {fileID: 8313119899106290644}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd07e64f48315c47be48e8440cde161, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1182434431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8313119899605319337, guid: a4448dc23fb1a154a80b5243edd0bbc1,
@@ -21331,7 +21319,7 @@ PrefabInstance:
     - target: {fileID: 5872667156367417976, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5872667156367417976, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
@@ -21382,6 +21370,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872667156367417983, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.62226856
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872667156367417983, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.9178212
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}

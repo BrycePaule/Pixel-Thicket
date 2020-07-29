@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
 
+    [SerializeField] private Player _player;
     [SerializeField] private Animator _transition;
-    [SerializeField] private float _transitionTime = 1;
+    [SerializeField] private float _transitionTime = 1f;
 
     private static SceneLoader _instance;
 
@@ -39,26 +40,40 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(LoadScene(1));
     }
 
+    // TRANSITIONS
     public IEnumerator LoadScene(int sceneIndex)
     {
-        FadeToBlack();
+        _transition.SetBool("Curtain", true);
         yield return new WaitForSeconds(_transitionTime);
 
         SceneManager.LoadScene(sceneIndex);
+
+        _transition.SetBool("Curtain", false);
+        yield return new WaitForSeconds(_transitionTime);
     }
 
-    // TRANSITIONS
-    public void FadeFromBlack()
+    public IEnumerator FadeFromBlack()
     {
         _transition.SetBool("Curtain", true);
+        yield return new WaitForSeconds(_transitionTime);
     }
 
-    public void FadeToBlack()
+    public IEnumerator FadeToBlack()
     {
         _transition.SetBool("Curtain", false);
+        yield return new WaitForSeconds(_transitionTime);
     }
 
+    public IEnumerator BlankCrossfade()
+    {
+        _transition.SetBool("Curtain", true);
+        yield return new WaitForSeconds(_transitionTime);
+        _player._playerInput.Disable();
 
+        _transition.SetBool("Curtain", false);
+        yield return new WaitForSeconds(_transitionTime);
+        _player._playerInput.Enable();
+    }
 
     // UTILITIES
     private enum SceneIndexes

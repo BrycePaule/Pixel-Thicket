@@ -8273,6 +8273,16 @@ PrefabInstance:
       propertyPath: direction
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4901845677352489855, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516916760347544055, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 5627320684880336813, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
         type: 3}
       propertyPath: roomWidth
@@ -8282,6 +8292,16 @@ PrefabInstance:
         type: 3}
       propertyPath: roomHeight
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963634508260353247, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7052612343056714463, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7114069017938592619, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
         type: 3}

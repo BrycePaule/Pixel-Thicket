@@ -81,9 +81,12 @@ public class GameMaster : MonoBehaviour
         if (direction == 0)
         {
             if (currY == _mapGenerator.mapSize - 1) { return; }
-            _sceneLoader.FadeToBlack();
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
             DeactivateCurrentRoom();
+
             _currentRoom = _rooms[currY + 1, currX];
+            ActivateCurrentRoom();
             PlacePlayer(direction);
         }
 
@@ -91,9 +94,12 @@ public class GameMaster : MonoBehaviour
         if (direction == 1)
         {
             if (currX == _mapGenerator.mapSize - 1) { return; }
-            _sceneLoader.FadeToBlack();
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
             DeactivateCurrentRoom();
+
             _currentRoom = _rooms[currY, currX + 1];
+            ActivateCurrentRoom();
             PlacePlayer(direction);
         }
 
@@ -101,9 +107,12 @@ public class GameMaster : MonoBehaviour
         if (direction == 2)
         {
             if (currY == 0) { return; }
-            _sceneLoader.FadeToBlack();
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
             DeactivateCurrentRoom();
+
             _currentRoom = _rooms[currY - 1, currX];
+            ActivateCurrentRoom();
             PlacePlayer(direction);
         }
 
@@ -111,14 +120,15 @@ public class GameMaster : MonoBehaviour
         if (direction == 3)
         {
             if (currX == 0) { return; }
-            _sceneLoader.FadeToBlack();
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
             DeactivateCurrentRoom();
+
             _currentRoom = _rooms[currY, currX - 1];
+            ActivateCurrentRoom();
             PlacePlayer(direction);
         }
 
-        ActivateCurrentRoom();
-        _sceneLoader.FadeFromBlack();
         print(_currentRoom.name);
     }
 
