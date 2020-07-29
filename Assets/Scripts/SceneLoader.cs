@@ -8,7 +8,7 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] private Player _player;
     [SerializeField] private Animator _transition;
-    [SerializeField] private float _transitionTime = 1f;
+    [SerializeField] private float _transitionTime = 0.5f;
 
     private static SceneLoader _instance;
 
@@ -67,8 +67,9 @@ public class SceneLoader : MonoBehaviour
     public IEnumerator BlankCrossfade()
     {
         _transition.SetBool("Curtain", true);
-        yield return new WaitForSeconds(_transitionTime);
         _player._playerInput.Disable();
+        _player.StopAllMovement();
+        yield return new WaitForSeconds(_transitionTime);
 
         _transition.SetBool("Curtain", false);
         yield return new WaitForSeconds(_transitionTime);

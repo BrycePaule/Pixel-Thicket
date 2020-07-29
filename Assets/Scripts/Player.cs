@@ -30,14 +30,14 @@ public class Player : MonoBehaviour
     // void OnEnable(){ _playerInput.Enable(); }
     // void OnDisable(){ _playerInput.Disable(); }
 
-    void Awake()
+    private void Awake()
     {
         _transform = transform;
         _playerInput = new PlayerInput();
         _playerInput.Enable();
     }
 
-    void Update()
+    private void Update()
     {
         _moveAxis = _playerInput.Movement.Move.ReadValue<Vector2>();
         _sprinting = _playerInput.Movement.Sprint.ReadValue<float>();
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(_moveAxis.x), Mathf.Abs(_moveAxis.y)));
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         // DASHING
         if (_dashPress != 0 | _dashing)
         {
@@ -62,22 +62,22 @@ public class Player : MonoBehaviour
     }
 
     // PLAYER MOVEMENT
-    void Move()
+    private void Move()
     {   
         float timeDelta = Time.deltaTime;
         _leafParticle.Play();
 
         if (_sprinting != 0f)
         {
-            _transform.position += new Vector3(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta, 0f);
+            rb.position += new Vector2(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta);
         }
         else
         {
-            _transform.position += new Vector3(_moveAxis.x * moveSpeed * timeDelta, _moveAxis.y * moveSpeed * timeDelta, 0f);
+            rb.position += new Vector2(_moveAxis.x * moveSpeed * timeDelta, _moveAxis.y * moveSpeed * timeDelta);
         }
     }
 
-    void Dash()
+    private void Dash()
     {
         // start dash
         if (!_dashing & _moveAxis != Vector2.zero)
@@ -105,7 +105,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void StopAllMovement()
+    {
+        rb.velocity = Vector2.zero;
+        _dashing = false;
+    }
 
+    // COLLISION
     private void OnTriggerEnter2D(Collider2D other) {
         // print(other.name);
     }
