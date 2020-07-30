@@ -4876,7 +4876,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1398268613
-  m_SortingLayer: 4
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -4963,11 +4963,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5872667156367417976}
+  - component: {fileID: 5872667156367417982}
   - component: {fileID: 5872667156367417979}
   - component: {fileID: 5872667156367417977}
   - component: {fileID: 5872667156367417980}
   - component: {fileID: 5872667156367417983}
-  - component: {fileID: 5872667156367417982}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -4991,6 +4991,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5872667156367417982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872667156367417978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0585ce0273612d42a7a82174fde97f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5872667156367417977}
+  rb: {fileID: 5872667156367417980}
+  _leafParticle: {fileID: 3264014765259822958}
+  _dashParticle: {fileID: 5504559625158440260}
+  moveSpeed: 8
+  sprintMultiplier: 1.5
+  dashSpeed: 20
+  dashTime: 0.2
+  dashCooldown: 0.5
 --- !u!212 &5872667156367417979
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5029,7 +5050,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -529214143
-  m_SortingLayer: 5
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 005ba22250d043b4896ceccdc482ef60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5106,29 +5127,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8135431, y: 1}
+  m_Size: {x: 0.62226856, y: 0.9178212}
   m_EdgeRadius: 0
---- !u!114 &5872667156367417982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5872667156367417978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0585ce0273612d42a7a82174fde97f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 5872667156367417977}
-  rb: {fileID: 5872667156367417980}
-  _leafParticle: {fileID: 3264014765259822958}
-  _dashParticle: {fileID: 5504559625158440260}
-  moveSpeed: 8
-  sprintMultiplier: 1.5
-  dashSpeed: 20
-  dashTime: 0.2
-  dashCooldown: 0.5
 --- !u!1 &8043576278185171867
 GameObject:
   m_ObjectHideFlags: 0
@@ -9973,7 +9973,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 798177387
-  m_SortingLayer: 7
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0

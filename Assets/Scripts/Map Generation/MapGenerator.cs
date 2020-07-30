@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
     public Tilemap tilemap2;
     public Tile empty;
     public Tile node;
-    public GameObject roomContainer;
+    public Transform roomContainer;
 
     private static MapGenerator _instance;
     private int[,] _mapGrid;
@@ -45,14 +45,16 @@ public class MapGenerator : MonoBehaviour
         // if (_instance != null) { Destroy(this); }
         // DontDestroyOnLoad(this);
 
+        _nodeCap = Mathf.RoundToInt(mapSize / 2) + 1;
+        _nodeSize = 3;
+        _nodeDist = _nodeSize + 1;
+
     }
 
     private void Start() {
 
-        // PopulateGridWithRooms();
-
-        // // TESTING
-        // // TestNodeGeneration(50000);
+        // TESTING (runs map gen (just the locations) X number of times)
+        // TESTERNodeGeneration(1000);
 
         // GenerateNodes();
         // // DEBUGGING
@@ -89,6 +91,8 @@ public class MapGenerator : MonoBehaviour
 
     private void GenerateNodes()
     {
+        // TESTS - 2/100
+        // TESTS - 16/1000
 
         List<Vector2Int> nodes = new List<Vector2Int>();
         
@@ -205,6 +209,19 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private int[] CalculateGatesNeeded(Vector2Int loc)
+    {
+        int[] gates = {0, 0, 0, 0};
+        int[,] neighbours = GridMath.GetNeighbours(_mapGrid, new Vector2Int(loc.x, loc.y), 0);
+
+        if (neighbours[0, 1] == 1) { gates[0] = 1; }
+        if (neighbours[1, 2] == 1) { gates[1] = 1; }
+        if (neighbours[2, 1] == 1) { gates[2] = 1; }
+        if (neighbours[1, 0] == 1) { gates[3] = 1; }
+
+        return gates;
+    }
+
     // UTILITIES
     private Vector2Int SelectRandomGridLocation(int lowerBoundX = 0, int upperBoundX = 0, int lowerBoundY = 0, int upperBoundY = 0)
     {
@@ -229,7 +246,7 @@ public class MapGenerator : MonoBehaviour
         return false;
     }
 
-    private void GenerateNodeTilemap()
+    private void TESTERGenerateNodeTilemap()
     {
         for (int y = 0; y < mapSize; y++)
         {
@@ -247,7 +264,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateNodeTilemap2()
+    private void TESTERGenerateNodeTilemap2()
     {
         for (int y = 0; y < mapSize; y++)
         {
@@ -265,51 +282,68 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private void TestNodeGeneration(int loops)
+    private void TESTERNodeGeneration(int loops)
     {
         for (int i = 0; i < loops; i++)
         {
+            if ((i + 1) % 1000 == 0) { print("Test #" + (i + 1)); }
+
             _mapGrid = GenerateZeroGrid();
             GenerateNodes();
+        }
+    }
+
+    private void TESTERPrintMapGrid()
+    {
+        foreach (var roomValue in _mapGrid)
+        {
+            print(roomValue);
         }
     }
 
     // MAP INITIALISATION
     public Room[,] GenerateMap()
     {
-        _mapGrid = GenerateZeroGrid();
         _Rooms = new Room[mapSize,mapSize];
 
-        _nodeCap = Mathf.RoundToInt(mapSize / 2) + 1;
-        _nodeSize = 3;
-        _nodeDist = _nodeSize + 1;
+        _mapGrid = GenerateZeroGrid();
+        GenerateNodes();
+        ExpandNode();
+        ExpandNodeChance(33);
+        ExpandNodeChance(33);
+        RemoveSurroundedNodes();
+        RemoveUnreachableNodes();
 
         bool placedLobby = false;
-        Transform containerTransform = roomContainer.transform;
 
         for (int y = 0; y < mapSize; y++)
         {
             for (int x = 0; x < mapSize; x++)
             {
 
+                if (_mapGrid[y, x] == 0) { continue; }
+
+                int[] gates = CalculateGatesNeeded(new Vector2Int(x, y));
+                
                 if (!placedLobby)
                 {
-                    Room room = RoomGenerator.Instance.GenerateLobbyRoom();
-                    room.x = x;
-                    room.y = y;
+                    Room room = RoomGenerator.Instance.GenerateLobbyRoom(gates);
+                    room.Gates = gates;
+                    room.location = new Vector2Int(x, y);
                     room.name = "Room (" + x + ", " + y + ") - Lobby";
-                    room.transform.SetParent(containerTransform);
+                    room.transform.SetParent(roomContainer);
                     _Rooms[y, x] = room;
 
                     placedLobby = true;
                 }
-                else
+
+                else 
                 {
-                    Room room = RoomGenerator.Instance.GenerateRoom();
-                    room.x = x;
-                    room.y = y;
+                    Room room = RoomGenerator.Instance.GenerateRoom(gates);
+                    room.Gates = gates;
+                    room.location = new Vector2Int(x, y);
                     room.name = "Room (" + x + ", " + y + ")";
-                    room.transform.SetParent(containerTransform);
+                    room.transform.SetParent(roomContainer);
                     _Rooms[y, x] = room;
                 }
 

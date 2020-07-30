@@ -263,7 +263,7 @@ public static class GridMath
 
     public static bool CheckSurroundedCardinal(int[,] neighbourGrid, int surroundingBlockType)
     {
-        int empty = 87;
+        int empty = 99;
         
         int[,] surrounded = new int[3,3] {{empty, surroundingBlockType, empty}, {surroundingBlockType, empty, surroundingBlockType}, {empty, surroundingBlockType, empty}};
 

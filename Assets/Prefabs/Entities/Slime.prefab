@@ -50,11 +50,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 6443155407057922710}
   _aggroRadius: {fileID: 1500634097061243101}
+  _animator: {fileID: -7787625948772703534}
+  _moveSpeedAggro: 8
   _moveSpeed: 5
-  _movementType: 1
+  _moveStyle: 1
+  _movePattern: 1
   _player: {fileID: 0}
   _sr: {fileID: 7691601069554619621}
-  _color: {r: 1, g: 1, b: 1, a: 1}
+  _color: {r: 0.21960782, g: 0.26012564, b: 0.81960785, a: 1}
+  _hopCooldown: 0.3
 --- !u!212 &7691601069554619621
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -95,7 +99,7 @@ SpriteRenderer:
   m_SortingLayerID: 1676763013
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 775292ffb551913438cfe67423330cc9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3f116cacbb633c441b40d01c4c2fdf75, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

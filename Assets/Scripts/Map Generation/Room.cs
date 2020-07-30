@@ -5,14 +5,14 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
 
-    public int x;
-    public int y;
+    public Vector2Int location;
     public int roomWidth;
     public int roomHeight;
-    public Gateway north;
-    public Gateway east;
-    public Gateway south;
-    public Gateway west;
+    public int[] Gates = new int[4];
+    public Gateway North;
+    public Gateway East;
+    public Gateway South;
+    public Gateway West;
     public Vector3 _northSpawn;
     public Vector3 _eastSpawn;
     public Vector3 _southSpawn;
@@ -22,7 +22,6 @@ public class Room : MonoBehaviour
 
     private void Awake() 
     {
-
         _transform = transform;
         
         if (!_transform.name.Contains("Lobby")) 
@@ -30,9 +29,13 @@ public class Room : MonoBehaviour
             roomWidth = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
             roomHeight = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
         }
-        
         SetGateways();
         SetPlayerSpawnsInsideGateway();
+    }
+
+    private void Start()
+    {
+        RemoveExcessGateways();
     }
 
     private void OnEnable()
@@ -53,7 +56,6 @@ public class Room : MonoBehaviour
         }
     }
 
-
     private void SetGateways()
     {
         float tileAnchorOffset = 0.5f;
@@ -64,10 +66,19 @@ public class Room : MonoBehaviour
         float bot = ((roomHeight - 1) % 2 == 0) ? roomHeight / 2 : Mathf.Floor(roomHeight / 2);
         float left = ((roomWidth - 1) % 2 == 0) ? roomWidth / 2 : Mathf.Floor(roomWidth / 2);
 
-        north.transform.position += new Vector3(0, top, 0) + baseOffsetVector;
-        east.transform.position += new Vector3(right, 0, 0) + baseOffsetVector;
-        south.transform.position -= new Vector3(0, bot, 0) - baseOffsetVector;
-        west.transform.position -= new Vector3(left, 0, 0) - baseOffsetVector;
+        North.transform.position += new Vector3(0, top, 0) + baseOffsetVector;
+        East.transform.position += new Vector3(right, 0, 0) + baseOffsetVector;
+        South.transform.position -= new Vector3(0, bot, 0) - baseOffsetVector;
+        West.transform.position -= new Vector3(left, 0, 0) - baseOffsetVector;
+    }
+
+    private void RemoveExcessGateways()
+    {
+
+        if (Gates[0] == 0) { Destroy(North.gameObject); }
+        if (Gates[1] == 0) { Destroy(East.gameObject); }
+        if (Gates[2] == 0) { Destroy(South.gameObject); }
+        if (Gates[3] == 0) { Destroy(West.gameObject); }
     }
 
     private void SetPlayerSpawnsInsideGateway()

@@ -723,24 +723,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7562c831b8c95b14eaebdb13d921b693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
+  location: {x: 0, y: 0}
   roomWidth: 0
   roomHeight: 0
-  north: {fileID: 7574046391889108254}
-  east: {fileID: 8372794842474232734}
-  south: {fileID: 2007118055222947370}
-  west: {fileID: 3138432519967601288}
+  Gates: 00000000000000000000000000000000
+  North: {fileID: 7574046391889108254}
+  East: {fileID: 8372794842474232734}
+  South: {fileID: 2007118055222947370}
+  West: {fileID: 3138432519967601288}
   _northSpawn: {x: 0, y: 0, z: 0}
   _eastSpawn: {x: 0, y: 0, z: 0}
   _southSpawn: {x: 0, y: 0, z: 0}
   _westSpawn: {x: 0, y: 0, z: 0}
-  testSquare: {fileID: 8873605915258046891, guid: 9cee6e6304236c74982cb7110a1eb0c0,
-    type: 3}
-  testCircle: {fileID: 2919326440692507542, guid: 503806ae4cf04be4d98cee1db8afeab7,
-    type: 3}
-  testPlayer: {fileID: 8135888437299482353, guid: d1883ae83240c404f84f22f658762d67,
-    type: 3}
 --- !u!1 &8038579627025000938
 GameObject:
   m_ObjectHideFlags: 0

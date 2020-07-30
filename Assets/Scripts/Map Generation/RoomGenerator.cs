@@ -73,9 +73,8 @@ public class RoomGenerator : MonoBehaviour
     }
 
     // ROOM INITIALISATION
-    public Room GenerateRoom()
+    public Room GenerateRoom(int[] gates)
     {
-
         Room room = Instantiate(roomPrefab);
 
         _baseTilemap = room.transform.Find("Base Tiles").gameObject.GetComponent<Tilemap>();
@@ -95,7 +94,7 @@ public class RoomGenerator : MonoBehaviour
         GenerateInnerWalls(room, _collideGrid, 40);
         FillEmptiesSurroundedByWalls(room, _collideGrid);
         FillSingleSpaceGapsInWalls(room, _collideGrid);
-        GenerateGateways(room, _padGrid, _collideGrid);
+        GenerateGateways(room, _padGrid, _collideGrid, gates);
         RemoveGatewayBlockers(room, _padGrid, _collideGrid);
 
         SetGridTiles(room, _baseGrid, _collideGrid, _padGrid, _baseTilemap, _collideTilemap, _padTilemap);
@@ -103,9 +102,21 @@ public class RoomGenerator : MonoBehaviour
         return room;
     }
 
-    public Room GenerateLobbyRoom()
+    public Room GenerateLobbyRoom(int[] gates)
     {
-        return Instantiate(lobbyPrefab);
+        Room room = Instantiate(lobbyPrefab);
+
+        _baseTilemap = room.transform.Find("Base Tiles").gameObject.GetComponent<Tilemap>();
+        _padTilemap = room.transform.Find("Pads").gameObject.GetComponent<Tilemap>();
+        _collideTilemap = room.transform.Find("Collidables").gameObject.GetComponent<Tilemap>();
+
+        _baseGrid = new int[room.roomHeight, room.roomWidth];
+        _padGrid = new int[room.roomHeight, room.roomWidth];
+        _collideGrid = new int[room.roomHeight, room.roomWidth];
+
+        GenerateGateways(room, _padGrid, _collideGrid, gates);
+
+        return room;
     }
 
     // ROOM GENERATION
@@ -168,7 +179,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateGateways(Room room, int[,] padGrid, int[,] wallGrid)
+    private void GenerateGateways(Room room, int[,] padGrid, int[,] wallGrid, int[] gates)
     {
         // GATE TILE PLACEMENT MADE OBSELETE
         // now gateways are handled by gameobjects with colliders placed after room gen
@@ -180,36 +191,67 @@ public class RoomGenerator : MonoBehaviour
         int middleY = Mathf.RoundToInt(room.roomHeight / 2);
 
         // NORTH
-        padGrid[room.roomHeight - 1, middleX] = 4;
-        padGrid[room.roomHeight - 1, middleX - 1] = 4;
-        padGrid[room.roomHeight - 1, middleX + 1] = 4;
+        if (gates[0] == 1)
+        {
+            padGrid[room.roomHeight - 1, middleX] = 4;
+            padGrid[room.roomHeight - 1, middleX - 1] = 4;
+            padGrid[room.roomHeight - 1, middleX + 1] = 4;
 
-        wallGrid[room.roomHeight - 2, middleX - 2] = 0;
-        wallGrid[room.roomHeight - 2, middleX + 2] = 0;
+            wallGrid[room.roomHeight - 1, middleX] = 0;
+            wallGrid[room.roomHeight - 1, middleX - 1] = 0;
+            wallGrid[room.roomHeight - 1, middleX + 1] = 0;
 
-        // SOUTH
-        padGrid[0, middleX] = 4;
-        padGrid[0, middleX - 1] = 4;
-        padGrid[0, middleX + 1] = 4;
-
-        wallGrid[1, middleX - 2] = 0;
-        wallGrid[1, middleX + 2] = 0;
+            wallGrid[room.roomHeight - 2, middleX - 2] = 0;
+            wallGrid[room.roomHeight - 2, middleX + 2] = 0;
+        }
 
         // EAST
-        padGrid[middleY, room.roomWidth - 1] = 4;
-        padGrid[middleY - 1, room.roomWidth - 1] = 4;
-        padGrid[middleY + 1, room.roomWidth - 1] = 4;
+        if (gates[1] == 1)
+        {
+            padGrid[middleY, room.roomWidth - 1] = 4;
+            padGrid[middleY - 1, room.roomWidth - 1] = 4;
+            padGrid[middleY + 1, room.roomWidth - 1] = 4;
 
-        wallGrid[middleY - 2, room.roomWidth - 2] = 0;
-        wallGrid[middleY + 2, room.roomWidth - 2] = 0;
+            wallGrid[middleY, room.roomWidth - 1] = 0;
+            wallGrid[middleY - 1, room.roomWidth - 1] = 0;
+            wallGrid[middleY + 1, room.roomWidth - 1] = 0;
 
+            wallGrid[middleY - 2, room.roomWidth - 2] = 0;
+            wallGrid[middleY + 2, room.roomWidth - 2] = 0;
+        }
+
+        // SOUTH
+        if (gates[2] == 1)
+        {
+            padGrid[0, middleX] = 4;
+            padGrid[0, middleX - 1] = 4;
+            padGrid[0, middleX + 1] = 4;
+
+            wallGrid[0, middleX] = 0;
+            wallGrid[0, middleX - 1] = 0;
+            wallGrid[0, middleX + 1] = 0;
+
+            wallGrid[1, middleX - 2] = 0;
+            wallGrid[1, middleX + 2] = 0;
+
+        }
+        
         // WEST
-        padGrid[middleY, 0] = 4;
-        padGrid[middleY - 1, 0] = 4;
-        padGrid[middleY + 1, 0] = 4;
+        if (gates[3] == 1)
+        {
+            padGrid[middleY, 0] = 4;
+            padGrid[middleY - 1, 0] = 4;
+            padGrid[middleY + 1, 0] = 4;
 
-        wallGrid[middleY - 2, 1] = 0;
-        wallGrid[middleY + 2, 1] = 0;
+            wallGrid[middleY, 0] = 0;
+            wallGrid[middleY - 1, 0] = 0;
+            wallGrid[middleY + 1, 0] = 0;
+
+            wallGrid[middleY - 2, 1] = 0;
+            wallGrid[middleY + 2, 1] = 0;
+        }
+
+        
     }
 
     private void FillEmptiesSurroundedByWalls(Room room, int[,] wallGrid)

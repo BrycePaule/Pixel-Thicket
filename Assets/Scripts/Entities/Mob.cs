@@ -13,7 +13,6 @@ public class Mob : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private MovementStyle _moveStyle;
     [SerializeField] private MovementPattern _movePattern;
-    [SerializeField] [Range(0, 3)] private float _hopCooldown;
     [Space(10)]
 
     // TESTING
@@ -21,11 +20,14 @@ public class Mob : MonoBehaviour
 
     private Transform _transform;
     private bool _aggro = false;
-    private bool _hopWait;
 
     private Vector2 _dest;
     private Vector2 _direction;
     private bool _destArrived = true;
+
+    // SLIME
+    private bool _hopWait;
+    private float _hopCooldown;
 
     // UNITY METHODS
     private void Awake() 
@@ -35,7 +37,7 @@ public class Mob : MonoBehaviour
 
     public virtual void Start() 
     {
-        // _direction = Vector2.zero;
+
     }
 
     private void Update()
@@ -71,7 +73,6 @@ public class Mob : MonoBehaviour
 
             if (_aggro)
             {
-                // _animator.speed =
                 _rb.position += new Vector2(_direction.x * _moveSpeedAggro * Time.deltaTime, _direction.y * _moveSpeedAggro * Time.deltaTime);
             }
             else
@@ -101,16 +102,19 @@ public class Mob : MonoBehaviour
 
     private void SetDestination()
     {
-        if (_movePattern == MovementPattern.FollowPlayer)
+
+         if (_movePattern == MovementPattern.RandomLocation)
+        {
+            // IMPLEMENT PROPER ROOM BASED RANDOM DESTINATION
+            _dest = new Vector2(Random.Range(-20, 20), Random.Range(-20, 20));
+        }
+
+        else if (_movePattern == MovementPattern.FollowPlayer)
         {
             _dest = _player.GetComponent<Rigidbody2D>().position;
         }
 
-        else if (_movePattern == MovementPattern.RandomLocation)
-        {
-            _dest = new Vector2((int) Random.Range(-10, 10), (int) Random.Range(-10, 10));
-        }
-        
+
     }
 
     private void SetDirection()
@@ -118,7 +122,7 @@ public class Mob : MonoBehaviour
         _direction = _dest - _rb.position;
         _direction.Normalize();
 
-        // Update direction in animator
+        // Update face direction in animator
         _animator.SetFloat("Horizontal", _direction.x);
         _animator.SetFloat("Vertical", _direction.y);
     }
@@ -134,13 +138,6 @@ public class Mob : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) 
     {
         _destArrived = true;
-    }
-
-    private IEnumerator HopWait()
-    {
-        _hopWait = true;
-        yield return new WaitForSeconds(_hopCooldown);
-        _hopWait = false;
     }
     
     // UTILITIES
