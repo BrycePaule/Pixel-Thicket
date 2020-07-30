@@ -38,18 +38,20 @@ public class Mob : MonoBehaviour
 
         _destArrived = false;
 
-        direction = _rb.position - _dest;
+        direction = _dest - _rb.position;
         direction.Normalize();
 
-        _rb.position += new Vector2(-direction.x * _moveSpeed * timeDelta, -direction.y * _moveSpeed * timeDelta);
+        _rb.position += new Vector2(direction.x * _moveSpeed * timeDelta, direction.y * _moveSpeed * timeDelta);
     }
 
     private void SelectNewDestination()
     {
-        print("new dest");
+        // print("new dest");
         _dest = new Vector2((int) Random.Range(-5, 5), (int) Random.Range(-5, 5));
         // _dest = _player.GetComponent<Rigidbody2D>().position;
+        // print(_dest);
     }
+
 
     private void OnCollisionEnter2D(Collision2D other) 
     {

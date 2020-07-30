@@ -38,9 +38,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 1401198387
     locked: 0
@@ -49,6 +46,12 @@ TagManager:
     locked: 0
   - name: Tiles
     uniqueID: 2623647289
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Entities
+    uniqueID: 1676763013
     locked: 0
   - name: Above ground Particles
     uniqueID: 2896698683

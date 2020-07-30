@@ -72,7 +72,7 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitForSeconds(_transitionTime);
 
         _transition.SetBool("Curtain", false);
-        yield return new WaitForSeconds(_transitionTime);
+        yield return new WaitForSeconds(_transitionTime * 0.5f);
         _player._playerInput.Enable();
     }
 

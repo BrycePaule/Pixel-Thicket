@@ -101,7 +101,6 @@ public class RoomGenerator : MonoBehaviour
         SetGridTiles(room, _baseGrid, _collideGrid, _padGrid, _baseTilemap, _collideTilemap, _padTilemap);
 
         return room;
-
     }
 
     public Room GenerateLobbyRoom()
