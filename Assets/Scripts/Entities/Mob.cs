@@ -140,6 +140,12 @@ public class Mob : MonoBehaviour
         _destArrived = true;
     }
     
+    // CALLBACKS
+    private void ShootFinish()
+    {
+        _animator.ResetTrigger("Shoot");
+    }
+
     // UTILITIES
     private enum MovementStyle
     {
