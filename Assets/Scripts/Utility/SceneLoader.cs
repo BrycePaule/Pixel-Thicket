@@ -24,15 +24,13 @@ public class SceneLoader : MonoBehaviour
                     _instance = new SceneLoader();
                 }
             }
-
             return _instance;
         }
     }
 
     private void Awake()
     {
-        if (_instance != null) { Destroy(this); }
-        DontDestroyOnLoad(this);
+        if (_instance != null) { Destroy(this.gameObject); }
     }
 
     private void LoadGame()

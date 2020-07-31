@@ -14,7 +14,6 @@ public class MapGenerator : MonoBehaviour
     public Tile node;
     public Transform roomContainer;
 
-    private static MapGenerator _instance;
     private int[,] _mapGrid;
     private Room[,] _Rooms;
 
@@ -22,6 +21,7 @@ public class MapGenerator : MonoBehaviour
     private int _nodeSize;
     private int _nodeDist;
 
+    private static MapGenerator _instance;
 
     public static MapGenerator Instance
     {
@@ -29,21 +29,19 @@ public class MapGenerator : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<MapGenerator>();
+                _instance = FindObjectOfType<MapGenerator>();
                 if (_instance == null)
                 {
                     _instance = new MapGenerator();
                 }
             }
-
             return _instance;
         }
     }
 
     private void Awake()
     {
-        // if (_instance != null) { Destroy(this); }
-        // DontDestroyOnLoad(this);
+        if (_instance != null) { Destroy(this.gameObject); }
 
         _nodeCap = Mathf.RoundToInt(mapSize / 2) + 1;
         _nodeSize = 3;

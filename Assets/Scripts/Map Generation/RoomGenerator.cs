@@ -31,7 +31,6 @@ public class RoomGenerator : MonoBehaviour
     public Tile[] pads;
     public Tile[] rocks;
 
-    private static RoomGenerator _instance;
     private Dictionary<string, Tile> _wallTiles;
     private Tilemap _baseTilemap;
     private Tilemap _padTilemap;
@@ -40,8 +39,8 @@ public class RoomGenerator : MonoBehaviour
     private int[,] _padGrid;
     private int[,] _collideGrid;
 
+    private static RoomGenerator _instance;
 
-    // Singleton Pattern
     public static RoomGenerator Instance
     {
         get
@@ -54,7 +53,6 @@ public class RoomGenerator : MonoBehaviour
                     _instance = new RoomGenerator();
                 }
             }
-
             return _instance;
         }
     }
@@ -63,13 +61,15 @@ public class RoomGenerator : MonoBehaviour
     private void Awake()
     {
 
-        // Singleton Pattern
-        if (_instance != null) { Destroy(this); }
-        // DontDestroyOnLoad(this);
+        if (_instance != null) { Destroy(this.gameObject); }
 
         _wallTiles = new Dictionary<string, Tile>();
-        FillWallsDictionary();
 
+    }
+
+    private void Start()
+    {
+        FillWallsDictionary();
     }
 
     // ROOM INITIALISATION

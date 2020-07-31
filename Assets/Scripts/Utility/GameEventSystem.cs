@@ -13,20 +13,19 @@ public class GameEventSystem : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<GameEventSystem>();
+                _instance = FindObjectOfType<GameEventSystem>();
                 if (_instance == null)
                 {
                     _instance = new GameEventSystem();
                 }
             }
-
             return _instance;
         }
     }
 
     private void Awake() 
     {
-        // if (_instance != null) { Destroy(this); }
+        if (_instance != null) { Destroy(this.gameObject); }
     }
 
     public event Action<int> onGatewayEnter;

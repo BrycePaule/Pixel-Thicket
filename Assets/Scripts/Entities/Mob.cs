@@ -32,7 +32,6 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable
 
     // SLIME
     public bool _hopWait;
-    private float _hopCooldown;
 
     // UNITY METHODS
     private void Awake() 
