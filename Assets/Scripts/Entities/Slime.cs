@@ -7,12 +7,11 @@ public class Slime : Mob
 
     [SerializeField] private SpriteRenderer _sr;
     [SerializeField] private Color _color;
+    [SerializeField] private ParticleSystem _jellyParticle;
 
     [SerializeField] [Range(0, 3)] private float _hopCooldown;
 
     private int _generation;
-    private bool _hopWait;
-
 
     // private void Awake()
     // {
@@ -22,11 +21,13 @@ public class Slime : Mob
     public override void Start()
     {
         _sr.color = _color;
+        _jellyParticle.startColor = _color;
     }
 
-    private IEnumerator HopWait()
+    private IEnumerator HopEnd()
     {
         _hopWait = true;
+        _jellyParticle.Play();
         yield return new WaitForSeconds(_hopCooldown);
         _hopWait = false;
     }

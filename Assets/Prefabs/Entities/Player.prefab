@@ -4876,7 +4876,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1398268613
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -5003,8 +5003,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0585ce0273612d42a7a82174fde97f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 5872667156367417977}
-  rb: {fileID: 5872667156367417980}
+  MaxHealth: 0
+  Health: 0
+  _animator: {fileID: 0}
+  _rb: {fileID: 0}
   _leafParticle: {fileID: 3264014765259822958}
   _dashParticle: {fileID: 5504559625158440260}
   moveSpeed: 8
@@ -5095,7 +5097,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}

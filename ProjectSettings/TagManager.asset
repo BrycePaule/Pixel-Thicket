@@ -50,11 +50,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Entities
-    uniqueID: 1676763013
-    locked: 0
   - name: Above ground Particles
     uniqueID: 2896698683
+    locked: 0
+  - name: Entities
+    uniqueID: 1676763013
     locked: 0
   - name: Player
     uniqueID: 3765753153

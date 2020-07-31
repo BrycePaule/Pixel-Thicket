@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Move_FR
+  m_Name: Hit
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,15 +20,9 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: daee0369ff1839a4fb1c5a3b2ba6d0dc, type: 3}
+      value: {fileID: 21300000, guid: e9a78fe48f5ec9a47b6a1374a5dee8a2, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: 25f489e352795d34c8da6dd7cb68a3c4, type: 3}
-    - time: 0.5
-      value: {fileID: 21300000, guid: 72ed65cbe4131c74ab37b30bfa6bf4a3, type: 3}
-    - time: 0.75
-      value: {fileID: 21300000, guid: 25f489e352795d34c8da6dd7cb68a3c4, type: 3}
-    - time: 1
-      value: {fileID: 21300000, guid: daee0369ff1839a4fb1c5a3b2ba6d0dc, type: 3}
+      value: {fileID: 21300000, guid: e9a78fe48f5ec9a47b6a1374a5dee8a2, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,17 +42,14 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: daee0369ff1839a4fb1c5a3b2ba6d0dc, type: 3}
-    - {fileID: 21300000, guid: 25f489e352795d34c8da6dd7cb68a3c4, type: 3}
-    - {fileID: 21300000, guid: 72ed65cbe4131c74ab37b30bfa6bf4a3, type: 3}
-    - {fileID: 21300000, guid: 25f489e352795d34c8da6dd7cb68a3c4, type: 3}
-    - {fileID: 21300000, guid: daee0369ff1839a4fb1c5a3b2ba6d0dc, type: 3}
+    - {fileID: 21300000, guid: e9a78fe48f5ec9a47b6a1374a5dee8a2, type: 3}
+    - {fileID: 21300000, guid: e9a78fe48f5ec9a47b6a1374a5dee8a2, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0833334
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -77,4 +68,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.25
+    functionName: HitFinish
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

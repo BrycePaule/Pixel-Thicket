@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mob : MonoBehaviour
+public class Mob : MonoBehaviour, IDamageable<float>, IKillable
 {
+
+    public float MaxHealth;
+    public float Health;
+    public Animator _animator;
 
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private CircleCollider2D _aggroRadius;
-    [SerializeField] private Animator _animator;
+
     [Space(10)]
     [SerializeField] private float _moveSpeedAggro;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private MovementStyle _moveStyle;
     [SerializeField] private MovementPattern _movePattern;
-    [Space(10)]
+    [SerializeField] private float _damage;
 
     // TESTING
+    [Space(10)]
     [SerializeField] private Player _player;
 
     private Transform _transform;
@@ -26,13 +31,14 @@ public class Mob : MonoBehaviour
     private bool _destArrived = true;
 
     // SLIME
-    private bool _hopWait;
+    public bool _hopWait;
     private float _hopCooldown;
 
     // UNITY METHODS
     private void Awake() 
     {
         _transform = transform;
+        _player = FindObjectOfType<Player>();
     }
 
     public virtual void Start() 
@@ -138,22 +144,54 @@ public class Mob : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) 
     {
         _destArrived = true;
+
+        if (other.gameObject.layer != 12) { return; } 
+
+        IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
+        if (target == null) { return; }
+
+        target.Damage(_damage);
+
     }
     
+    // HEALTH
+    public void Damage(float damageTaken)
+    {
+
+        _animator.SetTrigger("Hit");
+
+        Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
+
+        if (Health <= 0)
+        {
+            Kill();
+        }
+    }
+
+    public void Kill()
+    {
+        Destroy(this.gameObject);
+    }
+
     // CALLBACKS
     private void ShootFinish()
     {
         _animator.ResetTrigger("Shoot");
     }
 
+    private void HitFinish()
+    {
+        _animator.ResetTrigger("Hit");
+    }
+
     // UTILITIES
-    private enum MovementStyle
+    public enum MovementStyle
     {
         Standard,
         Hop
     }
 
-    private enum MovementPattern
+    public enum MovementPattern
     {
         RandomLocation,
         FollowPlayer,

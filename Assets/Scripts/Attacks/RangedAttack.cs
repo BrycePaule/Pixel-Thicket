@@ -60,14 +60,18 @@ public class RangedAttack : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D hitInfo) 
+    private void OnCollisionEnter2D(Collision2D other) 
     {
-        // print(hitInfo.collider.name);
+        // can't hit self
+        if (_transform.IsChildOf(other.transform)) { return; }
+        if (_transform.parent == other.transform.parent & _transform.parent != null) { return; }
+        
+        IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
+        if (target != null) {
+            target.Damage(Damage);
+        }
 
-        if (_transform.IsChildOf(hitInfo.transform)) { return; }
-        if (_transform.parent == hitInfo.transform.parent) { return; }
-
-        Destroy(_transform.gameObject);
+        Destroy(this.gameObject);
     }
 
     // private void OnTriggerEnter2D(Collider2D hitInfo) 

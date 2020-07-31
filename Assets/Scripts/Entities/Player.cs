@@ -4,14 +4,20 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable<float>, IKillable
 {
-    public PlayerInput _playerInput;
-    public Animator animator;
-    public Rigidbody2D rb;
-    public ParticleSystem _leafParticle;
-    public ParticleSystem _dashParticle;
+        
+    public float MaxHealth;
+    public float Health;
 
+    [Space(10)]
+    public PlayerInput _playerInput;
+    [SerializeField] private Animator _animator;
+    [SerializeField] public Rigidbody2D _rb;
+    [SerializeField] private ParticleSystem _leafParticle;
+    [SerializeField] private ParticleSystem _dashParticle;
+
+    [Space(10)]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float sprintMultiplier;
     [SerializeField] private float dashSpeed;
@@ -27,8 +33,15 @@ public class Player : MonoBehaviour
     private Transform _transform;
     private Vector2 _moveAxis;
 
-    // void OnEnable(){ _playerInput.Enable(); }
-    // void OnDisable(){ _playerInput.Disable(); }
+    void OnEnable()
+    { 
+        _playerInput.Enable();
+    }
+
+    void OnDisable()
+    { 
+        _playerInput.Disable(); 
+    }
 
     private void Awake()
     {
@@ -43,9 +56,9 @@ public class Player : MonoBehaviour
         _sprinting = _playerInput.Movement.Sprint.ReadValue<float>();
         _dashPress = _playerInput.Movement.Dash.ReadValue<float>();
 
-        animator.SetFloat("Horizontal", _moveAxis.x);
-        animator.SetFloat("Vertical", _moveAxis.y);
-        animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(_moveAxis.x), Mathf.Abs(_moveAxis.y)));
+        _animator.SetFloat("Horizontal", _moveAxis.x);
+        _animator.SetFloat("Vertical", _moveAxis.y);
+        _animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(_moveAxis.x), Mathf.Abs(_moveAxis.y)));
     }
 
     private void FixedUpdate() {
@@ -69,11 +82,11 @@ public class Player : MonoBehaviour
 
         if (_sprinting != 0f)
         {
-            rb.position += new Vector2(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta);
+            _rb.position += new Vector2(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta);
         }
         else
         {
-            rb.position += new Vector2(_moveAxis.x * moveSpeed * timeDelta, _moveAxis.y * moveSpeed * timeDelta);
+            _rb.position += new Vector2(_moveAxis.x * moveSpeed * timeDelta, _moveAxis.y * moveSpeed * timeDelta);
         }
     }
 
@@ -87,7 +100,7 @@ public class Player : MonoBehaviour
             _dashing = true;
             dashTimeCounter = dashTime;
             dashCooldownTracker = Time.time + dashCooldown;
-            rb.AddForce(new Vector2(_moveAxis.x * dashSpeed, _moveAxis.y * dashSpeed), ForceMode2D.Impulse);
+            _rb.AddForce(new Vector2(_moveAxis.x * dashSpeed, _moveAxis.y * dashSpeed), ForceMode2D.Impulse);
         }
 
         // continue dash
@@ -100,15 +113,31 @@ public class Player : MonoBehaviour
         // end dash
         if (_dashing & dashTimeCounter <= 0)
         {
-            rb.velocity = Vector2.zero;
+            _rb.velocity = Vector2.zero;
             _dashing = false;
         }
     }
 
     public void StopAllMovement()
     {
-        rb.velocity = Vector2.zero;
+        _rb.velocity = Vector2.zero;
         _dashing = false;
+    }
+
+    // HEALTH
+    public void Damage(float damageTaken)
+    {
+        Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
+
+        if (Health <= 0)
+        {
+            Kill();
+        }
+    }
+
+    public void Kill()
+    {
+        // Animator
     }
 
     // COLLISION
