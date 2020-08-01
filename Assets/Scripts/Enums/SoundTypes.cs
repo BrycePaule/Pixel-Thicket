@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum SoundTypes
 {
-    Rain = 0,
-    Explosion = 1,
-
+    Rain,
+    Explosion,
+    Dash,
 }

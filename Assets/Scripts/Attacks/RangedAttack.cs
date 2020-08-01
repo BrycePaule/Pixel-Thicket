@@ -21,6 +21,8 @@ public class RangedAttack : MonoBehaviour
     private float _maxLifetime = 10f;
     private float _birthTime;
 
+    private AudioManager _audioManager;
+
     // public Sprite Icon;
     // public Sprite Sprite;
 
@@ -30,7 +32,9 @@ public class RangedAttack : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-        _birthTime = Time.time;       
+        _birthTime = Time.time;    
+
+        _audioManager = AudioManager.Instance;   
     }
 
     private void Start() 
@@ -87,6 +91,7 @@ public class RangedAttack : MonoBehaviour
                 targetKnock.Knockback(Direction);
             }
 
+            _audioManager.Play(SoundTypes.Explosion, 0.1f);
             Destroy(this.gameObject);
         }
     }

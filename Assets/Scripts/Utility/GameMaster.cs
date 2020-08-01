@@ -38,8 +38,6 @@ public class GameMaster : MonoBehaviour
         PopulateRoomsWithMobs();
 
         _sceneLoader.FadeFromBlack();
-        
-        _audioManager.Play(SoundTypes.Explosion);
     }
 
     // ROOM MANAGEMENT

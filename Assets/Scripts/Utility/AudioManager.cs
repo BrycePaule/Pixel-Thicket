@@ -1,15 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-
     public Sound[] Sounds;
     
-    private Dictionary<SoundTypes, Sound> _soundDict = new Dictionary<SoundTypes, Sound>();
-
     private static AudioManager _instance;
 
     public static AudioManager Instance
@@ -41,20 +39,16 @@ public class AudioManager : MonoBehaviour
             s.Source.loop = s.Loop;
             s.Source.playOnAwake = s.PlayOnAwake;
         }
-
-        FillSoundsDictionary();
     }
 
-    public void Play(SoundTypes soundType)
+    public void Play(SoundTypes soundType, float volume = 1)
     {
-        _soundDict[soundType].Source.Play();
-        // Sounds[0].Source.Play();
-    }
 
-    private void FillSoundsDictionary()
-    {
-        _soundDict.Add(SoundTypes.Rain, Sounds[0]);
-        _soundDict.Add(SoundTypes.Explosion, Sounds[1]);
+        // AudioSource sound = _soundDict[soundType].Source;
+        AudioSource s = Array.Find(Sounds, sound => sound.SoundType == soundType).Source;
+        if (Sounds == null) { return; }
+        s.volume = volume;
+        s.Play();
     }
 
 }

@@ -32,6 +32,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
     private Transform _transform;
     private Vector2 _moveAxis;
+    private AudioManager _audioManager;
 
     void OnEnable()
     { 
@@ -48,6 +49,8 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _transform = transform;
         _playerInput = new PlayerInput();
         _playerInput.Enable();
+
+        _audioManager = AudioManager.Instance;
     }
 
     private void Update()
@@ -101,6 +104,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
             dashTimeCounter = dashTime;
             dashCooldownTracker = Time.time + dashCooldown;
             _rb.AddForce(new Vector2(_moveAxis.x * dashSpeed, _moveAxis.y * dashSpeed), ForceMode2D.Impulse);
+            _audioManager.Play(SoundTypes.Dash);
         }
 
         // continue dash
