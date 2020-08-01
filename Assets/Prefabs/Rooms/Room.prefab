@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 1894346085486667591}
   - component: {fileID: 3984680133813171726}
   - component: {fileID: 1163492577}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Collidables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -768,7 +768,9 @@ MonoBehaviour:
   WestSpawn: {x: 0, y: 0, z: 0}
   MobContainer: {fileID: 3070762805023564123}
   Mobs: []
-  MobSlots: 0
+  MobSpawnLocations: []
+  MobCount: 0
+  _outOfBoundsCollider: {fileID: 0}
 --- !u!1 &8038579627025000938
 GameObject:
   m_ObjectHideFlags: 0

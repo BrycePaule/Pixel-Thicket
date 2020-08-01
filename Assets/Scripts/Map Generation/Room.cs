@@ -22,6 +22,8 @@ public class Room : MonoBehaviour
     public List<Vector2> MobSpawnLocations = new List<Vector2>();
     public int MobCount;
 
+    [SerializeField] Transform _outOfBoundsCollider;
+
     private Transform  _transform;
     private MobSpawner _mobSpawner;
 

@@ -13,6 +13,7 @@ public class RangedAttack : MonoBehaviour
     public float Damage;
     public float Cooldown;
     public float MissileSpeed;
+    public bool Pierce;
     public Transform Shooter;
 
     private float _maxLifetime = 10f;
@@ -52,6 +53,7 @@ public class RangedAttack : MonoBehaviour
         Damage = RangedAttackType.Damage;
         Cooldown = RangedAttackType.Cooldown;
         MissileSpeed = RangedAttackType.MissileSpeed;
+        Pierce = RangedAttackType.Pierce;
 
         SR.sprite = RangedAttackType.Sprite;
 
@@ -60,27 +62,43 @@ public class RangedAttack : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) 
+    // private void OnCollisionEnter2D(Collision2D other) 
+    // {
+    //     if (_transform.IsChildOf(other.transform)) { return; }
+    //     if (_transform.parent == other.transform.parent & _transform.parent != null) { return; }
+        
+    //     IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
+    //     if (target != null) {
+    //         target.Damage(Damage);
+    //     }
+        
+    //     if (!Pierce)
+    //     {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
+
+    private void OnTriggerEnter2D(Collider2D other) 
     {
-        // can't hit self
+
         if (_transform.IsChildOf(other.transform)) { return; }
         if (_transform.parent == other.transform.parent & _transform.parent != null) { return; }
+
+        // aggro radius colliders
+        if (other.gameObject.layer == 15) { return; }
+        // terrain colliders
+        if (other.gameObject.layer == 16) { Destroy(this.gameObject); }
         
         IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
         if (target != null) {
             target.Damage(Damage);
         }
-
-        Destroy(this.gameObject);
+        
+        if (!Pierce)
+        {
+            Destroy(this.gameObject);
+            
+        }
     }
-
-    // private void OnTriggerEnter2D(Collider2D hitInfo) 
-    // {
-
-    //     if (_transform.IsChildOf(hitInfo.transform)) { return; }
-    //     if (_transform.parent == hitInfo.transform.parent) { return; }
-
-    //     Destroy(_transform.gameObject);
-    // }
 
 }

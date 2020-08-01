@@ -15,7 +15,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Pads
   - 
   - Player
   - Player Projectiles
@@ -36,7 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Aggro Radius Colliders
   m_SortingLayers:
   - name: Background
     uniqueID: 1401198387

@@ -11,6 +11,7 @@ public class RangedAttackSO : ScriptableObject
     public float Damage;
     public float Cooldown;
     public float MissileSpeed;
+    public bool Pierce;
 
     public Sprite Icon;
     public Sprite Sprite;

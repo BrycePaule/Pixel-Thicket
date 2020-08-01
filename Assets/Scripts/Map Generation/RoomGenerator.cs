@@ -398,12 +398,14 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (_spawnGrid[y, x] != 1) { continue; } 
                 
-                _spawnLocations.Add(new Vector2(x, y));
+                // locations are offset by 50% of room width / height to centre them around the middle
+                // locations are also already in world coords because each square in the grid is 1 to 1 size
+                _spawnLocations.Add(new Vector2(x - Mathf.FloorToInt(room.Width / 2), y - Mathf.FloorToInt(room.Height / 2)));
                 spawnTiles++;
             }
         }
         
-        room.MobCount = Mathf.FloorToInt(spawnTiles * 0.05f);
+        room.MobCount = Mathf.FloorToInt(spawnTiles * 0.02f);
         room.MobSpawnLocations = _spawnLocations;
     }
 
