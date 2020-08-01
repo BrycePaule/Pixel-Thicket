@@ -73,13 +73,4 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitForSeconds(_transitionTime * 0.5f);
         _player._playerInput.Enable();
     }
-
-    // UTILITIES
-    private enum SceneIndexes
-    {
-        MAIN_MENU = 0,
-        GAME = 1,
-    }
-
-
 }

@@ -8,10 +8,12 @@ public class Gateway : MonoBehaviour
     [SerializeField] public Direction direction;
 
     private SceneLoader _sceneLoader;
+    private GameEventSystem _gameEventSystem;
 
     private void Awake()
     {
         _sceneLoader = SceneLoader.Instance;
+        _gameEventSystem = GameEventSystem.Instance;
     }
 
     public enum Direction 
@@ -25,8 +27,7 @@ public class Gateway : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.layer == 12)
         {
-            // _sceneLoader.FadeToBlack();
-            GameEventSystem.Instance.OnGatewayEnter((int)direction);
+            _gameEventSystem.OnGatewayEnter((int)direction);
         }
 
     }

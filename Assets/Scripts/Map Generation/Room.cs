@@ -6,19 +6,24 @@ public class Room : MonoBehaviour
 {
 
     public Vector2Int location;
-    public int roomWidth;
-    public int roomHeight;
+    public int Width;
+    public int Height;
     public int[] Gates = new int[4];
     public Gateway North;
     public Gateway East;
     public Gateway South;
     public Gateway West;
-    public Vector3 _northSpawn;
-    public Vector3 _eastSpawn;
-    public Vector3 _southSpawn;
-    public Vector3 _westSpawn;
+    public Vector3 NorthSpawn;
+    public Vector3 EastSpawn;
+    public Vector3 SouthSpawn;
+    public Vector3 WestSpawn;
+    public Transform MobContainer;
+    public List<Mob> Mobs = new List<Mob>();
+    public List<Vector2> MobSpawnLocations = new List<Vector2>();
+    public int MobCount;
 
     private Transform  _transform;
+    private MobSpawner _mobSpawner;
 
     private void Awake() 
     {
@@ -26,8 +31,8 @@ public class Room : MonoBehaviour
         
         if (!_transform.name.Contains("Lobby")) 
         {
-            roomWidth = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
-            roomHeight = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
+            Width = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
+            Height = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
         }
         SetGateways();
         SetPlayerSpawnsInsideGateway();
@@ -45,6 +50,13 @@ public class Room : MonoBehaviour
         {
             child.gameObject.SetActive(true);
         }
+
+        Mob[] mobs = MobContainer.GetComponentsInChildren<Mob>(true);
+        foreach (var mob in mobs)
+        {
+            Vector2 loc = MobSpawnLocations[Random.Range(0, MobSpawnLocations.Count)];
+            mob.transform.position = new Vector3(loc.x, loc.y, 0);
+        }
     }
 
     private void OnDisable()
@@ -61,10 +73,10 @@ public class Room : MonoBehaviour
         float tileAnchorOffset = 0.5f;
         Vector3 baseOffsetVector = new Vector3(tileAnchorOffset, tileAnchorOffset, 0f);
 
-        float top = ((roomHeight - 1) % 2 == 0) ? roomHeight / 2 : Mathf.Floor(roomHeight / 2) - 1;
-        float right = ((roomWidth - 1) % 2 == 0) ? roomWidth / 2 : Mathf.Floor(roomWidth / 2) - 1;
-        float bot = ((roomHeight - 1) % 2 == 0) ? roomHeight / 2 : Mathf.Floor(roomHeight / 2);
-        float left = ((roomWidth - 1) % 2 == 0) ? roomWidth / 2 : Mathf.Floor(roomWidth / 2);
+        float top = ((Height - 1) % 2 == 0) ? Height / 2 : Mathf.Floor(Height / 2) - 1;
+        float right = ((Width - 1) % 2 == 0) ? Width / 2 : Mathf.Floor(Width / 2) - 1;
+        float bot = ((Height - 1) % 2 == 0) ? Height / 2 : Mathf.Floor(Height / 2);
+        float left = ((Width - 1) % 2 == 0) ? Width / 2 : Mathf.Floor(Width / 2);
 
         North.transform.position += new Vector3(0, top, 0) + baseOffsetVector;
         East.transform.position += new Vector3(right, 0, 0) + baseOffsetVector;
@@ -88,25 +100,25 @@ public class Room : MonoBehaviour
         float tileAnchorOffset = 0.5f;
         Vector3 baseOffsetVector = new Vector3(tileAnchorOffset, tileAnchorOffset, 0f);
 
-        float gatewayTop = ((roomHeight - 1) % 2 == 0) ? roomHeight / 2 : Mathf.Floor(roomHeight / 2) - 1;
-        float gatewayRight = ((roomWidth - 1) % 2 == 0) ? roomWidth / 2 : Mathf.Floor(roomWidth / 2) - 1;
-        float gatewayBot = ((roomHeight - 1) % 2 == 0) ? roomHeight / 2 : Mathf.Floor(roomHeight / 2);
-        float gatewayLeft = ((roomWidth - 1) % 2 == 0) ? roomWidth / 2 : Mathf.Floor(roomWidth / 2);
+        float gatewayTop = ((Height - 1) % 2 == 0) ? Height / 2 : Mathf.Floor(Height / 2) - 1;
+        float gatewayRight = ((Width - 1) % 2 == 0) ? Width / 2 : Mathf.Floor(Width / 2) - 1;
+        float gatewayBot = ((Height - 1) % 2 == 0) ? Height / 2 : Mathf.Floor(Height / 2);
+        float gatewayLeft = ((Width - 1) % 2 == 0) ? Width / 2 : Mathf.Floor(Width / 2);
 
         if (!_transform.name.Contains("Lobby")) 
         {
-            _northSpawn = new Vector3(0, gatewayTop - 1.5f, 0) + baseOffsetVector;
-            _eastSpawn = new Vector3(gatewayRight - 1.5f, 0, 0) + baseOffsetVector;
-            _southSpawn = new Vector3(0, -gatewayBot + 1.5f, 0) + baseOffsetVector;
-            _westSpawn = new Vector3(-gatewayLeft + 1.5f, 0, 0) + baseOffsetVector;
+            NorthSpawn = new Vector3(0, gatewayTop - 1.5f, 0) + baseOffsetVector;
+            EastSpawn = new Vector3(gatewayRight - 1.5f, 0, 0) + baseOffsetVector;
+            SouthSpawn = new Vector3(0, -gatewayBot + 1.5f, 0) + baseOffsetVector;
+            WestSpawn = new Vector3(-gatewayLeft + 1.5f, 0, 0) + baseOffsetVector;
         }
 
         if (_transform.name.Contains("Lobby")) 
         {
-            _northSpawn = new Vector3(0, gatewayTop - 2.5f, 0) + baseOffsetVector;
-            _eastSpawn = new Vector3(gatewayRight - 1.5f, -1, 0) + baseOffsetVector;
-            _southSpawn = new Vector3(0, -gatewayBot + 0.5f, 0) + baseOffsetVector;
-            _westSpawn = new Vector3(-gatewayLeft + 1.5f, -1, 0) + baseOffsetVector;
+            NorthSpawn = new Vector3(0, gatewayTop - 2.5f, 0) + baseOffsetVector;
+            EastSpawn = new Vector3(gatewayRight - 1.5f, -1, 0) + baseOffsetVector;
+            SouthSpawn = new Vector3(0, -gatewayBot + 0.5f, 0) + baseOffsetVector;
+            WestSpawn = new Vector3(-gatewayLeft + 1.5f, -1, 0) + baseOffsetVector;
         }
 
 

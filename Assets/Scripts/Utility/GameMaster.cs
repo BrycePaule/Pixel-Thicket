@@ -8,28 +8,32 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private Texture2D _cursorSprite;
     [SerializeField] private GameObject _roomContainer;
     [SerializeField] private Player _player;
+    [SerializeField] private MobSpawner _mobSpawner;
 
     private SceneLoader _sceneLoader;
     private MapGenerator _mapGenerator;
+    private GameEventSystem _gameEventSystem;
     private Room[,] _rooms;
     private Room _currentRoom;
     
     private void Awake()
     {
-        GameEventSystem.Instance.onGatewayEnter += OnGatewayEnter;
-
-        Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
         _sceneLoader = SceneLoader.Instance;
         _mapGenerator = MapGenerator.Instance;
+        _mobSpawner = MobSpawner.Instance;
+        _gameEventSystem = GameEventSystem.Instance;
+
+        Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
+
+        _gameEventSystem.onGatewayEnter += OnGatewayEnter;
     }
 
     private void Start()
     {
-        // _player.gameObject.SetActive(false);
         _rooms = _mapGenerator.GenerateMap();
         SetupStartRoom();
-        // print(_currentRoom);
-        // _player.gameObject.SetActive(true);
+
+        PopulateRoomsWithMobs();
 
         _sceneLoader.FadeFromBlack();
     }
@@ -76,6 +80,28 @@ public class GameMaster : MonoBehaviour
     private void DeactivateCurrentRoom()
     {
         _currentRoom.gameObject.SetActive(false);
+    }
+
+    // MOB SPAWNING
+    private void PopulateRoomsWithMobs()
+    {
+        foreach (Room room in _rooms)
+        {
+            if (room == null) { continue; }
+            if (room.name.Contains("Lobby")) { continue; }
+            
+            int spawnCount = room.MobCount;
+
+            while (spawnCount > 0)
+            {
+                Mob newMob = _mobSpawner.Spawn(MobTypes.Slime);
+                newMob.transform.SetParent(room.MobContainer);
+                room.Mobs.Add(newMob);
+                newMob.gameObject.SetActive(false);
+
+                spawnCount --;
+            }
+        }
     }
 
     // EVENTS
@@ -136,6 +162,11 @@ public class GameMaster : MonoBehaviour
         }
 
         print(_currentRoom.name);
+        foreach (var blah in _currentRoom.MobSpawnLocations)
+        {
+            print(blah);
+        }
+        // print(_currentRoom.MobSpawnLocations);
     }
 
     private void PlacePlayerOnGatewayEnter(int direction)
@@ -143,28 +174,28 @@ public class GameMaster : MonoBehaviour
         // NORTH
         if (direction == 0)
         {
-            _player.transform.position = _currentRoom._southSpawn;
+            _player.transform.position = _currentRoom.SouthSpawn;
             // print("southSpawn: " + _currentRoom._southSpawn);
         }
 
         // EAST
         if (direction == 1)
         {
-            _player.transform.position = _currentRoom._westSpawn;
+            _player.transform.position = _currentRoom.WestSpawn;
             // print("westSpawn: " + _currentRoom._westSpawn);
         }
 
         // SOUTH
         if (direction == 2)
         {
-            _player.transform.position = _currentRoom._northSpawn;
+            _player.transform.position = _currentRoom.NorthSpawn;
             // print("northSpawn: " + _currentRoom._northSpawn);
         }
 
         // WEST
         if (direction == 3)
         {
-            _player.transform.position = _currentRoom._eastSpawn;
+            _player.transform.position = _currentRoom.EastSpawn;
             // print("eastSpawn: " + _currentRoom._eastSpawn);
         }
     }

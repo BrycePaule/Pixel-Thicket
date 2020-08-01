@@ -8418,6 +8418,16 @@ PrefabInstance:
       propertyPath: West
       value: 
       objectReference: {fileID: 983076922720003587}
+    - target: {fileID: 5627320684880336813, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
+        type: 3}
+      propertyPath: Width
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627320684880336813, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
+        type: 3}
+      propertyPath: Height
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 6963634508260353247, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
         type: 3}
       propertyPath: m_LocalPosition.y
