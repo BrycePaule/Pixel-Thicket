@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MobSpawner : MonoBehaviour
+public class MobGenerator : MonoBehaviour
 {
-
+    
     [SerializeField] private Mob[] _mobPrefabs;
 
     private Dictionary<MobTypes, Mob> _mobs;
 
-    private static MobSpawner _instance;
+    private static MobGenerator _instance;
 
-    public static MobSpawner Instance
+    public static MobGenerator Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<MobSpawner>();
+                _instance = FindObjectOfType<MobGenerator>();
                 if (_instance == null)
                 {
-                    _instance = new MobSpawner();
+                    _instance = new MobGenerator();
                 }
             }
             return _instance;

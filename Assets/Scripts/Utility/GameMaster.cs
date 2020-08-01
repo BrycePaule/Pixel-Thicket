@@ -8,7 +8,8 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private Texture2D _cursorSprite;
     [SerializeField] private GameObject _roomContainer;
     [SerializeField] private Player _player;
-    [SerializeField] private MobSpawner _mobSpawner;
+    [SerializeField] private MobGenerator _mobGenerator;
+    [SerializeField] private AudioManager _audioManager;
 
     private SceneLoader _sceneLoader;
     private MapGenerator _mapGenerator;
@@ -20,8 +21,9 @@ public class GameMaster : MonoBehaviour
     {
         _sceneLoader = SceneLoader.Instance;
         _mapGenerator = MapGenerator.Instance;
-        _mobSpawner = MobSpawner.Instance;
+        _mobGenerator = MobGenerator.Instance;
         _gameEventSystem = GameEventSystem.Instance;
+        _audioManager = AudioManager.Instance;
 
         Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
 
@@ -36,6 +38,8 @@ public class GameMaster : MonoBehaviour
         PopulateRoomsWithMobs();
 
         _sceneLoader.FadeFromBlack();
+        
+        _audioManager.Play(SoundTypes.Explosion);
     }
 
     // ROOM MANAGEMENT
@@ -94,7 +98,7 @@ public class GameMaster : MonoBehaviour
 
             while (spawnCount > 0)
             {
-                Mob newMob = _mobSpawner.Spawn(MobTypes.Slime);
+                Mob newMob = _mobGenerator.Spawn(MobTypes.Slime);
                 newMob.transform.SetParent(room.MobContainer);
                 room.Mobs.Add(newMob);
                 newMob.gameObject.SetActive(false);

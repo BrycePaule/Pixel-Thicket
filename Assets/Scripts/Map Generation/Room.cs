@@ -25,7 +25,7 @@ public class Room : MonoBehaviour
     [SerializeField] Transform _outOfBoundsCollider;
 
     private Transform  _transform;
-    private MobSpawner _mobSpawner;
+    private MobGenerator _mobGenerator;
 
     private void Awake() 
     {

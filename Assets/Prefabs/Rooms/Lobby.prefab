@@ -25247,6 +25247,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lobby
       objectReference: {fileID: 0}
+    - target: {fileID: 8215596646463686108, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8372794842474232734, guid: 5c4e9cadcdfbefa4eb946821b1e3483c,
         type: 3}
       propertyPath: direction
