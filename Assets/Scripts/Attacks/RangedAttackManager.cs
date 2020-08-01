@@ -57,19 +57,20 @@ public class RangedAttackManager : MonoBehaviour
         float shootAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - 35f);
 
-        GameObject projectile = GetAttackByIndex(0);
-        RangedAttack projectileStats = projectile.GetComponent<RangedAttack>();
-        Rigidbody2D rb = projectile.transform.GetComponent<Rigidbody2D>();
+        GameObject projectileObject = GetAttackByIndex(0);
+        RangedAttack projectile = projectileObject.GetComponent<RangedAttack>();
+        Rigidbody2D rb = projectileObject.transform.GetComponent<Rigidbody2D>();
             
-        projectile.name = projectileStats.Name;
+        projectile.name = projectile.Name;
         projectile.transform.position = _playerTransform.position;
         projectile.transform.rotation = rotation;
 
-        float force = projectileStats.MissileSpeed;
+        float force = projectile.MissileSpeed;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
+        projectile.Direction = direction * force;
 
         // set cooldown time
-        shootCooldown = Time.time + projectileStats.Cooldown;
+        shootCooldown = Time.time + projectile.Cooldown;
     }
 
     public GameObject GetAttackByIndex(int index)

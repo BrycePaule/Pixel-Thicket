@@ -14,7 +14,9 @@ public class RangedAttack : MonoBehaviour
     public float Cooldown;
     public float MissileSpeed;
     public bool Pierce;
+
     public Transform Shooter;
+    public Vector2 Direction;
 
     private float _maxLifetime = 10f;
     private float _birthTime;
@@ -62,22 +64,6 @@ public class RangedAttack : MonoBehaviour
         }
     }
 
-    // private void OnCollisionEnter2D(Collision2D other) 
-    // {
-    //     if (_transform.IsChildOf(other.transform)) { return; }
-    //     if (_transform.parent == other.transform.parent & _transform.parent != null) { return; }
-        
-    //     IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
-    //     if (target != null) {
-    //         target.Damage(Damage);
-    //     }
-        
-    //     if (!Pierce)
-    //     {
-    //         Destroy(this.gameObject);
-    //     }
-    // }
-
     private void OnTriggerEnter2D(Collider2D other) 
     {
 
@@ -89,15 +75,19 @@ public class RangedAttack : MonoBehaviour
         // terrain colliders
         if (other.gameObject.layer == 16) { Destroy(this.gameObject); }
         
-        IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
-        if (target != null) {
-            target.Damage(Damage);
+        IDamageable<float> targetDmg = other.transform.GetComponent<IDamageable<float>>();
+        if (targetDmg != null) {
+            targetDmg.Damage(Damage);
         }
-        
+
         if (!Pierce)
         {
+            IKnockable targetKnock = other.transform.GetComponent<IKnockable>();
+            if (targetKnock != null) {
+                targetKnock.Knockback(Direction);
+            }
+
             Destroy(this.gameObject);
-            
         }
     }
 

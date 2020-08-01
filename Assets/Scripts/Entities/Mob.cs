@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mob : MonoBehaviour, IDamageable<float>, IKillable
+public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 {
 
     public float MaxHealth;
@@ -165,6 +165,11 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable
         {
             Kill();
         }
+    }
+
+    public void Knockback(Vector2 force)
+    {
+        _rb.AddForce(force, ForceMode2D.Impulse);
     }
 
     public void Kill()
