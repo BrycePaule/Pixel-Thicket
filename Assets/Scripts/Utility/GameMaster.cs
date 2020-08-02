@@ -102,6 +102,7 @@ public class GameMaster : MonoBehaviour
             {
                 Mob newMob = _mobGenerator.Spawn(MobTypes.Slime);
                 newMob.transform.SetParent(room.MobContainer);
+                newMob.StartCoroutine("MoveWait", Random.Range(0f, 2f));
                 room.Mobs.Add(newMob);
                 newMob.gameObject.SetActive(false);
 

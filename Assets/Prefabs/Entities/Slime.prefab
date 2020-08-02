@@ -4945,7 +4945,8 @@ MonoBehaviour:
   _moveSpeedAggro: 8
   _moveSpeed: 5
   _moveStyle: 1
-  _movePattern: 1
+  _movePattern: 0
+  _chanceToMoveWait: 30
   _damage: 10
   _player: {fileID: 0}
   _hopWait: 0

@@ -17,6 +17,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     [SerializeField] private float _moveSpeed;
     [SerializeField] private MovementStyle _moveStyle;
     [SerializeField] private MovementPattern _movePattern;
+    [SerializeField] private int _chanceToMoveWait;
     [SerializeField] private float _damage;
 
     // TESTING
@@ -30,6 +31,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     private Vector2 _dest;
     private Vector2 _direction;
     private bool _destArrived = true;
+    private bool _moveWait;
 
     // SLIME
     public bool _hopWait;
@@ -57,21 +59,32 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     }
 
     // MOVEMENT
-    public virtual void Move() {
+    public virtual void Move() 
+    {
 
         if (_movePattern == MovementPattern.FollowPlayer)
         {
+            _moveWait = false;
+            _animator.SetBool("MoveWait", false);
+
             SetDestination();
             SetDirection();
         }
 
         else if (_movePattern == MovementPattern.RandomLocation)
         {
+            if (_moveWait) { return; }
+
             CheckArrived();
 
             if (_destArrived | _dest == null | _direction == Vector2.zero) 
             { 
-                SetDestination(); 
+                SetDestination();
+
+                if (Roll.Chance(_chanceToMoveWait)) 
+                { 
+                    StartCoroutine("MoveWait", Random.Range(0f, 2f));
+                }
             }
 
             SetDirection();
@@ -159,6 +172,17 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
     }
     
+    public IEnumerator MoveWait(float seconds = 2f)
+    {
+        _moveWait = true;
+        _animator.SetBool("MoveWait", true);
+
+        yield return new WaitForSeconds(seconds);
+
+        _moveWait = false;
+        _animator.SetBool("MoveWait", false);
+    }
+
     // HEALTH
     public void Damage(float damageTaken)
     {

@@ -69,7 +69,6 @@ public class AudioManager : MonoBehaviour
 
                     source.volume = currV * volume;
                     source.Play();
-                    print(source.volume);
 
                     source.volume = currV;
                     return;
