@@ -5,15 +5,18 @@ using UnityEngine;
 public class Gateway : MonoBehaviour
 {
 
-    [SerializeField] public Direction direction;
+    public Direction direction;
 
     private SceneLoader _sceneLoader;
     private GameEventSystem _gameEventSystem;
+    private Player _player;
+
 
     private void Awake()
     {
         _sceneLoader = SceneLoader.Instance;
         _gameEventSystem = GameEventSystem.Instance;
+        _player = FindObjectOfType<Player>();
     }
 
     public enum Direction 
@@ -27,6 +30,9 @@ public class Gateway : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.layer == 12)
         {
+            if (_player.GatewayTravelLocked) { return; }
+
+            _player.StartCoroutine("GatewayLock");
             _gameEventSystem.OnGatewayEnter((int)direction);
         }
 

@@ -91,7 +91,7 @@ public class RangedAttack : MonoBehaviour
                 targetKnock.Knockback(Direction);
             }
 
-            _audioManager.Play(SoundTypes.Explosion, 0.1f);
+            _audioManager.Play(SoundTypes.Explosion, 0.3f);
             Destroy(this.gameObject);
         }
     }

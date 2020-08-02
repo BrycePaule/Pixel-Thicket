@@ -9,6 +9,8 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         
     public float MaxHealth;
     public float Health;
+    
+    public bool GatewayTravelLocked;
 
     [Space(10)]
     public PlayerInput _playerInput;
@@ -28,7 +30,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private float _dashPress;
     private float dashTimeCounter;
     private float dashCooldownTracker;
-    private bool _dashing = false;
+    private bool _dashing;
 
     private Transform _transform;
     private Vector2 _moveAxis;
@@ -127,6 +129,15 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _rb.velocity = Vector2.zero;
         _dashing = false;
     }
+
+    public IEnumerator GatewayLock()
+    {
+        GatewayTravelLocked = true;
+
+        yield return new WaitForSeconds(3);
+
+        GatewayTravelLocked = false;
+    } 
 
     // HEALTH
     public void Damage(float damageTaken)

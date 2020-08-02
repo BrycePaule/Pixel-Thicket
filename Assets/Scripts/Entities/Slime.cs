@@ -11,12 +11,13 @@ public class Slime : Mob
 
     [SerializeField] [Range(0, 3)] private float _hopCooldown;
 
+    private AudioManager _audioManager;
     private int _generation;
 
-    // private void Awake()
-    // {
-
-    // }
+    private void Awake()
+    {
+        _audioManager = AudioManager.Instance;
+    }
 
     public override void Start()
     {
@@ -27,7 +28,10 @@ public class Slime : Mob
     private IEnumerator HopEnd()
     {
         _hopWait = true;
+
+        _audioManager.Play(SoundTypes.SlimeBounce, 1, true);
         _jellyParticle.Play();
+
         yield return new WaitForSeconds(_hopCooldown);
         _hopWait = false;
     }

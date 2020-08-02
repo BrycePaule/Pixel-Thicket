@@ -10943,11 +10943,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sounds:
   - Name: Dash
-    Clip: {fileID: 8300000, guid: 2950e91f6e860574491993d4c25d3b1e, type: 3}
+    Clip: {fileID: 8300000, guid: 6c788dba5ca70dd4d84410fdfd284a96, type: 3}
     SoundType: 2
     StackCount: 1
-    Volume: 1
-    Pitch: 1
+    ImportVolume: 0.8
+    ImportPitch: 1
     Loop: 0
     PlayOnAwake: 0
     Sources: []
@@ -10955,27 +10955,72 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: f90d6a9f39e5db24c8c3ab4130ed8186, type: 3}
     SoundType: 1
     StackCount: 10
-    Volume: 1
-    Pitch: 1
+    ImportVolume: 0.5
+    ImportPitch: 1
     Loop: 0
     PlayOnAwake: 0
     Sources: []
   - Name: Rain
-    Clip: {fileID: 8300000, guid: 51851e461fe27e842bde173445cafb3b, type: 3}
+    Clip: {fileID: 8300000, guid: c535d5bfb962bcc4fb0a4996e79affea, type: 3}
     SoundType: 0
     StackCount: 1
-    Volume: 1
-    Pitch: 1
-    Loop: 0
+    ImportVolume: 0.03
+    ImportPitch: 1
+    Loop: 1
     PlayOnAwake: 0
     Sources: []
   - Name: TemplePath
     Clip: {fileID: 8300000, guid: 1578e652edaca7543921920421a1c7ab, type: 3}
     SoundType: 3
     StackCount: 1
-    Volume: 1
-    Pitch: 1
+    ImportVolume: 0.07
+    ImportPitch: 0.5
     Loop: 1
+    PlayOnAwake: 0
+    Sources: []
+  - Name: SlimeBounce1
+    Clip: {fileID: 8300000, guid: b718797c22155304396aebaf36c680fc, type: 3}
+    SoundType: 4
+    StackCount: 2
+    ImportVolume: 0.1
+    ImportPitch: 0.5
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
+  - Name: SlimeBounce2
+    Clip: {fileID: 8300000, guid: 7a58fc7e0d4724a41857745ae3450601, type: 3}
+    SoundType: 4
+    StackCount: 2
+    ImportVolume: 0.1
+    ImportPitch: 0.5
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
+  - Name: SlimeBounce3
+    Clip: {fileID: 8300000, guid: f36c63bd855d01d4485856a93cfd4f33, type: 3}
+    SoundType: 4
+    StackCount: 2
+    ImportVolume: 0.1
+    ImportPitch: 0.5
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
+  - Name: SlimeBounce4
+    Clip: {fileID: 8300000, guid: 735c74dadbda9044ba97c3e3de0f3b91, type: 3}
+    SoundType: 4
+    StackCount: 2
+    ImportVolume: 0.1
+    ImportPitch: 0.5
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
+  - Name: SlimeBounce5
+    Clip: {fileID: 8300000, guid: 01e2562783e050f469241ea9cc6cc2cf, type: 3}
+    SoundType: 4
+    StackCount: 2
+    ImportVolume: 0.1
+    ImportPitch: 0.5
+    Loop: 0
     PlayOnAwake: 0
     Sources: []
 --- !u!1 &1264749038
@@ -21191,108 +21236,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804239314}
   m_CullTransparentMesh: 0
---- !u!1 &1855349186 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5872667156367417978, guid: 1316f99f527ce694f8d63517a575a4b6,
-    type: 3}
-  m_PrefabInstance: {fileID: 3264014765159287004}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1855349187
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1855349186}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1910938627
 GameObject:
   m_ObjectHideFlags: 0
@@ -22209,7 +22152,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3264014765159287004}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1855349186}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0585ce0273612d42a7a82174fde97f5, type: 3}

@@ -38,6 +38,9 @@ public class GameMaster : MonoBehaviour
         SetupStartRoom();
         PopulateRoomsWithMobs();
 
+        _audioManager.Play(SoundTypes.TemplePath);
+        _audioManager.Play(SoundTypes.Rain);
+
         _sceneLoader.FadeFromBlack();
     }
 
@@ -164,16 +167,11 @@ public class GameMaster : MonoBehaviour
             PlacePlayerOnGatewayEnter(direction);
         }
 
-        print(_currentRoom.name);
-        foreach (var blah in _currentRoom.MobSpawnLocations)
-        {
-            print(blah);
-        }
-        // print(_currentRoom.MobSpawnLocations);
     }
 
     private void PlacePlayerOnGatewayEnter(int direction)
     {
+
         // NORTH
         if (direction == 0)
         {

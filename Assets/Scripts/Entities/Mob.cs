@@ -24,6 +24,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     [SerializeField] private Player _player;
 
     private Transform _transform;
+    private Rigidbody2D _playerRB;
     private bool _aggro = false;
 
     private Vector2 _dest;
@@ -37,12 +38,17 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     private void Awake() 
     {
         _transform = transform;
-        _player = FindObjectOfType<Player>();
     }
 
     public virtual void Start() 
     {
 
+    }
+
+    private void OnEnable()
+    {
+        _player = FindObjectOfType<Player>();
+        _playerRB = _player.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -116,7 +122,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
         else if (_movePattern == MovementPattern.FollowPlayer)
         {
-            _dest = _player.GetComponent<Rigidbody2D>().position;
+            _dest = _playerRB.position;
         }
 
 

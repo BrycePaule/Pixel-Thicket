@@ -12,8 +12,8 @@ public class Sound
     public SoundTypes SoundType;
     public int StackCount;
 
-    [Range(0f, 1f)] public float Volume;
-    [Range(0.1f, 3f)] public float Pitch;
+    [Range(0f, 1f)] public float ImportVolume;
+    [Range(0.1f, 3f)] public float ImportPitch;
     public bool Loop;
     public bool PlayOnAwake;
 
