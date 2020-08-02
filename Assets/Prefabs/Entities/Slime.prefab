@@ -5071,6 +5071,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5001580982567994055}
   - component: {fileID: 5540210976996466027}
+  - component: {fileID: 6956845193061093189}
   m_Layer: 15
   m_Name: Aggro Radius
   m_TagString: Untagged
@@ -5108,3 +5109,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
+--- !u!114 &6956845193061093189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5166828657177863395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19a64ab32f3fa23438d133299d822458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

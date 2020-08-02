@@ -16,7 +16,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     [SerializeField] private float _moveSpeedAggro;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private MovementStyle _moveStyle;
-    [SerializeField] private MovementPattern _movePattern;
+    [SerializeField] public MovementPattern MovePattern;
     [SerializeField] private int _chanceToMoveWait;
     [SerializeField] private float _damage;
 
@@ -62,7 +62,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     public virtual void Move() 
     {
 
-        if (_movePattern == MovementPattern.FollowPlayer)
+        if (MovePattern == MovementPattern.FollowPlayer)
         {
             _moveWait = false;
             _animator.SetBool("MoveWait", false);
@@ -71,7 +71,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
             SetDirection();
         }
 
-        else if (_movePattern == MovementPattern.RandomLocation)
+        else if (MovePattern == MovementPattern.RandomLocation)
         {
             if (_moveWait) { return; }
 
@@ -127,13 +127,13 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     private void SetDestination()
     {
 
-         if (_movePattern == MovementPattern.RandomLocation)
+         if (MovePattern == MovementPattern.RandomLocation)
         {
             // IMPLEMENT PROPER ROOM BASED RANDOM DESTINATION
             _dest = new Vector2(Random.Range(-20, 20), Random.Range(-20, 20));
         }
 
-        else if (_movePattern == MovementPattern.FollowPlayer)
+        else if (MovePattern == MovementPattern.FollowPlayer)
         {
             _dest = _playerRB.position;
         }
@@ -158,19 +158,6 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
         _destArrived = true;
     }
-
-    private void OnCollisionEnter2D(Collision2D other) 
-    {
-        _destArrived = true;
-
-        if (other.gameObject.layer != 12) { return; } 
-
-        IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
-        if (target == null) { return; }
-
-        target.Damage(_damage);
-
-    }
     
     public IEnumerator MoveWait(float seconds = 2f)
     {
@@ -181,6 +168,20 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
         _moveWait = false;
         _animator.SetBool("MoveWait", false);
+    }
+
+    // COLLISION
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        _destArrived = true;
+
+        if (other.gameObject.layer == 12) 
+        {
+            IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
+            if (target == null) { return; }
+
+            target.Damage(_damage);
+        } 
     }
 
     // HEALTH
@@ -216,18 +217,5 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     private void HitFinish()
     {
         _animator.ResetTrigger("Hit");
-    }
-
-    // UTILITIES
-    public enum MovementStyle
-    {
-        Standard,
-        Hop
-    }
-
-    public enum MovementPattern
-    {
-        RandomLocation,
-        FollowPlayer,
     }
 }
