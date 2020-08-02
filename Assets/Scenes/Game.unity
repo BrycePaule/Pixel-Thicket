@@ -249,11 +249,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 89192158}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.07777142, y: 0.32510373, z: 28.815632}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 740335918}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &174372725
 GameObject:
@@ -10044,17 +10044,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355595357}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 28.815632}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 490082236}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 740335918}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.07777142, y: 0.32510373}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &490082235
@@ -10433,7 +10433,8 @@ MonoBehaviour:
   _cursorSprite: {fileID: 2800000, guid: 8a4269055cf5b8f4491a55bc0341ee4f, type: 3}
   _roomContainer: {fileID: 2079201157}
   _player: {fileID: 8949773460302801570}
-  _mobSpawner: {fileID: 1134795953}
+  _mobGenerator: {fileID: 1134795953}
+  _audioManager: {fileID: 1243006128}
 --- !u!4 &536480973
 Transform:
   m_ObjectHideFlags: 0
@@ -10563,6 +10564,38 @@ Transform:
   - {fileID: 498177866}
   m_Father: {fileID: 519420032}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &740335917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 740335918}
+  m_Layer: 0
+  m_Name: UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &740335918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740335917}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.07777142, y: -0.32510373, z: -28.815632}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 355595361}
+  - {fileID: 89192161}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &752326292
 GameObject:
@@ -10909,12 +10942,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sounds:
-  - Name: Rain
-    Clip: {fileID: 8300000, guid: 51851e461fe27e842bde173445cafb3b, type: 3}
+  - Name: Dash
+    Clip: {fileID: 8300000, guid: 2950e91f6e860574491993d4c25d3b1e, type: 3}
+    SoundType: 2
+    StackCount: 1
     Volume: 1
     Pitch: 1
-    Source: {fileID: 0}
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
+  - Name: Explosion
+    Clip: {fileID: 8300000, guid: f90d6a9f39e5db24c8c3ab4130ed8186, type: 3}
+    SoundType: 1
+    StackCount: 10
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
+  - Name: Rain
+    Clip: {fileID: 8300000, guid: 51851e461fe27e842bde173445cafb3b, type: 3}
+    SoundType: 0
+    StackCount: 1
+    Volume: 1
+    Pitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
+  - Name: TemplePath
+    Clip: {fileID: 8300000, guid: 1578e652edaca7543921920421a1c7ab, type: 3}
+    SoundType: 3
+    StackCount: 1
+    Volume: 1
+    Pitch: 1
     Loop: 1
+    PlayOnAwake: 0
+    Sources: []
 --- !u!1 &1264749038
 GameObject:
   m_ObjectHideFlags: 0
@@ -16193,7 +16256,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1683274792
 GameObject:
@@ -21997,7 +22060,7 @@ PrefabInstance:
     - target: {fileID: 5872667156367417976, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5872667156367417976, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}

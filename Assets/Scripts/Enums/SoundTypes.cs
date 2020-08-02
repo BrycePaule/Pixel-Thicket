@@ -7,4 +7,5 @@ public enum SoundTypes
     Rain,
     Explosion,
     Dash,
+    TemplePath,
 }

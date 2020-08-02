@@ -19,22 +19,23 @@ public class GameMaster : MonoBehaviour
     
     private void Awake()
     {
+
+        Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
+
+    }
+
+    private void Start()
+    {
         _sceneLoader = SceneLoader.Instance;
         _mapGenerator = MapGenerator.Instance;
         _mobGenerator = MobGenerator.Instance;
         _gameEventSystem = GameEventSystem.Instance;
         _audioManager = AudioManager.Instance;
 
-        Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
-
         _gameEventSystem.onGatewayEnter += OnGatewayEnter;
-    }
 
-    private void Start()
-    {
         _rooms = _mapGenerator.GenerateMap();
         SetupStartRoom();
-
         PopulateRoomsWithMobs();
 
         _sceneLoader.FadeFromBlack();

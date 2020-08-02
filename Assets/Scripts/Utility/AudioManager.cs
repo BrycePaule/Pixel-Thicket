@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 public class AudioManager : MonoBehaviour
 {
     public Sound[] Sounds;
+
+    private Dictionary<SoundTypes, AudioSource[]> _soundDict = new Dictionary<SoundTypes, AudioSource[]>();
     
     private static AudioManager _instance;
 
@@ -30,25 +32,48 @@ public class AudioManager : MonoBehaviour
     {
         if (_instance != null) { Destroy(this.gameObject); }
 
-        foreach (Sound s in Sounds)
-        {
-            s.Source = gameObject.AddComponent<AudioSource>();
-            s.Source.clip = s.Clip;
-            s.Source.volume = s.Volume;
-            s.Source.pitch = s.Pitch;
-            s.Source.loop = s.Loop;
-            s.Source.playOnAwake = s.PlayOnAwake;
-        }
+        BuildSourceDictionary();
+
     }
 
     public void Play(SoundTypes soundType, float volume = 1)
     {
+        AudioSource[] sources = _soundDict[soundType];
 
-        // AudioSource sound = _soundDict[soundType].Source;
-        AudioSource s = Array.Find(Sounds, sound => sound.SoundType == soundType).Source;
-        if (Sounds == null) { return; }
-        s.volume = volume;
-        s.Play();
+        if (sources == null) { return; }
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            // print(i + " " + sources[i].isPlaying);
+            if (!sources[i].isPlaying)
+            {
+                sources[i].volume = volume;
+                sources[i].Play();
+                return;
+            }
+        }
     }
 
+    private void BuildSourceDictionary()
+    {
+        foreach (Sound s in Sounds)
+        {
+            AudioSource[] sources = new AudioSource[s.StackCount];
+
+            for (int i = 0; i < s.StackCount; i++)
+            {
+                AudioSource newSource = gameObject.AddComponent<AudioSource>();
+                newSource.clip = s.Clip;
+                newSource.volume = s.Volume;
+                newSource.pitch = s.Pitch;
+                newSource.loop = s.Loop;
+                newSource.playOnAwake = s.PlayOnAwake;
+
+                sources[i] = newSource;
+            }
+
+            s.Sources = sources;
+            _soundDict.Add(s.SoundType, sources);
+        }
+    }
 }
