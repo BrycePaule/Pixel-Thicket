@@ -10983,7 +10983,7 @@ MonoBehaviour:
     SoundType: 4
     StackCount: 2
     ImportVolume: 0.1
-    ImportPitch: 0.5
+    ImportPitch: 1
     Loop: 0
     PlayOnAwake: 0
     Sources: []
@@ -10992,7 +10992,7 @@ MonoBehaviour:
     SoundType: 4
     StackCount: 2
     ImportVolume: 0.1
-    ImportPitch: 0.5
+    ImportPitch: 1
     Loop: 0
     PlayOnAwake: 0
     Sources: []
@@ -11001,7 +11001,7 @@ MonoBehaviour:
     SoundType: 4
     StackCount: 2
     ImportVolume: 0.1
-    ImportPitch: 0.5
+    ImportPitch: 1
     Loop: 0
     PlayOnAwake: 0
     Sources: []
@@ -11010,7 +11010,7 @@ MonoBehaviour:
     SoundType: 4
     StackCount: 2
     ImportVolume: 0.1
-    ImportPitch: 0.5
+    ImportPitch: 1
     Loop: 0
     PlayOnAwake: 0
     Sources: []
@@ -11019,7 +11019,7 @@ MonoBehaviour:
     SoundType: 4
     StackCount: 2
     ImportVolume: 0.1
-    ImportPitch: 0.5
+    ImportPitch: 1
     Loop: 0
     PlayOnAwake: 0
     Sources: []
@@ -22060,6 +22060,16 @@ PrefabInstance:
       propertyPath: _rb
       value: 
       objectReference: {fileID: 934125022}
+    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 519420031}
+    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: sprintMultiplier
+      value: 1.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!1001 &8313119899106290644

@@ -28,6 +28,8 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private float dashCooldown;
 
     private Vector2 _faceDirection;
+    private bool _idle;
+    private bool _idleChecking;
 
     private float _sprinting;
     private float _dashPress;
@@ -71,8 +73,6 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _animator.SetFloat("Vertical", direction.y);
         
         _animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(_moveAxis.x), Mathf.Abs(_moveAxis.y)));
-
-
     }
 
     private void FixedUpdate() {
@@ -86,11 +86,19 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         if (_moveAxis != Vector2.zero & !_dashing) {
             Move();
         }
+
+        if (!_idleChecking)
+        {
+            CheckIdle();
+        }
     }
 
     // PLAYER MOVEMENT
     private void Move()
     {   
+        _idle = false;
+        _animator.SetBool("Idle", false);
+
         float timeDelta = Time.deltaTime;
         _leafParticle.Play();
 
@@ -139,6 +147,14 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _dashing = false;
     }
 
+    public void CheckIdle()
+    {
+        if (_moveAxis == Vector2.zero)
+        {
+            StartCoroutine("IdleWait");
+        }
+    }
+
     public IEnumerator GatewayLock()
     {
         GatewayTravelLocked = true;
@@ -146,6 +162,21 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         yield return new WaitForSeconds(3);
 
         GatewayTravelLocked = false;
+    } 
+
+    public IEnumerator IdleWait()
+    {
+        _idleChecking = true;
+
+        yield return new WaitForSeconds(10);
+
+        _idleChecking = false;
+
+        if (_moveAxis == Vector2.zero)
+        {
+            _idle = true;
+            _animator.SetBool("Idle", true);
+        }
     } 
 
     // HEALTH

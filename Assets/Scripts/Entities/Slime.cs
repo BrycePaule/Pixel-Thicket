@@ -22,6 +22,7 @@ public class Slime : Mob
     public override void Start()
     {
         _sr.color = _color;
+        _sr.color = new Color(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255), 255f);
         _jellyParticle.startColor = _color;
     }
 

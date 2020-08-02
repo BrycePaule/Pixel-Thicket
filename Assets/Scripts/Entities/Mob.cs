@@ -25,7 +25,8 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
     private Transform _transform;
     private Rigidbody2D _playerRB;
-    private bool _aggro = false;
+    private bool _aggro;
+    private bool _hit;
 
     private Vector2 _dest;
     private Vector2 _direction;
@@ -60,6 +61,8 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     // MOVEMENT
     public virtual void Move() 
     {
+
+        if (_hit) { return; }
 
         if (MovePattern == MovementPattern.FollowPlayer)
         {
@@ -188,6 +191,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     {
 
         _animator.SetTrigger("Hit");
+        _hit = true;
 
         Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
 
@@ -216,5 +220,6 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     private void HitFinish()
     {
         _animator.ResetTrigger("Hit");
+        _hit = false;
     }
 }

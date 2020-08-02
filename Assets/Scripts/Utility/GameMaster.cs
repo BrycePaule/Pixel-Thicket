@@ -102,8 +102,9 @@ public class GameMaster : MonoBehaviour
             {
                 Mob newMob = _mobGenerator.Spawn(MobTypes.Slime);
                 newMob.transform.SetParent(room.MobContainer);
-                room.Mobs.Add(newMob);
+                // newMob.GetComponent<Slime>().Color;
                 newMob.gameObject.SetActive(false);
+                room.Mobs.Add(newMob);
 
                 spawnCount --;
             }
