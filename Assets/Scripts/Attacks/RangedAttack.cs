@@ -88,7 +88,7 @@ public class RangedAttack : MonoBehaviour
         {
             IKnockable targetKnock = other.transform.GetComponent<IKnockable>();
             if (targetKnock != null) {
-                targetKnock.Knockback(Direction);
+                targetKnock.Knockback(Direction * new Vector2(0.5f, 0.5f));
             }
 
             _audioManager.Play(SoundTypes.Explosion, 0.3f);

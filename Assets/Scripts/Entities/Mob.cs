@@ -10,7 +10,6 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     public Animator _animator;
 
     [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private CircleCollider2D _aggroRadius;
 
     [Space(10)]
     [SerializeField] private float _moveSpeedAggro;

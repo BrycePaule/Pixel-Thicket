@@ -18,6 +18,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] public Rigidbody2D _rb;
     [SerializeField] private ParticleSystem _leafParticle;
     [SerializeField] private ParticleSystem _dashParticle;
+    [SerializeField] private Camera _camera;
 
     [Space(10)]
     [SerializeField] private float moveSpeed;
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldown;
+
+    private Vector2 _faceDirection;
 
     private float _sprinting;
     private float _dashPress;
@@ -61,9 +64,15 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _sprinting = _playerInput.Movement.Sprint.ReadValue<float>();
         _dashPress = _playerInput.Movement.Dash.ReadValue<float>();
 
-        _animator.SetFloat("Horizontal", _moveAxis.x);
-        _animator.SetFloat("Vertical", _moveAxis.y);
+        Vector2 mousePos = _camera.ScreenToWorldPoint(_playerInput.Mouse.Position.ReadValue<Vector2>());
+        Vector2 direction = mousePos - _rb.position;
+        direction.Normalize();
+        _animator.SetFloat("Horizontal", direction.x);
+        _animator.SetFloat("Vertical", direction.y);
+        
         _animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(_moveAxis.x), Mathf.Abs(_moveAxis.y)));
+
+
     }
 
     private void FixedUpdate() {
