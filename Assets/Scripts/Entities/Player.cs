@@ -76,13 +76,11 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     }
 
     private void FixedUpdate() {
-        // DASHING
         if (_dashPress != 0 | _dashing)
         {
             Dash();
         }
 
-        // MOVING
         if (_moveAxis != Vector2.zero & !_dashing) {
             Move();
         }
@@ -123,7 +121,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
             dashTimeCounter = dashTime;
             dashCooldownTracker = Time.time + dashCooldown;
             _rb.AddForce(new Vector2(_moveAxis.x * dashSpeed, _moveAxis.y * dashSpeed), ForceMode2D.Impulse);
-            _audioManager.Play(SoundTypes.Dash);
+            _audioManager.Play(SoundType.Dash);
         }
 
         // continue dash

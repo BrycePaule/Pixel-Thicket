@@ -30,7 +30,7 @@ public class Slime : Mob
     {
         _hopWait = true;
 
-        _audioManager.Play(SoundTypes.SlimeBounce, 1, true);
+        _audioManager.Play(SoundType.SlimeBounce, 1, true);
         _jellyParticle.Play();
 
         yield return new WaitForSeconds(_hopCooldown);

@@ -9,7 +9,8 @@ public class Sound
     public string Name;
     public AudioClip Clip;
 
-    public SoundTypes SoundType;
+    public SoundType SoundType;
+    public SoundGroup SoundGoup;
     public int StackCount;
 
     [Range(0f, 1f)] public float ImportVolume;

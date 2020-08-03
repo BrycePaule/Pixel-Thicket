@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SoundTypes
+public enum SoundType
 {
     // V: 0.03| P: 1
     Rain,

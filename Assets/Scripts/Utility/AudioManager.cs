@@ -5,9 +5,17 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+
+    [SerializeField] private AudioMixer _mixer;
+    [SerializeField] private AudioMixerGroup _master;
+    [SerializeField] private AudioMixerGroup _music;
+    [SerializeField] private AudioMixerGroup _ambience;
+    [SerializeField] private AudioMixerGroup _sfx;
+
     public Sound[] Sounds;
 
-    private Dictionary<SoundTypes, AudioSource[]> _soundDict = new Dictionary<SoundTypes, AudioSource[]>();
+    private Dictionary<SoundType, AudioSource[]> _soundDict = new Dictionary<SoundType, AudioSource[]>();
+    private Dictionary<SoundGroup, AudioMixerGroup> _mixerDict = new Dictionary<SoundGroup, AudioMixerGroup>();
     
     private static AudioManager _instance;
 
@@ -31,11 +39,12 @@ public class AudioManager : MonoBehaviour
     {
         if (_instance != null) { Destroy(this.gameObject); }
 
+        BuildMixerDictionary();
         BuildSourceDictionary();
 
     }
 
-    public void Play(SoundTypes soundType, float volume = 1, bool playRandom = false)
+    public void Play(SoundType soundType, float volume = 1, bool playRandom = false)
     {
         AudioSource[] sources;
         try
@@ -106,6 +115,7 @@ public class AudioManager : MonoBehaviour
             {
                 AudioSource newSource = gameObject.AddComponent<AudioSource>();
                 newSource.clip = s.Clip;
+                newSource.outputAudioMixerGroup = _mixerDict[s.SoundGoup];
                 newSource.volume = s.ImportVolume;
                 newSource.pitch = s.ImportPitch;
                 newSource.loop = s.Loop;
@@ -143,6 +153,14 @@ public class AudioManager : MonoBehaviour
             }
 
         }
+    }
+
+    private void BuildMixerDictionary()
+    {
+        _mixerDict[SoundGroup.Master] = _master;
+        _mixerDict[SoundGroup.Music] = _music;
+        _mixerDict[SoundGroup.Ambience] = _ambience;
+        _mixerDict[SoundGroup.SFX] = _sfx;
     }
 
 }
