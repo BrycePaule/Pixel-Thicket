@@ -25,6 +25,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
     private Transform _transform;
     private Rigidbody2D _playerRB;
+    protected HealthBar _healthBar;
     private bool _aggro;
     private bool _hit;
 
@@ -38,14 +39,17 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     protected bool _hopWait;
 
     // UNITY METHODS
-    private void Awake() 
+    protected virtual void Awake() 
     {
         _transform = transform;
+
+        _healthBar = GetComponentInChildren<HealthBar>();
     }
 
-    public virtual void Start() 
+    protected virtual void Start() 
     {
-
+        _healthBar.SetMaxHealth(Health);
+        DisableHealthbar();
     }
 
     private void OnEnable()
@@ -192,17 +196,15 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     // HEALTH
     public void Damage(float damageTaken)
     {
-
         _animator.SetTrigger("Hit");
         _hit = true;
-        if (!_aggro) { _aggro = true; }
 
         Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
+        _healthBar.SetHealth(Health);
 
-        if (Health <= 0)
-        {
-            Kill();
-        }
+        if (Health <= 0) { Kill(); }
+        if (!_aggro) { _aggro = true; }
+        if (Health != MaxHealth) { EnableHealthbar(); }
     }
 
     public void Knockback(Vector2 force)
@@ -210,10 +212,12 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
         _rb.AddForce(force, ForceMode2D.Impulse);
     }
 
-    public void Kill()
-    {
-        Destroy(this.gameObject);
-    }
+    public void Kill() => Destroy(this.gameObject);
+
+    public void EnableHealthbar() => GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
+
+    public void DisableHealthbar() => GetComponentInChildren<Canvas>(true).gameObject.SetActive(false);
+
 
     // CALLBACKS
     private void ShootFinish()

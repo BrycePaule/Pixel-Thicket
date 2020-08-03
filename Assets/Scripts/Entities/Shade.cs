@@ -15,8 +15,10 @@ public class Shade : Mob
 
     // }
 
-    public override void Start()
+    protected override void Start()
     {
+        _healthBar.SetMaxHealth(Health);
+
         _sr.color = _color;
     }
 

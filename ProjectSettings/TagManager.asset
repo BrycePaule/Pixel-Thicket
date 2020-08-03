@@ -65,3 +65,6 @@ TagManager:
   - name: Foreground Particles
     uniqueID: 798177387
     locked: 0
+  - name: UI - Health Bars
+    uniqueID: 806418367
+    locked: 0

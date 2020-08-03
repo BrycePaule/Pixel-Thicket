@@ -23,6 +23,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private GameEventSystem _gameEventSystem;
 
     [Space(10)]
+    [SerializeField] private float healthRegen;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float sprintMultiplier;
     [SerializeField] private float dashSpeed;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private Vector2 _faceDirection;
     private bool _idle;
     private bool _idleChecking;
+    private bool _regenChecking;
 
     private float _sprinting;
     private float _dashPress;
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private void Awake()
     {
         _transform = transform;
+
         _playerInput = new PlayerInput();
         _playerInput.Enable();
 
@@ -95,10 +98,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
             Move();
         }
 
-        if (!_idleChecking)
-        {
-            CheckIdle();
-        }
+        CheckIdle();
     }
 
     // PLAYER MOVEMENT
@@ -174,11 +174,11 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
     public IEnumerator IdleWait()
     {
-        _idleChecking = true;
+        _regenChecking = true;
 
         yield return new WaitForSeconds(10);
 
-        _idleChecking = false;
+        _regenChecking = false;
 
         if (_moveAxis == Vector2.zero)
         {
@@ -203,6 +203,13 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     {
         _gameEventSystem.OnPlayerDeath();
     }
+
+    public IEnumerator RegenTimer()
+    {
+        
+        yield return new WaitForSeconds(10);
+
+    } 
 
     // COLLISION
     private void OnTriggerEnter2D(Collider2D other) {

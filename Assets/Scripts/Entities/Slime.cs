@@ -14,13 +14,18 @@ public class Slime : Mob
     private AudioManager _audioManager;
     private int _generation;
 
-    private void Awake()
+    protected override void Awake()
     {
         _audioManager = AudioManager.Instance;
+
+        _healthBar = GetComponentInChildren<HealthBar>();
     }
 
-    public override void Start()
+    protected override void Start()
     {
+        _healthBar.SetMaxHealth(Health);
+        DisableHealthbar();
+
         Color randomColour = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 255f);
 
         _sr.color = randomColour;
