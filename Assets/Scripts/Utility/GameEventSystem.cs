@@ -28,13 +28,19 @@ public class GameEventSystem : MonoBehaviour
         if (_instance != null) { Destroy(this.gameObject); }
     }
 
+    // EVENTS
     public event Action<int> onGatewayEnter;
+    public event Action onPlayerDeath;
 
     public void OnGatewayEnter(int direction)
     {
         if (onGatewayEnter == null) { return; }
         onGatewayEnter(direction);
-        
     }
 
+    public void OnPlayerDeath()
+    {
+        if (onPlayerDeath == null) { return; }
+        onPlayerDeath();
+    }
 }

@@ -33,6 +33,7 @@ public class GameMaster : MonoBehaviour
         _audioManager = AudioManager.Instance;
 
         _gameEventSystem.onGatewayEnter += OnGatewayEnter;
+        _gameEventSystem.onPlayerDeath += OnPlayerDeath;
 
         _rooms = _mapGenerator.GenerateMap();
         SetupStartRoom();
@@ -88,88 +89,6 @@ public class GameMaster : MonoBehaviour
         _currentRoom.gameObject.SetActive(false);
     }
 
-    // MOB SPAWNING
-    private void PopulateRoomsWithMobs()
-    {
-        foreach (Room room in _rooms)
-        {
-            if (room == null) { continue; }
-            if (room.name.Contains("Lobby")) { continue; }
-            
-            int spawnCount = room.MobCount;
-
-            while (spawnCount > 0)
-            {
-                Mob newMob = _mobGenerator.Spawn(MobTypes.Slime);
-                newMob.transform.SetParent(room.MobContainer);
-                // newMob.GetComponent<Slime>().Color;
-                newMob.gameObject.SetActive(false);
-                room.Mobs.Add(newMob);
-
-                spawnCount --;
-            }
-        }
-    }
-
-    // EVENTS
-    private void OnGatewayEnter(int direction)
-    {
-        Vector2Int currLocation = _currentRoom.location;
-
-        // NORTH
-        if (direction == 0)
-        {
-            if (currLocation.y == _mapGenerator.mapSize - 1) { return; }
-
-            StartCoroutine(_sceneLoader.BlankCrossfade());
-            DeactivateCurrentRoom();
-
-            _currentRoom = _rooms[currLocation.y + 1, currLocation.x];
-            ActivateCurrentRoom();
-            PlacePlayerOnGatewayEnter(direction);
-        }
-
-        // EAST
-        if (direction == 1)
-        {
-            if (currLocation.x == _mapGenerator.mapSize - 1) { return; }
-
-            StartCoroutine(_sceneLoader.BlankCrossfade());
-            DeactivateCurrentRoom();
-
-            _currentRoom = _rooms[currLocation.y, currLocation.x + 1];
-            ActivateCurrentRoom();
-            PlacePlayerOnGatewayEnter(direction);
-        }
-
-        // SOUTH
-        if (direction == 2)
-        {
-            if (currLocation.y == 0) { return; }
-
-            StartCoroutine(_sceneLoader.BlankCrossfade());
-            DeactivateCurrentRoom();
-
-            _currentRoom = _rooms[currLocation.y - 1, currLocation.x];
-            ActivateCurrentRoom();
-            PlacePlayerOnGatewayEnter(direction);
-        }
-
-        // WEST
-        if (direction == 3)
-        {
-            if (currLocation.x == 0) { return; }
-
-            StartCoroutine(_sceneLoader.BlankCrossfade());
-            DeactivateCurrentRoom();
-
-            _currentRoom = _rooms[currLocation.y, currLocation.x - 1];
-            ActivateCurrentRoom();
-            PlacePlayerOnGatewayEnter(direction);
-        }
-
-    }
-
     private void PlacePlayerOnGatewayEnter(int direction)
     {
 
@@ -202,4 +121,99 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+
+    // MOB SPAWNING
+    private void PopulateRoomsWithMobs()
+    {
+        foreach (Room room in _rooms)
+        {
+            if (room == null) { continue; }
+            if (room.name.Contains("Lobby")) { continue; }
+            
+            int spawnCount = room.MobCount;
+
+            while (spawnCount > 0)
+            {
+                Mob newMob = _mobGenerator.Spawn(MobTypes.Slime);
+                newMob.transform.SetParent(room.MobContainer);
+                // newMob.GetComponent<Slime>().Color;
+                newMob.gameObject.SetActive(false);
+                room.Mobs.Add(newMob);
+
+                spawnCount --;
+            }
+        }
+    }
+
+    // EVENTS
+    private void OnGatewayEnter(int direction)
+    {
+        Vector2Int currLocation = _currentRoom.location;
+        // StartCoroutine(_sceneLoader.Transition());
+
+        // NORTH
+        if (direction == 0)
+        {
+            if (currLocation.y == _mapGenerator.mapSize - 1) { return; }
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
+            DeactivateCurrentRoom();
+
+            _currentRoom = _rooms[currLocation.y + 1, currLocation.x];
+
+            ActivateCurrentRoom();
+            PlacePlayerOnGatewayEnter(direction);
+        }
+
+        // EAST
+        if (direction == 1)
+        {
+            if (currLocation.x == _mapGenerator.mapSize - 1) { return; }
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
+            DeactivateCurrentRoom();
+
+            _currentRoom = _rooms[currLocation.y, currLocation.x + 1];
+
+            ActivateCurrentRoom();
+            PlacePlayerOnGatewayEnter(direction);
+        }
+
+        // SOUTH
+        if (direction == 2)
+        {
+            if (currLocation.y == 0) { return; }
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
+            DeactivateCurrentRoom();
+
+            _currentRoom = _rooms[currLocation.y - 1, currLocation.x];
+
+            ActivateCurrentRoom();
+            PlacePlayerOnGatewayEnter(direction);
+        }
+
+        // WEST
+        if (direction == 3)
+        {
+            if (currLocation.x == 0) { return; }
+
+            StartCoroutine(_sceneLoader.BlankCrossfade());
+            DeactivateCurrentRoom();
+
+            _currentRoom = _rooms[currLocation.y, currLocation.x - 1];
+            
+            ActivateCurrentRoom();
+            PlacePlayerOnGatewayEnter(direction);
+        }
+
+        // _sceneLoader._readyOut = true;
+
+    }
+
+    private void OnPlayerDeath()
+    {
+        StartCoroutine(_sceneLoader.LoadScene((int) SceneIndex.GAME));
+        StartCoroutine(_sceneLoader.LoadScene((int) SceneIndex.MAIN_MENU));
+    }
 }

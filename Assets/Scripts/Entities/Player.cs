@@ -19,6 +19,8 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private ParticleSystem _leafParticle;
     [SerializeField] private ParticleSystem _dashParticle;
     [SerializeField] private Camera _camera;
+    [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private GameEventSystem _gameEventSystem;
 
     [Space(10)]
     [SerializeField] private float moveSpeed;
@@ -58,6 +60,14 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _playerInput.Enable();
 
         _audioManager = AudioManager.Instance;
+
+        _healthBar = GetComponentInChildren<HealthBar>();
+        _gameEventSystem = FindObjectOfType<GameEventSystem>();
+    }
+
+    private void Start()
+    {
+        _healthBar.SetMaxHealth(Health);
     }
 
     private void Update()
@@ -181,6 +191,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     public void Damage(float damageTaken)
     {
         Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
+        _healthBar.SetHealth(Health);
 
         if (Health <= 0)
         {
@@ -190,7 +201,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
     public void Kill()
     {
-        // Animator
+        _gameEventSystem.OnPlayerDeath();
     }
 
     // COLLISION
