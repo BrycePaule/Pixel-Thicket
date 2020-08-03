@@ -34,7 +34,8 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
     private bool _moveWait;
 
     // SLIME
-    public bool _hopWait;
+    protected bool _hopInAir;
+    protected bool _hopWait;
 
     // UNITY METHODS
     private void Awake() 
@@ -69,8 +70,11 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
             _moveWait = false;
             _animator.SetBool("MoveWait", false);
 
-            SetDestination();
-            SetDirection();
+            if (!_hopInAir)
+            {
+                SetDestination();
+                SetDirection();
+            }
         }
 
         else if (MovePattern == MovementPattern.RandomLocation)
@@ -114,6 +118,8 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
             if (!_hopWait)
             {
+                _hopInAir = true;
+
                 if (_aggro)
                 {
                     _rb.position += new Vector2(_direction.x * _moveSpeedAggro * Time.deltaTime, _direction.y * _moveSpeedAggro * Time.deltaTime);
@@ -128,7 +134,6 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
     private void SetDestination()
     {
-
          if (MovePattern == MovementPattern.RandomLocation)
         {
             // IMPLEMENT PROPER ROOM BASED RANDOM DESTINATION
@@ -139,8 +144,6 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
         {
             _dest = _playerRB.position;
         }
-
-
     }
 
     private void SetDirection()
@@ -192,6 +195,7 @@ public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 
         _animator.SetTrigger("Hit");
         _hit = true;
+        if (!_aggro) { _aggro = true; }
 
         Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
 

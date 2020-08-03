@@ -10941,10 +10941,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732acf7f4be6dea4f90d3622b7858d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mixer: {fileID: 24100000, guid: e24c5d2a38717cc42ba6cd6b15ac4a25, type: 2}
+  _master: {fileID: 24300002, guid: e24c5d2a38717cc42ba6cd6b15ac4a25, type: 2}
+  _music: {fileID: -7935333552003794411, guid: e24c5d2a38717cc42ba6cd6b15ac4a25, type: 2}
+  _ambience: {fileID: 4410788994673437529, guid: e24c5d2a38717cc42ba6cd6b15ac4a25,
+    type: 2}
+  _sfx: {fileID: -4441580789545288248, guid: e24c5d2a38717cc42ba6cd6b15ac4a25, type: 2}
   Sounds:
   - Name: Dash
     Clip: {fileID: 8300000, guid: 6c788dba5ca70dd4d84410fdfd284a96, type: 3}
     SoundType: 2
+    SoundGoup: 3
     StackCount: 1
     ImportVolume: 0.8
     ImportPitch: 1
@@ -10954,6 +10961,7 @@ MonoBehaviour:
   - Name: Explosion
     Clip: {fileID: 8300000, guid: f90d6a9f39e5db24c8c3ab4130ed8186, type: 3}
     SoundType: 1
+    SoundGoup: 3
     StackCount: 10
     ImportVolume: 0.5
     ImportPitch: 1
@@ -10963,6 +10971,7 @@ MonoBehaviour:
   - Name: Rain
     Clip: {fileID: 8300000, guid: c535d5bfb962bcc4fb0a4996e79affea, type: 3}
     SoundType: 0
+    SoundGoup: 2
     StackCount: 1
     ImportVolume: 0.03
     ImportPitch: 1
@@ -10972,6 +10981,7 @@ MonoBehaviour:
   - Name: TemplePath
     Clip: {fileID: 8300000, guid: 1578e652edaca7543921920421a1c7ab, type: 3}
     SoundType: 3
+    SoundGoup: 1
     StackCount: 1
     ImportVolume: 0.07
     ImportPitch: 0.5
@@ -10981,6 +10991,7 @@ MonoBehaviour:
   - Name: SlimeBounce1
     Clip: {fileID: 8300000, guid: b718797c22155304396aebaf36c680fc, type: 3}
     SoundType: 4
+    SoundGoup: 3
     StackCount: 2
     ImportVolume: 0.1
     ImportPitch: 1
@@ -10990,6 +11001,7 @@ MonoBehaviour:
   - Name: SlimeBounce2
     Clip: {fileID: 8300000, guid: 7a58fc7e0d4724a41857745ae3450601, type: 3}
     SoundType: 4
+    SoundGoup: 3
     StackCount: 2
     ImportVolume: 0.1
     ImportPitch: 1
@@ -10999,6 +11011,7 @@ MonoBehaviour:
   - Name: SlimeBounce3
     Clip: {fileID: 8300000, guid: f36c63bd855d01d4485856a93cfd4f33, type: 3}
     SoundType: 4
+    SoundGoup: 3
     StackCount: 2
     ImportVolume: 0.1
     ImportPitch: 1
@@ -11008,6 +11021,7 @@ MonoBehaviour:
   - Name: SlimeBounce4
     Clip: {fileID: 8300000, guid: 735c74dadbda9044ba97c3e3de0f3b91, type: 3}
     SoundType: 4
+    SoundGoup: 3
     StackCount: 2
     ImportVolume: 0.1
     ImportPitch: 1
@@ -11017,6 +11031,7 @@ MonoBehaviour:
   - Name: SlimeBounce5
     Clip: {fileID: 8300000, guid: 01e2562783e050f469241ea9cc6cc2cf, type: 3}
     SoundType: 4
+    SoundGoup: 3
     StackCount: 2
     ImportVolume: 0.1
     ImportPitch: 1

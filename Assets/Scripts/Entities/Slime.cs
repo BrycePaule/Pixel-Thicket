@@ -21,14 +21,17 @@ public class Slime : Mob
 
     public override void Start()
     {
-        _sr.color = _color;
-        _sr.color = new Color(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255), 255f);
-        _jellyParticle.startColor = _color;
+        Color randomColour = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 255f);
+
+        _sr.color = randomColour;
+        // _jellyParticle.main.startColor = randomColour;
+        _jellyParticle.startColor = randomColour;
     }
 
     private IEnumerator HopEnd()
     {
         _hopWait = true;
+        _hopInAir = false;
 
         _audioManager.Play(SoundType.SlimeBounce, 1, true);
         _jellyParticle.Play();
