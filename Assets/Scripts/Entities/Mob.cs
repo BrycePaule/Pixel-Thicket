@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
+public abstract class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 {
 
     public float MaxHealth;

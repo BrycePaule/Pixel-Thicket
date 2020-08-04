@@ -128,7 +128,7 @@
                     "name": "",
                     "id": "3ca62c5b-9e6f-4db1-b971-36941aa787c5",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Hold(duration=2,pressPoint=0.5)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Shoot",
@@ -170,6 +170,33 @@
                     "processors": "",
                     "groups": "",
                     "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "dda0c799-3b80-4717-98b8-27c029b9ca52",
+            "actions": [
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "a9a21670-84d8-4d2d-94a2-37ac25689b81",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cc04f063-33aa-498b-9a51-3b25ad06539f",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

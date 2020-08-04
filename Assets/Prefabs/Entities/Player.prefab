@@ -4963,6 +4963,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5872667156367417976}
   - component: {fileID: 5872667156367417982}
+  - component: {fileID: 2801838657068462833}
   - component: {fileID: 5872667156367417979}
   - component: {fileID: 5872667156367417977}
   - component: {fileID: 5872667156367417980}
@@ -5013,11 +5014,25 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _healthBar: {fileID: 0}
   _gameEventSystem: {fileID: 0}
-  moveSpeed: 8
+  _inventory: {fileID: 0}
+  healthRegen: 0
+  moveSpeed: 6
   sprintMultiplier: 1.2
   dashSpeed: 20
   dashTime: 0.2
   dashCooldown: 0.5
+--- !u!114 &2801838657068462833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872667156367417978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc65f6155b7bf54cb00ab7e476a570d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &5872667156367417979
 SpriteRenderer:
   m_ObjectHideFlags: 0

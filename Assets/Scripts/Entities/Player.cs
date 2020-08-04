@@ -21,6 +21,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private Camera _camera;
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private GameEventSystem _gameEventSystem;
+    [SerializeField] private Inventory _inventory;
 
     [Space(10)]
     [SerializeField] private float healthRegen;
@@ -35,37 +36,30 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private bool _idleChecking;
     private bool _regenChecking;
 
-    private float _sprinting;
+    private bool _sprinting;
     private float _dashPress;
     private float dashTimeCounter;
     private float dashCooldownTracker;
     private bool _dashing;
 
+    private float _inventoryPress;
+
     private Transform _transform;
     private Vector2 _moveAxis;
     private AudioManager _audioManager;
-
-    void OnEnable()
-    { 
-        _playerInput.Enable();
-    }
-
-    void OnDisable()
-    { 
-        _playerInput.Disable(); 
-    }
+    private InputHandler _inputHandler;
 
     private void Awake()
     {
         _transform = transform;
-
-        _playerInput = new PlayerInput();
-        _playerInput.Enable();
-
+        _gameEventSystem = GameEventSystem.Instance;
         _audioManager = AudioManager.Instance;
-
         _healthBar = GetComponentInChildren<HealthBar>();
-        _gameEventSystem = FindObjectOfType<GameEventSystem>();
+        _inputHandler = GetComponent<InputHandler>();
+
+        _gameEventSystem.onDashPress += OnDashPress;
+        _gameEventSystem.onSprintPress += OnSprintPress;
+        _gameEventSystem.onSprintRelease += OnSprintRelease;
     }
 
     private void Start()
@@ -75,20 +69,14 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
     private void Update()
     {
-        _moveAxis = _playerInput.Movement.Move.ReadValue<Vector2>();
-        _sprinting = _playerInput.Movement.Sprint.ReadValue<float>();
-        _dashPress = _playerInput.Movement.Dash.ReadValue<float>();
+        _moveAxis = _inputHandler.PlayerMoveAxis;
 
-        Vector2 mousePos = _camera.ScreenToWorldPoint(_playerInput.Mouse.Position.ReadValue<Vector2>());
-        Vector2 direction = mousePos - _rb.position;
-        direction.Normalize();
-        _animator.SetFloat("Horizontal", direction.x);
-        _animator.SetFloat("Vertical", direction.y);
-        
-        _animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(_moveAxis.x), Mathf.Abs(_moveAxis.y)));
+        CalculateDirection();
+        UpdateAnimator();
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate() 
+    {
         if (_dashPress != 0 | _dashing)
         {
             Dash();
@@ -110,7 +98,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         float timeDelta = Time.deltaTime;
         _leafParticle.Play();
 
-        if (_sprinting != 0f)
+        if (_sprinting)
         {
             _rb.position += new Vector2(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta);
         }
@@ -146,6 +134,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         {
             _rb.velocity = Vector2.zero;
             _dashing = false;
+            _dashPress = 0;
         }
     }
 
@@ -161,6 +150,15 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         {
             StartCoroutine("IdleWait");
         }
+    }
+
+    private void CalculateDirection()
+    {
+        Vector2 mousePos = _camera.ScreenToWorldPoint(_inputHandler.MousePos);
+        Vector2 direction = mousePos - _rb.position;
+        direction.Normalize();
+
+        _faceDirection = direction;
     }
 
     public IEnumerator GatewayLock()
@@ -187,6 +185,14 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         }
     } 
 
+    // DRAWING
+    private void UpdateAnimator()
+    {
+        _animator.SetFloat("Horizontal", _faceDirection.x);
+        _animator.SetFloat("Vertical", _faceDirection.y);
+        _animator.SetFloat("Speed", Mathf.Max(Mathf.Abs(_moveAxis.x), Mathf.Abs(_moveAxis.y)));
+    }
+    
     // HEALTH
     public void Damage(float damageTaken)
     {
@@ -215,4 +221,10 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private void OnTriggerEnter2D(Collider2D other) {
         // print(other.name);
     }
+
+    // EVENTS
+    private void OnDashPress() => _dashPress = 1;
+    private void OnSprintPress() => _sprinting = true; 
+    private void OnSprintRelease() => _sprinting = false;
+    
 }

@@ -12,6 +12,8 @@ public class RangedAttackManager : MonoBehaviour
     public Dictionary<int, RangedAttackSO> IDLookup;
 
     private Transform _transform;
+    private GameEventSystem _gameEventSystem;
+    private InputHandler _inputHandler;
     private Transform _playerTransform;
     private PlayerInput _playerInput;
     private float shoot = 0f;
@@ -23,6 +25,11 @@ public class RangedAttackManager : MonoBehaviour
     {
         _transform = transform;
         IDLookup = new Dictionary<int, RangedAttackSO>();
+        _inputHandler = GetComponentInParent<InputHandler>();
+
+        _gameEventSystem = GameEventSystem.Instance;
+
+        _gameEventSystem.onShootPress += context => OnShootPress(context);
     }
 
     private void Start()
@@ -33,24 +40,11 @@ public class RangedAttackManager : MonoBehaviour
         shootCooldown = Time.time;
     }
     
-    private void FixedUpdate()
+    private void Shoot(Vector2 mousePos)
     {
-        shoot = _playerInput.Attack.Shoot.ReadValue<float>();
-
-        if (shoot == 0f) { return; }
-        if (Time.time >= shootCooldown)
-        {
-            Shoot();
-        }
-    }
-
-    private void Shoot()
-    {
-        // Gets mousePos in world coordinates, subtracts player position and normalises value
-        // (this removes faster bullets if you click further away)
-        Vector2 mousePosRaw = Camera.ScreenToWorldPoint(_playerInput.Mouse.Position.ReadValue<Vector2>());
-        Vector3 mousePos = new Vector3(mousePosRaw.x, mousePosRaw.y, 0f);
-        Vector3 direction = mousePos - _transform.position;
+        Vector3 mousePosWorld = Camera.ScreenToWorldPoint(mousePos);
+        mousePosWorld.z = 1f;
+        Vector3 direction = mousePosWorld - _transform.position;
         direction.Normalize();
 
         // Calculates the shooting angle and creates a rotation from it
@@ -89,6 +83,15 @@ public class RangedAttackManager : MonoBehaviour
         foreach (var attack in RangedAttacks)
         {
             IDLookup.Add(attack.ID, attack);
+        }
+    }
+
+    // EVENTS
+    private void OnShootPress(Vector2 mousePos)
+    {
+        if (Time.time >= shootCooldown) 
+        { 
+            Shoot(mousePos);
         }
     }
 
