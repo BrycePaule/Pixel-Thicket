@@ -11,7 +11,7 @@ public class InputHandler : MonoBehaviour
     public Vector2 MousePos;
 
     private void OnEnable() => _playerInput.Enable();
-    private void OnDisable() => _playerInput.Disable();
+    private void OnDisable() => DisableControls();
 
     private void Awake()
     {
@@ -22,6 +22,7 @@ public class InputHandler : MonoBehaviour
         PlayerInput.MovementActions Movement = _playerInput.Movement;
         PlayerInput.AttackActions Attack = _playerInput.Attack;
         PlayerInput.UIActions UI = _playerInput.UI;
+        PlayerInput.DevKeyActions DevKey = _playerInput.DevKey;
 
         Mouse.Position.performed += ctx => OnMouseMove(ctx.ReadValue<Vector2>());
 
@@ -36,6 +37,20 @@ public class InputHandler : MonoBehaviour
         Attack.Shoot.performed += ctx => OnShootPress();
 
         UI.Inventory.performed += ctx => OnInventoryPress();
+
+        // DEV KEYS
+        DevKey.AddItem.performed += ctx => OnZPress();
+        DevKey.RemoveItem.performed += ctx => OnXPress();
+    }
+
+    public void DisableControls()
+    {
+        _playerInput.Disable();
+    }
+
+    public void EnableControls()
+    {
+        _playerInput.Enable();
     }
 
     // EVENTS
@@ -79,4 +94,15 @@ public class InputHandler : MonoBehaviour
         _gameEventSystem.OnShootPress(MousePos);
     }
 
+    // DEV KEYS
+    private void OnZPress()
+    {
+        _gameEventSystem.OnZPress();
+    }
+
+    private void OnXPress()
+    {
+        _gameEventSystem.OnXPress();
+    }
+    
 }

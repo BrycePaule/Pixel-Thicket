@@ -30,15 +30,19 @@ public class GameEventSystem : MonoBehaviour
 
     // EVENTS
     public event Action<int> onGatewayEnter;
-    public event Action onPlayerDeath;
-    // public event Action onMouseMove;
-    // public event Action onPlayerMove;
-    // public event Action onPlayerStopMove;
+
     public event Action onSprintPress;
     public event Action onSprintRelease;
     public event Action onDashPress;
     public event Action<Vector2> onShootPress;
+    public event Action onPlayerDeath;
+
     public event Action onInventoryPress;
+    public event Action onInventoryChanged;
+
+    // DEV KEYS
+    public event Action onZPress;
+    public event Action onXPress;
 
     public void OnGatewayEnter(int direction)
     {
@@ -70,15 +74,35 @@ public class GameEventSystem : MonoBehaviour
         onDashPress();
     }
 
+    public void OnShootPress(Vector2 mousePos)
+    {
+        if (onDashPress == null) { return; }
+        onShootPress(mousePos);
+    }
+
     public void OnInventoryPress()
     {
         if (onDashPress == null) { return; }
         onInventoryPress();
     }
 
-    public void OnShootPress(Vector2 mousePos)
+    public void OnInventoryChanged()
     {
         if (onDashPress == null) { return; }
-        onShootPress(mousePos);
+        onInventoryChanged();
     }
+
+    public void OnZPress()
+    {
+        if (onZPress == null) { return; }
+        onZPress();
+    }
+
+    public void OnXPress()
+    {
+        if (onXPress == null) { return; }
+        onXPress();
+    }
+
+
 }

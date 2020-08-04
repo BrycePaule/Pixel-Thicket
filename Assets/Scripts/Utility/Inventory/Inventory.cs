@@ -4,37 +4,50 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+
+    [SerializeField] private RangedAttack Fireball;
+
     private GameEventSystem _gameEventSystem;
 
-    private List<RangedAttack> _items = new List<RangedAttack>();
-
-    public Inventory()
-    {}
+    public List<RangedAttack> Items = new List<RangedAttack>();
+    private int slots;
 
     private void Awake()
     {
         _gameEventSystem = GameEventSystem.Instance;
 
-        _gameEventSystem.onInventoryPress += OnInventoryPress;
+        _gameEventSystem.onZPress += OnZPress;
+        _gameEventSystem.onXPress += OnXPress;
     }
 
-    // public void OpenInventory() => this.gameObject.SetActive(true);
-    // public void CloseInventory() => this.gameObject.SetActive(false);
-
-    public void ToggleInventory()
+    private void FixedUpdate()
     {
-        if (gameObject.activeSelf)
-        {
-            gameObject.SetActive(false);
-        }
-
-        else
-        {
-            gameObject.SetActive(true);
-        }
+        print(Items.Count);
     }
 
-    // EVENTS
-    private void OnInventoryPress() => ToggleInventory();
+    public void Add(RangedAttack item)
+    {
+        if (Items.Count < slots) { return; }
 
+        Items.Add(item);
+        _gameEventSystem.OnInventoryChanged();
+    }
+
+    public void Remove(RangedAttack item)
+    {
+        Items.Remove(item);
+        _gameEventSystem.OnInventoryChanged();
+    }
+
+    private void OnZPress() 
+    {
+        Add(Fireball);
+        print("adding fireball");
+    }
+
+    private void OnXPress() 
+    {
+        Remove(Fireball);
+        print("removing fireball");
+    }
 }

@@ -201,6 +201,52 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "DevKey",
+            "id": "dc4ce275-0573-4a81-b60b-d3519df87f1e",
+            "actions": [
+                {
+                    "name": "AddItem",
+                    "type": "Button",
+                    "id": "74085d5a-2245-4792-85f2-3c1b8e1ebe05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RemoveItem",
+                    "type": "Button",
+                    "id": "d3bb8d6f-3e99-4fcf-966e-1ce8d2aa4421",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fd67b5eb-7776-46ef-9ca3-50780f462fe7",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab2e7cfa-7d7c-4672-9950-ff21aa940a77",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RemoveItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

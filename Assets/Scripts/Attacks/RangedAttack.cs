@@ -23,7 +23,7 @@ public class RangedAttack : MonoBehaviour
 
     private AudioManager _audioManager;
 
-    // public Sprite Icon;
+    public Sprite Icon;
     // public Sprite Sprite;
 
     private Transform _transform;
@@ -60,6 +60,7 @@ public class RangedAttack : MonoBehaviour
         Cooldown = RangedAttackType.Cooldown;
         MissileSpeed = RangedAttackType.MissileSpeed;
         Pierce = RangedAttackType.Pierce;
+        Icon = RangedAttackType.Icon;
 
         SR.sprite = RangedAttackType.Sprite;
 

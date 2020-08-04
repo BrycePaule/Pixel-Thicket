@@ -31,6 +31,10 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private float dashTime;
     [SerializeField] private float dashCooldown;
 
+    [Space(10)]
+    // TESTING
+    [SerializeField] private RangedAttack FIREBALL;
+
     private Vector2 _faceDirection;
     private bool _idle;
     private bool _idleChecking;
@@ -198,6 +202,8 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     {
         Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
         _healthBar.SetHealth(Health);
+
+        _inventory.Add(FIREBALL);
 
         if (Health <= 0)
         {

@@ -12,7 +12,7 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private Inventory _playerInventory;
 
-    private SceneLoader _sceneLoader;
+    [SerializeField] private SceneLoader _sceneLoader;
     private MapGenerator _mapGenerator;
     private GameEventSystem _gameEventSystem;
     private Room[,] _rooms;
@@ -25,8 +25,8 @@ public class GameMaster : MonoBehaviour
 
     private void Start()
     {
-        _sceneLoader = SceneLoader.Instance;
         _gameEventSystem = GameEventSystem.Instance;
+        _sceneLoader = SceneLoader.Instance;
         _audioManager = AudioManager.Instance;
         _mapGenerator = MapGenerator.Instance;
         _mobGenerator = MobGenerator.Instance;
@@ -40,8 +40,6 @@ public class GameMaster : MonoBehaviour
 
         _audioManager.Play(SoundType.TemplePath);
         _audioManager.Play(SoundType.Rain);
-
-        _playerInventory.ToggleInventory();
 
         _sceneLoader.FadeFromBlack();
     }

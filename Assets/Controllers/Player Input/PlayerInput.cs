@@ -214,6 +214,52 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""DevKey"",
+            ""id"": ""dc4ce275-0573-4a81-b60b-d3519df87f1e"",
+            ""actions"": [
+                {
+                    ""name"": ""AddItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""74085d5a-2245-4792-85f2-3c1b8e1ebe05"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RemoveItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3bb8d6f-3e99-4fcf-966e-1ce8d2aa4421"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fd67b5eb-7776-46ef-9ca3-50780f462fe7"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AddItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab2e7cfa-7d7c-4672-9950-ff21aa940a77"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RemoveItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -232,6 +278,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
+        // DevKey
+        m_DevKey = asset.FindActionMap("DevKey", throwIfNotFound: true);
+        m_DevKey_AddItem = m_DevKey.FindAction("AddItem", throwIfNotFound: true);
+        m_DevKey_RemoveItem = m_DevKey.FindAction("RemoveItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -425,6 +475,47 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // DevKey
+    private readonly InputActionMap m_DevKey;
+    private IDevKeyActions m_DevKeyActionsCallbackInterface;
+    private readonly InputAction m_DevKey_AddItem;
+    private readonly InputAction m_DevKey_RemoveItem;
+    public struct DevKeyActions
+    {
+        private @PlayerInput m_Wrapper;
+        public DevKeyActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @AddItem => m_Wrapper.m_DevKey_AddItem;
+        public InputAction @RemoveItem => m_Wrapper.m_DevKey_RemoveItem;
+        public InputActionMap Get() { return m_Wrapper.m_DevKey; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DevKeyActions set) { return set.Get(); }
+        public void SetCallbacks(IDevKeyActions instance)
+        {
+            if (m_Wrapper.m_DevKeyActionsCallbackInterface != null)
+            {
+                @AddItem.started -= m_Wrapper.m_DevKeyActionsCallbackInterface.OnAddItem;
+                @AddItem.performed -= m_Wrapper.m_DevKeyActionsCallbackInterface.OnAddItem;
+                @AddItem.canceled -= m_Wrapper.m_DevKeyActionsCallbackInterface.OnAddItem;
+                @RemoveItem.started -= m_Wrapper.m_DevKeyActionsCallbackInterface.OnRemoveItem;
+                @RemoveItem.performed -= m_Wrapper.m_DevKeyActionsCallbackInterface.OnRemoveItem;
+                @RemoveItem.canceled -= m_Wrapper.m_DevKeyActionsCallbackInterface.OnRemoveItem;
+            }
+            m_Wrapper.m_DevKeyActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @AddItem.started += instance.OnAddItem;
+                @AddItem.performed += instance.OnAddItem;
+                @AddItem.canceled += instance.OnAddItem;
+                @RemoveItem.started += instance.OnRemoveItem;
+                @RemoveItem.performed += instance.OnRemoveItem;
+                @RemoveItem.canceled += instance.OnRemoveItem;
+            }
+        }
+    }
+    public DevKeyActions @DevKey => new DevKeyActions(this);
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -442,5 +533,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     public interface IUIActions
     {
         void OnInventory(InputAction.CallbackContext context);
+    }
+    public interface IDevKeyActions
+    {
+        void OnAddItem(InputAction.CallbackContext context);
+        void OnRemoveItem(InputAction.CallbackContext context);
     }
 }
