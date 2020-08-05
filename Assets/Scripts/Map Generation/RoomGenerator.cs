@@ -398,7 +398,7 @@ public class RoomGenerator : MonoBehaviour
                         _collideGrid[y, x] = 0;
                     }
 
-                    if ()
+                    // if ()
                 }
             }
         }
