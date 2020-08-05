@@ -44,7 +44,7 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void Play(SoundType soundType, float volume = 1, bool playRandom = false)
+    public AudioSource Play(SoundType soundType, float volume = 1, bool playRandom = false)
     {
         AudioSource[] sources;
         try
@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
                     source.Play();
 
                     source.volume = currV;
-                    return;
+                    return source;
                 }
 
                 rnd.RemoveAt(index);
@@ -98,11 +98,40 @@ public class AudioManager : MonoBehaviour
                     source.volume = currV * volume;
                     source.Play();
                     source.volume = currV;
-                    return;
+                    return source;
                 }
             }
         }
-        
+
+        return null;
+    }
+
+    public void Stop(AudioSource source, float seconds = 0)
+    {
+        // if (seconds == 0)
+        if (true)
+        {
+            source.Stop();
+        }
+        else
+        {
+            StartCoroutine(Lower(source, seconds));
+        }
+    }
+
+    private IEnumerator Lower(AudioSource source, float seconds)
+    {
+        float stepsPerSecond = 50;
+        float prevVolume = source.volume;
+
+        for (int i = 0; i < stepsPerSecond; i++)
+        {
+            source.volume -= source.volume * ((stepsPerSecond / seconds) * 100f);
+            yield return new WaitForSeconds(seconds / stepsPerSecond);
+        }
+
+        source.volume = prevVolume;
+        source.Stop();
     }
 
     private void BuildSourceDictionary()

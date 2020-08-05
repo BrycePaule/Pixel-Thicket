@@ -38,6 +38,11 @@ public class InputHandler : MonoBehaviour
         Attack.Shoot.performed += ctx => OnShootPress();
 
         UI.Inventory.performed += ctx => OnInventoryPress();
+        UI.Slot1.performed += ctx => OnSlot1Press();
+        UI.Slot2.performed += ctx => OnSlot2Press();
+        UI.Slot3.performed += ctx => OnSlot3Press();
+        UI.Slot4.performed += ctx => OnSlot4Press();
+        UI.Slot5.performed += ctx => OnSlot5Press();
 
         // DEV KEYS
         DevKey.AddItem.performed += ctx => OnZPress();
@@ -93,6 +98,31 @@ public class InputHandler : MonoBehaviour
     private void OnInventoryPress()
     {
         _gameEventSystem.OnInventoryPress();
+    }
+
+    private void OnSlot1Press()
+    {
+        _gameEventSystem.OnSlot1Press();
+    }
+
+    private void OnSlot2Press()
+    {
+        _gameEventSystem.OnSlot2Press();
+    }
+
+    private void OnSlot3Press()
+    {
+        _gameEventSystem.OnSlot3Press();
+    }
+
+    private void OnSlot4Press()
+    {
+        _gameEventSystem.OnSlot4Press();
+    }
+
+    private void OnSlot5Press()
+    {
+        _gameEventSystem.OnSlot5Press();
     }
 
     private void OnShootPress()

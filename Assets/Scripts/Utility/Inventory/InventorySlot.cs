@@ -7,7 +7,6 @@ public class InventorySlot : MonoBehaviour
 {
 
     [SerializeField] protected Image _itemImage; 
-    [SerializeField] private Button _removeButton; 
 
     protected RangedAttack item;
 
@@ -16,7 +15,6 @@ public class InventorySlot : MonoBehaviour
         item = newItem;
         _itemImage.sprite = newItem.Icon;
         _itemImage.enabled = true;
-        _removeButton.interactable = true;
     }
 
     public virtual void ClearSlot()
@@ -24,11 +22,5 @@ public class InventorySlot : MonoBehaviour
         item = null;
         _itemImage.sprite = null;
         _itemImage.enabled = false;
-        _removeButton.interactable = false;
-    }
-
-    private void OnRemoveButtonClick()
-    {
-
     }
 }

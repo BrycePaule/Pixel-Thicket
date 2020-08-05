@@ -10570,8 +10570,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1547902501}
   - {fileID: 1288683947}
+  - {fileID: 1547902501}
   m_Father: {fileID: 740335918}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13795,6 +13795,16 @@ MonoBehaviour:
     Loop: 0
     PlayOnAwake: 0
     Sources: []
+  - Name: FireBoltCrackle
+    Clip: {fileID: 8300000, guid: 91272479397fd6740937f762776f8dee, type: 3}
+    SoundType: 5
+    SoundGoup: 3
+    StackCount: 10
+    ImportVolume: 0.5
+    ImportPitch: 1
+    Loop: 0
+    PlayOnAwake: 0
+    Sources: []
 --- !u!224 &1243037445 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4735150106893966866, guid: 0d91445f453f03c4ca8a4dbc64e39eb2,
@@ -14104,13 +14114,13 @@ RectTransform:
   m_Children:
   - {fileID: 1521987708}
   m_Father: {fileID: 355595361}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 608, y: 577}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1288683948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14679,7 +14689,7 @@ RectTransform:
   m_Children:
   - {fileID: 490082236}
   m_Father: {fileID: 355595361}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -25202,6 +25212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Slots: 5
   _selected: 0
+  _inventory: {fileID: 801300543}
 --- !u!1 &1839560912
 GameObject:
   m_ObjectHideFlags: 0
@@ -26829,9 +26840,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3264014765962677667, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
+      propertyPath: RangedAttacks.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264014765962677667, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
       propertyPath: Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 3264014765962677667, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: _inventory
+      value: 
+      objectReference: {fileID: 801300543}
+    - target: {fileID: 3264014765962677667, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: RangedAttacks.Array.data[0]
+      value: 
+      objectReference: {fileID: 4032580402455488149, guid: eee3ca4b702c0d1499b3e9cc592b74fc,
+        type: 3}
+    - target: {fileID: 3264014765962677667, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: RangedAttacks.Array.data[1]
+      value: 
+      objectReference: {fileID: 7532906127812178983, guid: 49a1d6d590c00a343bdb30d2fd69633d,
+        type: 3}
+    - target: {fileID: 3264014765962677667, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: RangedAttacks.Array.data[2]
+      value: 
+      objectReference: {fileID: 7393239133091840823, guid: 4e923dffa6d54c740b1161acebffbd7d,
+        type: 3}
+    - target: {fileID: 5284194072860155002, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5872667156367417976, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26900,18 +26944,47 @@ PrefabInstance:
     - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: MaxHealth
-      value: 500
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: Health
-      value: 500
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: Attacks.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: Fireball
       value: 
       objectReference: {fileID: 7612892692419237182, guid: eee3ca4b702c0d1499b3e9cc592b74fc,
+        type: 3}
+    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: Frostbolt
+      value: 
+      objectReference: {fileID: 3952670794676750220, guid: 49a1d6d590c00a343bdb30d2fd69633d,
+        type: 3}
+    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: Attacks.Array.data[0]
+      value: 
+      objectReference: {fileID: 7612892692419237182, guid: eee3ca4b702c0d1499b3e9cc592b74fc,
+        type: 3}
+    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: Attacks.Array.data[1]
+      value: 
+      objectReference: {fileID: 3952670794676750220, guid: 49a1d6d590c00a343bdb30d2fd69633d,
+        type: 3}
+    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: Attacks.Array.data[2]
+      value: 
+      objectReference: {fileID: 4092356719754850460, guid: 4e923dffa6d54c740b1161acebffbd7d,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}

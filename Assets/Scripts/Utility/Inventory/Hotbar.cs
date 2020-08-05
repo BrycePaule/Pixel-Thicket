@@ -17,6 +17,19 @@ public class Hotbar : MonoBehaviour
         _gameEventSystem = GameEventSystem.Instance;
 
         _gameEventSystem.onMouseScroll += context => OnMouseScroll(context);
+        _gameEventSystem.onSlot1Press += OnSlot1Press;
+        _gameEventSystem.onSlot2Press += OnSlot2Press;
+        _gameEventSystem.onSlot3Press += OnSlot3Press;
+        _gameEventSystem.onSlot4Press += OnSlot4Press;
+        _gameEventSystem.onSlot5Press += OnSlot5Press;
+    }
+
+    private void ChangeSelection(int selectedSlot)
+    {
+        if (_selected == selectedSlot) { return; }
+
+        _selected = selectedSlot;
+        _gameEventSystem.OnInventoryChanged();
     }
 
     private void OnMouseScroll(float direction)
@@ -42,4 +55,9 @@ public class Hotbar : MonoBehaviour
         _inventory.Selected = _selected;
     }
 
+    private void OnSlot1Press() => ChangeSelection(0);
+    private void OnSlot2Press() => ChangeSelection(1);
+    private void OnSlot3Press() => ChangeSelection(2);
+    private void OnSlot4Press() => ChangeSelection(3);
+    private void OnSlot5Press() => ChangeSelection(4);
 }

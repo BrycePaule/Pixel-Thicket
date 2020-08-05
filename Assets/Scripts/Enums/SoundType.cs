@@ -18,4 +18,7 @@ public enum SoundType
 
     // V: 0.1 | P: 1
     SlimeBounce,
+
+    // V: 0.1 | P: 1
+    FireboltCrackle,
 }

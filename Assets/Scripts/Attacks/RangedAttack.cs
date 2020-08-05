@@ -16,19 +16,29 @@ public class RangedAttack : MonoBehaviour
     public Sprite Icon;
     public Sprite Sprite;
 
+    [SerializeField] GameObject _deathEffect;
     [SerializeField] private float _maxLifetime = 10f;
     private float _birthTime;
 
     private Transform _transform;
+    private Rigidbody2D _rb;
     private AudioManager _audioManager;
+    private AudioSource _travelSound;
 
+    private bool _dying;
 
     private void Awake()
     {
         _transform = transform;
         _birthTime = Time.time;    
 
+        _rb = GetComponent<Rigidbody2D>();
         _audioManager = AudioManager.Instance;   
+    }
+
+    private void Start()
+    {
+        _travelSound = _audioManager.Play(SoundType.FireboltCrackle);
     }
 
     private void Update() {
@@ -52,7 +62,7 @@ public class RangedAttack : MonoBehaviour
         // aggro radius colliders
         if (other.gameObject.layer == 15) { return; }
         // terrain colliders
-        if (other.gameObject.layer == 16) { Destroy(this.gameObject); }
+        if (other.gameObject.layer == 16) { Die(); }
         
         IDamageable<float> targetDmg = other.transform.GetComponent<IDamageable<float>>();
         if (targetDmg != null) {
@@ -66,9 +76,24 @@ public class RangedAttack : MonoBehaviour
                 targetKnock.Knockback(Direction * new Vector2(0.5f, 0.5f));
             }
 
-            _audioManager.Play(SoundType.Explosion, 0.3f);
-            Destroy(this.gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        if (_dying) { return; }
+        _dying = true;
+
+        _audioManager.Play(SoundType.Explosion, 0.3f);
+        _audioManager.Stop(_travelSound);
+
+        if (_deathEffect != null)
+        {
+            Instantiate(_deathEffect, _transform.position, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
     }
 
 }

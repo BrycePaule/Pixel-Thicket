@@ -40,6 +40,12 @@ public class GameEventSystem : MonoBehaviour
     public event Action onInventoryPress;
     public event Action onInventoryChanged;
 
+    public event Action onSlot1Press;
+    public event Action onSlot2Press;
+    public event Action onSlot3Press;
+    public event Action onSlot4Press;
+    public event Action onSlot5Press;
+
     public event Action<float> onMouseScroll;
 
     // DEV KEYS
@@ -84,8 +90,38 @@ public class GameEventSystem : MonoBehaviour
 
     public void OnInventoryPress()
     {
-        if (onDashPress == null) { return; }
+        if (onInventoryPress == null) { return; }
         onInventoryPress();
+    }
+
+    public void OnSlot1Press()
+    {
+        if (onSlot1Press == null) { return; }
+        onSlot1Press();
+    }
+
+    public void OnSlot2Press()
+    {
+        if (onSlot2Press == null) { return; }
+        onSlot2Press();
+    }
+
+    public void OnSlot3Press()
+    {
+        if (onSlot3Press == null) { return; }
+        onSlot3Press();
+    }
+
+    public void OnSlot4Press()
+    {
+        if (onSlot4Press == null) { return; }
+        onSlot4Press();
+    }
+
+    public void OnSlot5Press()
+    {
+        if (onSlot5Press == null) { return; }
+        onSlot5Press();
     }
 
     public void OnInventoryChanged()
