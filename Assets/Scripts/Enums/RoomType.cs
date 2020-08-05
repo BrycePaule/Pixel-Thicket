@@ -4,11 +4,15 @@ using UnityEngine;
 
 public enum RoomType
 {
+    Null,
     Lobby,
     End,
     Clear,
     Box,
     RingClosed,
-    RingOpen,
-    Pillars
+    RingCutout,
+    RingCutoutLips,
+    PillarsFilled,
+    PillarsCutout,
+    Houses
 }

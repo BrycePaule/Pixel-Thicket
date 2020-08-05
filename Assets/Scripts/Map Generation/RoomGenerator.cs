@@ -13,6 +13,9 @@ public class RoomGenerator : MonoBehaviour
         2 = walls
         3 = rocks
         4 = gateway
+
+        70 = red pad
+        71 = purple pad
     */
 
 
@@ -25,12 +28,14 @@ public class RoomGenerator : MonoBehaviour
     [Space(10)]
 
     public Tile RedTestTile;
+    public Tile PurpleTestTile;
     public Tile[] Grass;
     public Tile[] Walls;
     public Tile[] Pads;
     public Tile[] Rocks;
 
-    private Dictionary<string, Tile> _wallTiles;
+    private Dictionary<string, Tile> _wallTiles = new Dictionary<string, Tile>();
+    private Dictionary<string, Tile> _padTiles = new Dictionary<string, Tile>();
     private List<Vector2> _spawnLocations;
     private Tilemap _baseTilemap;
     private Tilemap _padTilemap;
@@ -63,16 +68,13 @@ public class RoomGenerator : MonoBehaviour
     // UNITY METHODS
     private void Awake()
     {
-
-        if (_instance != null) { Destroy(this.gameObject); }
-
-        _wallTiles = new Dictionary<string, Tile>();
-
+        if (_instance != null) { Destroy(gameObject); }
     }
 
     private void Start()
     {
         FillWallsDictionary();
+        FillPadsDictionary();
     }
 
     // ROOM INITIALISATION
@@ -94,6 +96,7 @@ public class RoomGenerator : MonoBehaviour
         GenerateZeroGrid(room, _padGrid);
         GenerateZeroGrid(room, _collideGrid);
         GenerateZeroGrid(room, _spawnGrid);
+        SelectRoomType(room);
 
         // TILE GEN
         GrassGenerate(room, _baseGrid);
@@ -101,10 +104,9 @@ public class RoomGenerator : MonoBehaviour
         WallsGenerateInner(room, _collideGrid, 40);
         WallsFillSurrounded(room, _collideGrid);
         WallsFillSingleGaps(room, _collideGrid);
-        // ---------------
-        SelectRoomType(room);
+
         RoomTypeGenerate(room, _collideGrid, _padGrid);
-        // ---------------
+
         GatewaysGenerate(room, _padGrid, _collideGrid, gates);
         GatewaysClearWallBlockers(room, _padGrid, _collideGrid);
         SetGridTiles(room, _baseGrid, _collideGrid, _padGrid, _baseTilemap, _collideTilemap, _padTilemap);
@@ -118,7 +120,7 @@ public class RoomGenerator : MonoBehaviour
 
     public Room GenerateLobbyRoom(int[] gates)
     {
-        Room room = Instantiate(LobbyPrefab);
+        Room room = Instantiate(RoomPrefab);
 
         _baseTilemap = room.transform.Find("Base Tiles").gameObject.GetComponent<Tilemap>();
         _padTilemap = room.transform.Find("Pads").gameObject.GetComponent<Tilemap>();
@@ -129,7 +131,25 @@ public class RoomGenerator : MonoBehaviour
         _collideGrid = new int[room.Height, room.Width];
         _spawnGrid = new int[room.Height, room.Width];
 
+        // GRID GEN
+        GenerateZeroGrid(room, _baseGrid);
+        GenerateZeroGrid(room, _padGrid);
+        GenerateZeroGrid(room, _collideGrid);
+        GenerateZeroGrid(room, _spawnGrid);
+        SelectRoomType(room, RoomType.Lobby);
+
+        // TILE GEN
+        GrassGenerate(room, _baseGrid);
+        WallsGenerateOuter(room, _collideGrid);
+        WallsGenerateInner(room, _collideGrid, 40);
+        WallsFillSurrounded(room, _collideGrid);
+        WallsFillSingleGaps(room, _collideGrid);
+
+        RoomTypeGenerate(room, _collideGrid, _padGrid);
+
         GatewaysGenerate(room, _padGrid, _collideGrid, gates);
+        GatewaysClearWallBlockers(room, _padGrid, _collideGrid);
+        SetGridTiles(room, _baseGrid, _collideGrid, _padGrid, _baseTilemap, _collideTilemap, _padTilemap);
 
         room.MobCount = 0;
 
@@ -251,11 +271,74 @@ public class RoomGenerator : MonoBehaviour
     {
         if (_roomType == RoomType.Lobby)
         {
+            int boxHalfWidth = 6;
+            int boxHalfHeight = 6;
+
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxHalfWidth;
+            int xUpper = xCentre + boxHalfWidth;
+
+            int yLower = yCentre - boxHalfHeight;
+            int yUpper = yCentre + boxHalfHeight;
+
             for (int y = 0; y < room.Height; y++)
             {
                 for (int x = 0; x < room.Width; x++)
                 {
-                    
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+
+                    // create box
+                    collideGrid[y, x] = 3;
+
+                    // cut out entrances
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // cutout centre
+                    if ((x > xLower & x < xUpper) & (y > yLower & y < yUpper))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // place lips on entrances
+                    if ((x == xCentre - 2 | x == xCentre + 2) & (y == yLower + 1 | y == yUpper - 1)) { collideGrid[y, x] = 3; }
+                    if ((y == yCentre - 2 | y == yCentre + 2) & (x == xLower + 1 | x == xUpper - 1)) { collideGrid[y, x] = 3; }
+
+                    // centre pad
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) & (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        padGrid[y, x] = 70;
+                    }
+
+                    // bottom left pad
+                    // if ((x > xLower & x < xCentre - 2) & (y > yLower & y < yCentre - 2))
+                    // {
+                    //     padGrid[y, x] = 71;
+                    // }
+
+                    // bottom right pad
+                    if ((x < xUpper & x > xCentre + 2) & (y > yLower & y < yCentre - 2))
+                    {
+                        padGrid[y, x] = 71;
+                    }
+
+                    // top right pad
+                    // if ((x < xUpper & x > xCentre + 2) & (y < yUpper & y > yCentre + 2))
+                    // {
+                    //     padGrid[y, x] = 71;
+                    // }
+
+                    // top left pad
+                    // if ((x > xLower & x < xCentre - 2) & (y < yUpper & y > yCentre + 2))
+                    // {
+                    //     padGrid[y, x] = 71;
+                    // }
                 }
             }
         }
@@ -292,7 +375,7 @@ public class RoomGenerator : MonoBehaviour
                     if (x < xLower | x > xUpper) { continue; }
                     if (y < yLower | y > yUpper) { continue; }
                     
-                    _collideGrid[y, x] = 3;
+                    collideGrid[y, x] = 3;
                 }
             }
         }
@@ -322,50 +405,99 @@ public class RoomGenerator : MonoBehaviour
                     // creates ring
                     if (x == xLower | x == xUpper | y == yLower | y == yUpper) 
                     {
-                        _collideGrid[y, x] = 3;
+                        collideGrid[y, x] = 3;
                     }
                 }
             }
         }
-        
-        // if (_roomType == RoomType.RingOpen)
-        // {
-        //     int boxWidth = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Width * 0.25f));
-        //     int boxHeight = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Height * 0.25f));
 
-        //     int xCentre = Mathf.FloorToInt(room.Width / 2);
-        //     int yCentre = Mathf.FloorToInt(room.Height / 2);
+        if (_roomType == RoomType.RingCutout)
+        {
+            int boxWidth = UnityEngine.Random.Range(4, Mathf.FloorToInt(room.Width * 0.25f));
+            int boxHeight = UnityEngine.Random.Range(4, Mathf.FloorToInt(room.Height * 0.25f));
 
-        //     int xLower = xCentre - boxWidth;
-        //     int xUpper = xCentre + boxWidth;
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
 
-        //     int yLower = yCentre - boxHeight;
-        //     int yUpper = yCentre + boxHeight;
+            int xLower = xCentre - boxWidth;
+            int xUpper = xCentre + boxWidth;
 
-        //     for (int y = 0; y < room.Height; y++)
-        //     {
-        //         for (int x = 0; x < room.Width; x++)
-        //         {
-        //             // bounds to centre box
-        //             if (x < xLower | x > xUpper) { continue; }
-        //             if (y < yLower | y > yUpper) { continue; }
+            int yLower = yCentre - boxHeight;
+            int yUpper = yCentre + boxHeight;
 
-        //             // create ring
-        //             if (x == xLower | x == xUpper | y == yLower | y == yUpper) 
-        //             {
-        //                 _collideGrid[y, x] = 3;
-        //             }
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
 
-        //             // cut out entrances
-        //             if (x == xLower & (yCentre - 1 <= y & y <= yCentre + 1)) { _collideGrid[y, x] = 0; }
-        //             if (x == xUpper & (yCentre - 1 <= y & y <= yCentre + 1)) { _collideGrid[y, x] = 0; }
-        //             if (y == yLower & (xCentre - 1 <= x & x <= xCentre + 1)) { _collideGrid[y, x] = 0; }
-        //             if (y == yUpper & (xCentre - 1 <= x & x <= xCentre + 1)) { _collideGrid[y, x] = 0; }
-        //         }
-        //     }
-        // }
+                    // create box
+                    collideGrid[y, x] = 3;
 
-        if (_roomType == RoomType.RingOpen)
+                    // cut out entrances
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // cutout centre
+                    if ((x > xLower & x < xUpper) & (y > yLower & y < yUpper))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+                }
+            }
+        }
+
+        if (_roomType == RoomType.RingCutoutLips)
+        {
+            if (room.Width <= 24 | room.Height <= 24) { return; }
+
+            int boxWidth = UnityEngine.Random.Range(6, Mathf.FloorToInt(room.Width * 0.35f));
+            int boxHeight = UnityEngine.Random.Range(6, Mathf.FloorToInt(room.Height * 0.35f));
+
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxWidth;
+            int xUpper = xCentre + boxWidth;
+
+            int yLower = yCentre - boxHeight;
+            int yUpper = yCentre + boxHeight;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+
+                    // create box
+                    collideGrid[y, x] = 3;
+
+                    // cut out entrances
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // cutout centre
+                    if ((x > xLower & x < xUpper) & (y > yLower & y < yUpper))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // place lips on entrances
+                    if ((x == xCentre - 2 | x == xCentre + 2) & (y == yLower + 1 | y == yUpper - 1)) { collideGrid[y, x] = 3; }
+                    if ((y == yCentre - 2 | y == yCentre + 2) & (x == xLower + 1 | x == xUpper - 1)) { collideGrid[y, x] = 3; } 
+                }
+            }
+        }
+
+        if (_roomType == RoomType.Houses)
         {
             if (room.Width <= 24 | room.Height <= 24) { return; }
 
@@ -390,20 +522,46 @@ public class RoomGenerator : MonoBehaviour
                     if (y < yLower | y > yUpper) { continue; }
 
                     // create box
-                    _collideGrid[y, x] = 3;
+                    collideGrid[y, x] = 3;
 
                     // cut out entrances
                     if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
                     {
-                        _collideGrid[y, x] = 0;
+                        collideGrid[y, x] = 0;
                     }
 
-                    // if ()
+                    // bottom left box
+                    if ((x > xLower & x < xCentre - 2) & (y > yLower & y < yCentre - 2))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+                    
+                    // top left box
+                    if ((x > xLower & x < xCentre - 2) & (y < yUpper & y > yCentre + 2))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // top right box
+                    if ((x < xUpper & x > xCentre + 2) & (y < yUpper & y > yCentre + 2))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // bottom left box
+                    if ((x < xUpper & x > xCentre + 2) & (y > yLower & y < yCentre - 2))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // Doors
+                    if ((x == xCentre - 2 | x == xCentre + 2) & (y == yLower + 1 | y == yUpper - 1)) { collideGrid[y, x] = 0; }
+                    if ((y == yCentre - 2 | y == yCentre + 2) & (x == xLower + 1 | x == xUpper - 1)) { collideGrid[y, x] = 0; }
                 }
             }
         }
         
-        if (_roomType == RoomType.Pillars)
+        if (_roomType == RoomType.PillarsFilled)
         {
             int boxWidth = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Width * 0.25f));
             int boxHeight = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Height * 0.25f));
@@ -426,12 +584,70 @@ public class RoomGenerator : MonoBehaviour
                     if (y < yLower | y > yUpper) { continue; }
                     
                     // fills box
-                    _collideGrid[y, x] = 3;
+                    collideGrid[y, x] = 3;
 
                     // cuts walkways
                     if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
                     {
-                        _collideGrid[y, x] = 0;
+                        collideGrid[y, x] = 0;
+                    }
+                }
+            }
+        }
+
+        if (_roomType == RoomType.PillarsCutout)
+        {
+            int boxWidth = UnityEngine.Random.Range(4, Mathf.FloorToInt(room.Width * 0.25f));
+            int boxHeight = UnityEngine.Random.Range(4, Mathf.FloorToInt(room.Height * 0.25f));
+
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxWidth;
+            int xUpper = xCentre + boxWidth;
+
+            int yLower = yCentre - boxHeight;
+            int yUpper = yCentre + boxHeight;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+
+                    // create box
+                    collideGrid[y, x] = 3;
+
+                    // cutout walkways
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // cutout bottom left box
+                    if ((x > xLower & x < xCentre - 2) & (y > yLower & y < yCentre - 2))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+                    
+                    // cutout top left box
+                    if ((x > xLower & x < xCentre - 2) & (y < yUpper & y > yCentre + 2))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // cutout top right box
+                    if ((x < xUpper & x > xCentre + 2) & (y < yUpper & y > yCentre + 2))
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // cutout bottom left box
+                    if ((x < xUpper & x > xCentre + 2) & (y > yLower & y < yCentre - 2))
+                    {
+                        collideGrid[y, x] = 0;
                     }
                 }
             }
@@ -563,14 +779,21 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void SelectRoomType(Room room)
+    private void SelectRoomType(Room room, RoomType roomTypeSelection = RoomType.Null)
     {
-        int roomTypeCount = Enum.GetNames(typeof(RoomType)).Length;
+        if (roomTypeSelection == RoomType.Null)
+        {
+            int roomTypeCount = Enum.GetNames(typeof(RoomType)).Length;
 
-        // 0 and 1 are Lobby and End - shouldn't randomly roll them
-        _roomType = (RoomType) UnityEngine.Random.Range(2, roomTypeCount);
+            // 0, 1, 2 are Null, Lobby and End - shouldn't randomly roll them
+            _roomType = (RoomType) UnityEngine.Random.Range(3, roomTypeCount);
+        }
 
-        _roomType = RoomType.RingOpen;
+        else
+        {
+            _roomType = roomTypeSelection;
+        }
+
     }
 
     // SPAWN LOCATIONS
@@ -656,6 +879,16 @@ public class RoomGenerator : MonoBehaviour
                     padTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), RedTestTile);
                 }
 
+                if (padGrid[y, x] == 70) 
+                {
+                    padTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), SelectPadTile(new Vector2Int(x, y), padGrid));
+                }
+
+                if (padGrid[y, x] == 71) 
+                {
+                    padTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), SelectPadTile(new Vector2Int(x, y), padGrid));
+                }
+
             }
         }
     }
@@ -687,9 +920,8 @@ public class RoomGenerator : MonoBehaviour
 
     private Tile SelectWallTile(Vector2Int loc, int[,] collideGrid)
     {
-
         int[,] neighbours = GridMath.GetNeighbours(collideGrid, loc);
-        string gridType = GridMath.WallComparison(neighbours);
+        string gridType = GridMath.Comparison(neighbours, GridMath.WallComparisonGrids);
         
         if (gridType != null)
         {
@@ -699,10 +931,22 @@ public class RoomGenerator : MonoBehaviour
         return _wallTiles["wall"];
     }
 
+    private Tile SelectPadTile(Vector2Int loc, int[,] padGrid)
+    {
+        int[,] neighbours = GridMath.GetNeighbours(padGrid, loc);
+        string gridType = GridMath.Comparison(neighbours, GridMath.PadComparisonGrids, 1);
+
+        if (gridType != null)
+        {
+            return _padTiles[gridType];
+        }
+
+        return _wallTiles["wall"];
+    }
+
     // UTILITIES
     private void FillWallsDictionary()
     {
-
         _wallTiles.Add("wall", Walls[0]);
 
         _wallTiles.Add("wall_top", Walls[1]);
@@ -725,6 +969,46 @@ public class RoomGenerator : MonoBehaviour
         _wallTiles.Add("wall_bend_top_left_grass", Walls[14]);
         _wallTiles.Add("wall_bend_top_right_grass", Walls[15]);
 
+        _wallTiles.Add("wall_gateway_top", Walls[17]);
+        _wallTiles.Add("wall_gateway_bottom", Walls[18]);
+        _wallTiles.Add("wall_gateway_left", Walls[19]);
+        _wallTiles.Add("wall_gateway_right", Walls[20]);
+    }
+
+    private void FillPadsDictionary()
+    {
+        _padTiles.Add("pad_red_top", Pads[0]);
+        _padTiles.Add("pad_red_bottom", Pads[1]);
+        _padTiles.Add("pad_red_left", Pads[2]);
+        _padTiles.Add("pad_red_right", Pads[3]);
+
+        _padTiles.Add("pad_red_middle", Pads[10]);
+        _padTiles.Add("pad_red_middle_dot", Pads[11]);
+
+        _padTiles.Add("pad_red_corner_top_left", Pads[4]);
+        _padTiles.Add("pad_red_corner_top_right", Pads[5]);
+        _padTiles.Add("pad_red_corner_bottom_left", Pads[6]);
+        _padTiles.Add("pad_red_corner_bottom_right", Pads[7]);
+
+        _padTiles.Add("pad_red_bend_top_left", Pads[8]);
+        _padTiles.Add("pad_red_bend_top_right", Pads[9]);
+
+
+        _padTiles.Add("pad_purple_top", Pads[12]);
+        _padTiles.Add("pad_purple_bottom", Pads[13]);
+        _padTiles.Add("pad_purple_left", Pads[14]);
+        _padTiles.Add("pad_purple_right", Pads[15]);
+
+        _padTiles.Add("pad_purple_middle", Pads[22]);
+        _padTiles.Add("pad_purple_middle_dot", Pads[23]);
+
+        _padTiles.Add("pad_purple_corner_top_left", Pads[16]);
+        _padTiles.Add("pad_purple_corner_top_right", Pads[17]);
+        _padTiles.Add("pad_purple_corner_bottom_left", Pads[18]);
+        _padTiles.Add("pad_purple_corner_bottom_right", Pads[19]);
+
+        _padTiles.Add("pad_purple_bend_top_left", Pads[20]);
+        _padTiles.Add("pad_purple_bend_top_right", Pads[21]);
     }
 }
 

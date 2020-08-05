@@ -27,7 +27,8 @@ public class Gateway : MonoBehaviour
         West = 3
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
         if (other.gameObject.layer == 12)
         {
             if (_player.GatewayTravelLocked) { return; }
@@ -35,6 +36,5 @@ public class Gateway : MonoBehaviour
             _player.StartCoroutine("GatewayLock");
             _gameEventSystem.OnGatewayEnter((int)direction);
         }
-
     }
 }

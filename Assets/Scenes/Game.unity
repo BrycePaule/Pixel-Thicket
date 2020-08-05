@@ -25930,6 +25930,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 662893b8c4ac09746bf610cd3f9c445f,
         type: 2}
+    - target: {fileID: 3233887410633772399, guid: 08506b937d7357a41a319175feba05ef,
+        type: 3}
+      propertyPath: PurpleTestTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 662893b8c4ac09746bf610cd3f9c445f,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08506b937d7357a41a319175feba05ef, type: 3}
 --- !u!1001 &3264014765159287004

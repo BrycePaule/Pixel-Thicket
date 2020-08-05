@@ -252,7 +252,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 0
-  Player: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!1 &3530231946407143427
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +323,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 1
-  Player: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!1 &3684806678709925067
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +424,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 3
-  Player: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!1 &5318314267873360823
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,7 +693,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: 2
-  Player: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!1 &7797312883248031001
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +817,7 @@ GameObject:
   - component: {fileID: 2142508576678275964}
   - component: {fileID: 1194331931079213821}
   - component: {fileID: 843226450}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pads
   m_TagString: Untagged
   m_Icon: {fileID: 0}

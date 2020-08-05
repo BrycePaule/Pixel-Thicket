@@ -5,7 +5,7 @@ using UnityEngine;
 public static class GridMath
 {
 
-    private static Dictionary<int[,], string> WallComparisonGrids = new Dictionary<int[,], string>()
+    public static Dictionary<int[,], string> WallComparisonGrids = new Dictionary<int[,], string>()
     {
 
         // COVER
@@ -135,6 +135,152 @@ public static class GridMath
 
     };
 
+    public static Dictionary<int[,], string> PadComparisonGrids = new Dictionary<int[,], string>()
+    {
+        // --------------------- PURPLE --------------------- //
+        // COVER
+        {new int[,] {{71, 71, 71},
+                     {71, 71, 71},
+                     {71, 71, 71}}, "pad_purple_middle_dot"},
+
+        // CORNERS 
+        {new int[,] {{0, 0, 0},
+                     {0, 71, 71},
+                     {0, 71, 71}}, "pad_purple_corner_top_left"},
+
+        {new int[,] {{0, 0, 0},
+                     {71, 71, 0},
+                     {71, 71, 0}}, "pad_purple_corner_top_right"},
+
+        {new int[,] {{0, 71, 71},
+                     {0, 71, 71},
+                     {0, 0, 0}}, "pad_purple_corner_bottom_left"},
+
+        {new int[,] {{71, 71, 0},
+                     {71, 71, 0},
+                     {0, 0, 0}}, "pad_purple_corner_bottom_right"},
+
+        // WALLS
+        {new int[,] {{71, 71, 0},
+                     {71, 71, 0},
+                     {71, 71, 0}}, "pad_purple_right"},
+
+        {new int[,] {{0, 71, 71},
+                     {0, 71, 71},
+                     {0, 71, 71}}, "pad_purple_left"},
+
+        {new int[,] {{71, 71, 71},
+                     {71, 71, 71},
+                     {0, 0, 0}}, "pad_purple_bottom"},
+
+        {new int[,] {{0, 0, 0},
+                     {71, 71, 71},
+                     {71, 71, 71}}, "pad_purple_top"},
+
+        // BENDS
+        // {new int[,] {{0, 0, 71},
+        //              {0, 71, 71},
+        //              {0, 71, 71}}, "pad_purple_bend_top_left"},
+
+        // {new int[,] {{71, 0, 0},
+        //              {71, 71, 0},
+        //              {71, 71, 0}}, "pad_purple_bend_top_right"},
+
+        // DEFAULT
+        {new int[,] {{0, 0, 0},
+                     {0, 71, 0},
+                     {0, 0, 0}}, "pad_purple_middle"},
+
+
+        // --------------------- RED --------------------- //
+        // COVER
+        {new int[,] {{70, 70, 70},
+                     {70, 70, 70},
+                     {70, 70, 70}}, "pad_red_middle_dot"},
+
+        // CORNERS 
+        {new int[,] {{0, 0, 0},
+                     {0, 70, 70},
+                     {0, 70, 70}}, "pad_red_corner_top_left"},
+
+        {new int[,] {{0, 0, 0},
+                     {70, 70, 0},
+                     {70, 70, 0}}, "pad_red_corner_top_right"},
+
+        {new int[,] {{0, 70, 70},
+                     {0, 70, 70},
+                     {0, 0, 0}}, "pad_red_corner_bottom_left"},
+
+        {new int[,] {{70, 70, 0},
+                     {70, 70, 0},
+                     {0, 0, 0}}, "pad_red_corner_bottom_right"},
+
+        // WALLS
+        {new int[,] {{70, 70, 0},
+                     {70, 70, 0},
+                     {70, 70, 0}}, "pad_red_right"},
+
+        {new int[,] {{0, 70, 70},
+                     {0, 70, 70},
+                     {0, 70, 70}}, "pad_red_left"},
+
+        {new int[,] {{70, 70, 70},
+                     {70, 70, 70},
+                     {0, 0, 0}}, "pad_red_bottom"},
+
+        {new int[,] {{0, 0, 0},
+                     {70, 70, 70},
+                     {70, 70, 70}}, "pad_red_top"},
+
+        // BENDS
+        // {new int[,] {{0, 0, 70},
+        //              {0, 70, 70},
+        //              {0, 70, 70}}, "pad_red_bend_top_left"},
+
+        // {new int[,] {{70, 0, 0},
+        //              {70, 70, 0},
+        //              {70, 70, 0}}, "pad_red_bend_top_right"},
+
+        // DEFAULT
+        {new int[,] {{0, 0, 0},
+                     {0, 70, 0},
+                     {0, 0, 0}}, "pad_red_middle"},
+
+    };
+
+    public static string Comparison(int[,] grid, Dictionary<int[,], string> ComparisonDict, int skipValue = 0)
+    {
+        bool skip = false;
+
+        foreach (var comparisonPair in ComparisonDict)
+        {
+            int[,] comparisonGrid = comparisonPair.Key;
+            skip = false;
+
+            for (int y = 0; y < 3; y++)
+            {
+
+                if (skip) { break; }
+
+                for (int x = 0; x < 3; x++)
+                {
+                    if (comparisonGrid[y, x] == skipValue) { continue; }
+                    if (grid[y, x] != comparisonGrid[y, x]) 
+                    { 
+                        skip = true;
+                        break; 
+                    }
+                }  
+            }
+
+            if (!skip) { return comparisonPair.Value; }
+
+        }
+        
+        return null;
+    }
+
+    // GENERALISED METHODS
     public static int[,] GetNeighbours(int[,] grid, Vector2Int loc, int outOfBoundsVal = 2)
     {
         int[,] neighbours = new int[3, 3];
@@ -226,41 +372,6 @@ public static class GridMath
         return neighbours;
     }
 
-    public static string WallComparison(int[,] grid)
-    {
-
-        bool skip = false;
-
-        foreach (var wallComparisonGridPair in WallComparisonGrids)
-        {
-            int[,] comparisonGrid = wallComparisonGridPair.Key;
-            skip = false;
-
-            for (int y = 0; y < 3; y++)
-            {
-
-                if (skip) { break; }
-
-                for (int x = 0; x < 3; x++)
-                {
-                
-                    if (comparisonGrid[y, x] == 0) { continue; }
-                    if (grid[y, x] != comparisonGrid[y, x]) 
-                    { 
-                        skip = true;
-                        break; 
-                    }
-                }  
-            }
-
-            if (!skip) { return wallComparisonGridPair.Value; }
-
-        }
-
-        return null;
-        
-    }
-
     public static bool CheckSurroundedCardinal(int[,] neighbourGrid, int surroundingBlockType)
     {
         int empty = 99;
@@ -309,9 +420,6 @@ public static class GridMath
 
         return false;
     }
-
-
-
 
     public static int PointDistance(Vector2Int A, Vector2Int B)
     {

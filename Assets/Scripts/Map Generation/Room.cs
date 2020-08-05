@@ -31,12 +31,9 @@ public class Room : MonoBehaviour
     {
         _transform = transform;
         
-        if (!_transform.name.Contains("Lobby")) 
-        {
-            Width = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
-            Height = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
-        }
-        
+        Width = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
+        Height = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
+
         SetGateways();
         SetPlayerSpawnsInsideGateway();
     }
