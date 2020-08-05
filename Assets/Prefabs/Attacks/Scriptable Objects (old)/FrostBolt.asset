@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7264dd61a4f96fe49b224a83d58ac7a2, type: 3}
-  m_Name: ShadowBolt
+  m_Name: FrostBolt
   m_EditorClassIdentifier: 
-  Name: ShadowBolt
-  ID: 3
-  Damage: 30
-  Cooldown: 2
-  MissileSpeed: 20
-  Icon: {fileID: 21300000, guid: 0b27075d05754c54fa09016f15d11472, type: 3}
-  Sprite: {fileID: 21300000, guid: 0b27075d05754c54fa09016f15d11472, type: 3}
+  Name: FrostBolt
+  ID: 1
+  Damage: 50
+  Cooldown: 5
+  MissileSpeed: 10
+  Pierce: 0
+  Icon: {fileID: 21300000, guid: 22000de8e0afe2a49828343f5adbbbec, type: 3}
+  Sprite: {fileID: 21300000, guid: 22000de8e0afe2a49828343f5adbbbec, type: 3}

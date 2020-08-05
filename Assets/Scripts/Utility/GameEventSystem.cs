@@ -40,6 +40,8 @@ public class GameEventSystem : MonoBehaviour
     public event Action onInventoryPress;
     public event Action onInventoryChanged;
 
+    public event Action<float> onMouseScroll;
+
     // DEV KEYS
     public event Action onZPress;
     public event Action onXPress;
@@ -90,6 +92,12 @@ public class GameEventSystem : MonoBehaviour
     {
         if (onDashPress == null) { return; }
         onInventoryChanged();
+    }
+
+    public void OnMouseScroll(float value)
+    {
+        if (onMouseScroll == null) { return; }
+        onMouseScroll(value);
     }
 
     public void OnZPress()

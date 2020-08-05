@@ -10,24 +10,29 @@ public class HotbarUI : MonoBehaviour
     [SerializeField] private HotbarSlot _hotbarSlotPrefab;
     [SerializeField] private Transform _slotContainer;
 
-    [SerializeField] private int _slotCount;
     private HotbarSlot[] _slots;
+    private int _slotCount;
 
     private GameEventSystem _gameEventSystem;
     private Canvas _hotbarCanvas;
+
+    private int _selected = 0;
 
     private void Awake()
     {
         _gameEventSystem = GameEventSystem.Instance;
 
         _gameEventSystem.onInventoryChanged += OnInventoryChanged;
+        _gameEventSystem.onMouseScroll += context => OnMouseScroll(context);
 
         PopulateSlots();
     }
 
     private void Start()
     {
+        _slotCount = _inventory.GetComponent<Hotbar>().Slots;
         _slots = _slotContainer.GetComponentsInChildren<HotbarSlot>();
+        UpdateHotbar();
     }
 
     private void UpdateHotbar()
@@ -42,7 +47,11 @@ public class HotbarUI : MonoBehaviour
             {
                 _slots[i].ClearSlot();
             }
+
+            _slots[i].Deselect();
         }
+
+        _slots[_selected].Select();
     }
 
     private void PopulateSlots()
@@ -59,4 +68,26 @@ public class HotbarUI : MonoBehaviour
 
     private void OnInventoryChanged() => UpdateHotbar();
 
+    private void OnMouseScroll(float direction)
+    {
+        if (direction > 0)
+        {
+            _selected ++;
+            if (_selected >= _slotCount) 
+            { 
+                _selected = 0; 
+            }
+        }
+
+        else
+        {
+            _selected --;
+            if (_selected < 0) 
+            { 
+                _selected = _slotCount - 1;
+            }
+        }
+
+        UpdateHotbar();
+    }
 }

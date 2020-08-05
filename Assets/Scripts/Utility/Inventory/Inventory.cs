@@ -5,12 +5,14 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
 
+    public int Selected;
     [SerializeField] private RangedAttack Fireball;
+    [SerializeField] private RangedAttack Frostbolt;
 
     private GameEventSystem _gameEventSystem;
 
     public List<RangedAttack> Items = new List<RangedAttack>();
-    private int slots;
+    private int _slots;
 
     private void Awake()
     {
@@ -20,14 +22,9 @@ public class Inventory : MonoBehaviour
         _gameEventSystem.onXPress += OnXPress;
     }
 
-    // private void FixedUpdate()
-    // {
-    //     print(Items.Count);
-    // }
-
     public void Add(RangedAttack item)
     {
-        if (Items.Count < slots) { return; }
+        if (Items.Count < _slots) { return; }
 
         Items.Add(item);
         _gameEventSystem.OnInventoryChanged();
@@ -47,7 +44,19 @@ public class Inventory : MonoBehaviour
 
     private void OnXPress() 
     {
-        Remove(Fireball);
-        print("removing fireball");
+        Add(Frostbolt);
+        print("adding frostbolt");
+    }
+
+    public RangedAttack SelectedWeapon()
+    {
+        if (Items.Count > Selected)
+        {
+            return Items[Selected];
+        }
+        else
+        {
+            return null;
+        }
     }
 }

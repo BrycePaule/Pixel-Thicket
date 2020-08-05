@@ -4858,8 +4858,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4032580402455488149}
-  m_LocalRotation: {x: 0, y: 0, z: 0.4363442, w: 0.89977986}
-  m_LocalPosition: {x: 0.18984288, y: 3.2705998, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7513811770064518480}
@@ -4880,16 +4880,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1057a7b41853d4a4f84c0f2d5c7cf58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SR: {fileID: 8530499091379496127}
-  RangedAttackType: {fileID: 11400000, guid: 62f9739c5c246d549925b345c039f598, type: 2}
   Name: FireBall
+  ID: 0
   Damage: 20
   Cooldown: 0.5
   MissileSpeed: 14
   Pierce: 0
   Shooter: {fileID: 0}
-  Direction: {x: 0.7870276, y: 13.824684}
+  Direction: {x: 0, y: 0}
   Icon: {fileID: 21300000, guid: 64b2330a270f14b41a175d77ace9a6de, type: 3}
+  Sprite: {fileID: 21300000, guid: 64b2330a270f14b41a175d77ace9a6de, type: 3}
+  _maxLifetime: 10
 --- !u!212 &8530499091379496127
 SpriteRenderer:
   m_ObjectHideFlags: 0

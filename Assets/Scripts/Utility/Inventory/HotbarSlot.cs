@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class HotbarSlot : InventorySlot
 {
+    [SerializeField] private Image _selectImage;
+
     public override void AddItem(RangedAttack newItem)
     {
         item = newItem;
@@ -17,5 +19,15 @@ public class HotbarSlot : InventorySlot
         item = null;
         _itemImage.sprite = null;
         _itemImage.enabled = false;
+    }
+
+    public void Select()
+    {
+        _selectImage.enabled = true;
+    }
+
+    public void Deselect()
+    {
+        _selectImage.enabled = false;
     }
 }

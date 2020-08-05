@@ -5,28 +5,22 @@ using UnityEngine;
 public class RangedAttack : MonoBehaviour
 {
 
-    public SpriteRenderer SR;
-
-    [Header("These should be null")]
-    public RangedAttackSO RangedAttackType;
     public string Name;
+    public int ID;
     public float Damage;
     public float Cooldown;
     public float MissileSpeed;
     public bool Pierce;
-
     public Transform Shooter;
     public Vector2 Direction;
+    public Sprite Icon;
+    public Sprite Sprite;
 
-    private float _maxLifetime = 10f;
+    [SerializeField] private float _maxLifetime = 10f;
     private float _birthTime;
 
-    private AudioManager _audioManager;
-
-    public Sprite Icon;
-    // public Sprite Sprite;
-
     private Transform _transform;
+    private AudioManager _audioManager;
 
 
     private void Awake()
@@ -37,33 +31,13 @@ public class RangedAttack : MonoBehaviour
         _audioManager = AudioManager.Instance;   
     }
 
-    private void Start() 
-    {
-        ParticleSystem[] particles = _transform.GetComponentsInChildren<ParticleSystem>(true);
-        foreach (var particle in particles)
-        {
-            if (particle.name == Name)
-            {
-                particle.gameObject.SetActive(true);
-            }
-        }
-    }
-
     private void Update() {
         if (Time.time >= _birthTime + _maxLifetime) { Destroy(_transform.gameObject); }
     }
 
-    public void SetSOData()
+    public void SetShooter(Transform shooter)
     {
-        Name = RangedAttackType.Name;
-        Damage = RangedAttackType.Damage;
-        Cooldown = RangedAttackType.Cooldown;
-        MissileSpeed = RangedAttackType.MissileSpeed;
-        Pierce = RangedAttackType.Pierce;
-        Icon = RangedAttackType.Icon;
-
-        SR.sprite = RangedAttackType.Sprite;
-
+        Shooter = shooter;
         if (Shooter.gameObject.layer == 13) 
         {
             _transform.gameObject.layer = 13;
@@ -72,7 +46,6 @@ public class RangedAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-
         if (_transform.IsChildOf(other.transform)) { return; }
         if (_transform.parent == other.transform.parent & _transform.parent != null) { return; }
 

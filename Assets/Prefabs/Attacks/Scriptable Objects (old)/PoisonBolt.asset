@@ -17,5 +17,6 @@ MonoBehaviour:
   Damage: 3
   Cooldown: 0.1
   MissileSpeed: 20
+  Pierce: 0
   Icon: {fileID: 21300000, guid: 8cbc659d4310fb348a0c0db30f9b2993, type: 3}
   Sprite: {fileID: 21300000, guid: 8cbc659d4310fb348a0c0db30f9b2993, type: 3}

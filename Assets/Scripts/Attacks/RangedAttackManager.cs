@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RangedAttackManager : MonoBehaviour
 {
+    [SerializeField] private Inventory _inventory;
 
-    public GameObject SpellPrefab;
     public Camera Camera;
-    public RangedAttackSO[] RangedAttacks;
+    public GameObject[] RangedAttacks;
 
-    public Dictionary<int, RangedAttackSO> IDLookup;
-
+    public Dictionary<int, GameObject> IDLookup = new Dictionary<int, GameObject>();
+    
     private Transform _transform;
     private GameEventSystem _gameEventSystem;
     private InputHandler _inputHandler;
@@ -20,11 +20,10 @@ public class RangedAttackManager : MonoBehaviour
 
     private float shootCooldown;
 
-
     private void Awake() 
     {
         _transform = transform;
-        IDLookup = new Dictionary<int, RangedAttackSO>();
+
         _inputHandler = GetComponentInParent<InputHandler>();
 
         _gameEventSystem = GameEventSystem.Instance;
@@ -42,6 +41,9 @@ public class RangedAttackManager : MonoBehaviour
     
     private void Shoot(Vector2 mousePos)
     {
+        RangedAttack selectedSpell = _inventory.SelectedWeapon();
+        if (selectedSpell == null) { return; }
+        
         Vector3 mousePosWorld = Camera.ScreenToWorldPoint(mousePos);
         mousePosWorld.z = 1f;
         Vector3 direction = mousePosWorld - _transform.position;
@@ -51,7 +53,7 @@ public class RangedAttackManager : MonoBehaviour
         float shootAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - 35f);
 
-        GameObject projectileObject = GetAttackByIndex(0);
+        GameObject projectileObject = GetAttackByIndex(selectedSpell.ID);
         RangedAttack projectile = projectileObject.GetComponent<RangedAttack>();
         Rigidbody2D rb = projectileObject.transform.GetComponent<Rigidbody2D>();
             
@@ -69,20 +71,19 @@ public class RangedAttackManager : MonoBehaviour
 
     public GameObject GetAttackByIndex(int index)
     {
-        GameObject newSpell = Instantiate(SpellPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        RangedAttack spellData = newSpell.GetComponent<RangedAttack>();
-        spellData.Shooter = _transform;
-        spellData.RangedAttackType = IDLookup[index];
-        spellData.SetSOData();
+        GameObject newSpell = Instantiate(IDLookup[index], new Vector3(0, 0, 0), Quaternion.identity);
+        newSpell.GetComponent<RangedAttack>().SetShooter(_transform);
         
         return newSpell;
     }
 
     public void BuildIDLookup()
     {
+        int index = 0;
         foreach (var attack in RangedAttacks)
         {
-            IDLookup.Add(attack.ID, attack);
+            IDLookup.Add(index, attack);
+            index++;
         }
     }
 

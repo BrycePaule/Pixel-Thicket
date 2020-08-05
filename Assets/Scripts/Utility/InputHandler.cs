@@ -10,7 +10,7 @@ public class InputHandler : MonoBehaviour
     public Vector2 PlayerMoveAxis;
     public Vector2 MousePos;
 
-    private void OnEnable() => _playerInput.Enable();
+    private void OnEnable() => EnableControls();
     private void OnDisable() => DisableControls();
 
     private void Awake()
@@ -25,6 +25,7 @@ public class InputHandler : MonoBehaviour
         PlayerInput.DevKeyActions DevKey = _playerInput.DevKey;
 
         Mouse.Position.performed += ctx => OnMouseMove(ctx.ReadValue<Vector2>());
+        Mouse.Scroll.performed += ctx => OnScroll(ctx.ReadValue<Vector2>());
 
         Movement.Move.performed += ctx => OnPlayerMove(ctx.ReadValue<Vector2>());
         Movement.Move.canceled += ctx => OnPlayerStopMove();
@@ -57,6 +58,11 @@ public class InputHandler : MonoBehaviour
     private void OnMouseMove(Vector2 context)
     {
         MousePos = context;
+    }
+
+    private void OnScroll(Vector2 context)
+    {
+        _gameEventSystem.OnMouseScroll(context.y);
     }
 
     private void OnPlayerMove(Vector2 context)
