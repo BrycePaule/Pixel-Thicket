@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour
 {
 
-    [SerializeField] private Image _itemImage; 
+    [SerializeField] protected Image _itemImage; 
     [SerializeField] private Button _removeButton; 
 
-    private RangedAttack item;
+    protected RangedAttack item;
 
-    public void AddItem(RangedAttack newItem)
+    public virtual void AddItem(RangedAttack newItem)
     {
         item = newItem;
         _itemImage.sprite = newItem.Icon;
@@ -19,7 +19,7 @@ public class InventorySlot : MonoBehaviour
         _removeButton.interactable = true;
     }
 
-    public void ClearSlot()
+    public virtual void ClearSlot()
     {
         item = null;
         _itemImage.sprite = null;

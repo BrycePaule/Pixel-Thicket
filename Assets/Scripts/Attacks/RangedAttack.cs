@@ -64,7 +64,8 @@ public class RangedAttack : MonoBehaviour
 
         SR.sprite = RangedAttackType.Sprite;
 
-        if (Shooter.gameObject.layer == 13) {
+        if (Shooter.gameObject.layer == 13) 
+        {
             _transform.gameObject.layer = 13;
         }
     }

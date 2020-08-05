@@ -267,6 +267,147 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
+    private void GatewaysClearWallBlockers(Room room, int[,] padGrid, int[,] collideGrid)
+    {
+        for (int y = 0; y < room.Height; y++)
+        {
+            for (int x = 0; x < room.Width; x++)
+            {
+                if (padGrid[y, x] == 4)
+                {
+                    collideGrid[y, x] = 0;
+                }
+
+                // NORTH
+                if (y == room.Height - 1)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y - 1, x] = 0;
+                    }
+                }
+
+                // SOUTH
+                if (y == 0)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y + 1, x] = 0;
+                    }
+                }
+
+                // WEST
+                if (x == 0)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y, x + 1] = 0;
+                    }
+                }
+
+                // EAST
+                if (x == room.Width - 1)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y, x - 1] = 0;
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void GatewaysGenerate(Room room, int[,] padGrid, int[,] collideGrid, int[] gates)
+    {
+        // GATE TILE PLACEMENT MADE OBSELETE
+        // now gateways are handled by gameobjects with colliders placed after room gen
+
+        // extra steps to remove walls near gateways is to make tile selection easier
+        // should be improved, but currently manually can't find a fix
+
+        int middleX = Mathf.RoundToInt(room.Width / 2);
+        int middleY = Mathf.RoundToInt(room.Height / 2);
+
+        // NORTH
+        if (gates[0] == 1)
+        {
+            padGrid[room.Height - 1, middleX] = 4;
+            padGrid[room.Height - 1, middleX - 1] = 4;
+            padGrid[room.Height - 1, middleX + 1] = 4;
+
+            collideGrid[room.Height - 1, middleX] = 0;
+            collideGrid[room.Height - 1, middleX - 1] = 0;
+            collideGrid[room.Height - 1, middleX + 1] = 0;
+
+            collideGrid[room.Height - 2, middleX - 2] = 0;
+            collideGrid[room.Height - 2, middleX + 2] = 0;
+        }
+
+        // EAST
+        if (gates[1] == 1)
+        {
+            padGrid[middleY, room.Width - 1] = 4;
+            padGrid[middleY - 1, room.Width - 1] = 4;
+            padGrid[middleY + 1, room.Width - 1] = 4;
+
+            collideGrid[middleY, room.Width - 1] = 0;
+            collideGrid[middleY - 1, room.Width - 1] = 0;
+            collideGrid[middleY + 1, room.Width - 1] = 0;
+
+            collideGrid[middleY - 2, room.Width - 2] = 0;
+            collideGrid[middleY + 2, room.Width - 2] = 0;
+        }
+
+        // SOUTH
+        if (gates[2] == 1)
+        {
+            padGrid[0, middleX] = 4;
+            padGrid[0, middleX - 1] = 4;
+            padGrid[0, middleX + 1] = 4;
+
+            collideGrid[0, middleX] = 0;
+            collideGrid[0, middleX - 1] = 0;
+            collideGrid[0, middleX + 1] = 0;
+
+            collideGrid[1, middleX - 2] = 0;
+            collideGrid[1, middleX + 2] = 0;
+
+        }
+        
+        // WEST
+        if (gates[3] == 1)
+        {
+            padGrid[middleY, 0] = 4;
+            padGrid[middleY - 1, 0] = 4;
+            padGrid[middleY + 1, 0] = 4;
+
+            collideGrid[middleY, 0] = 0;
+            collideGrid[middleY - 1, 0] = 0;
+            collideGrid[middleY + 1, 0] = 0;
+
+            collideGrid[middleY - 2, 1] = 0;
+            collideGrid[middleY + 2, 1] = 0;
+        }
+    }
+
+    private void SelectRoomType(Room room, RoomType roomTypeSelection = RoomType.Null)
+    {
+        if (roomTypeSelection == RoomType.Null)
+        {
+            int roomTypeCount = Enum.GetNames(typeof(RoomType)).Length;
+
+            // 0, 1, 2 are Null, Lobby and End - shouldn't randomly roll them
+            _roomType = (RoomType) UnityEngine.Random.Range(3, roomTypeCount);
+        }
+
+        else
+        {
+            _roomType = roomTypeSelection;
+        }
+
+    }
+
     private void RoomTypeGenerate(Room room, int[,] collideGrid, int[,] padGrid)
     {
         if (_roomType == RoomType.Lobby)
@@ -653,147 +794,6 @@ public class RoomGenerator : MonoBehaviour
             }
         }
         
-    }
-
-    private void GatewaysClearWallBlockers(Room room, int[,] padGrid, int[,] collideGrid)
-    {
-        for (int y = 0; y < room.Height; y++)
-        {
-            for (int x = 0; x < room.Width; x++)
-            {
-                if (padGrid[y, x] == 4)
-                {
-                    collideGrid[y, x] = 0;
-                }
-
-                // NORTH
-                if (y == room.Height - 1)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        collideGrid[y - 1, x] = 0;
-                    }
-                }
-
-                // SOUTH
-                if (y == 0)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        collideGrid[y + 1, x] = 0;
-                    }
-                }
-
-                // WEST
-                if (x == 0)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        collideGrid[y, x + 1] = 0;
-                    }
-                }
-
-                // EAST
-                if (x == room.Width - 1)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        collideGrid[y, x - 1] = 0;
-                    }
-                }
-
-            }
-        }
-    }
-
-    private void GatewaysGenerate(Room room, int[,] padGrid, int[,] collideGrid, int[] gates)
-    {
-        // GATE TILE PLACEMENT MADE OBSELETE
-        // now gateways are handled by gameobjects with colliders placed after room gen
-
-        // extra steps to remove walls near gateways is to make tile selection easier
-        // should be improved, but currently manually can't find a fix
-
-        int middleX = Mathf.RoundToInt(room.Width / 2);
-        int middleY = Mathf.RoundToInt(room.Height / 2);
-
-        // NORTH
-        if (gates[0] == 1)
-        {
-            padGrid[room.Height - 1, middleX] = 4;
-            padGrid[room.Height - 1, middleX - 1] = 4;
-            padGrid[room.Height - 1, middleX + 1] = 4;
-
-            collideGrid[room.Height - 1, middleX] = 0;
-            collideGrid[room.Height - 1, middleX - 1] = 0;
-            collideGrid[room.Height - 1, middleX + 1] = 0;
-
-            collideGrid[room.Height - 2, middleX - 2] = 0;
-            collideGrid[room.Height - 2, middleX + 2] = 0;
-        }
-
-        // EAST
-        if (gates[1] == 1)
-        {
-            padGrid[middleY, room.Width - 1] = 4;
-            padGrid[middleY - 1, room.Width - 1] = 4;
-            padGrid[middleY + 1, room.Width - 1] = 4;
-
-            collideGrid[middleY, room.Width - 1] = 0;
-            collideGrid[middleY - 1, room.Width - 1] = 0;
-            collideGrid[middleY + 1, room.Width - 1] = 0;
-
-            collideGrid[middleY - 2, room.Width - 2] = 0;
-            collideGrid[middleY + 2, room.Width - 2] = 0;
-        }
-
-        // SOUTH
-        if (gates[2] == 1)
-        {
-            padGrid[0, middleX] = 4;
-            padGrid[0, middleX - 1] = 4;
-            padGrid[0, middleX + 1] = 4;
-
-            collideGrid[0, middleX] = 0;
-            collideGrid[0, middleX - 1] = 0;
-            collideGrid[0, middleX + 1] = 0;
-
-            collideGrid[1, middleX - 2] = 0;
-            collideGrid[1, middleX + 2] = 0;
-
-        }
-        
-        // WEST
-        if (gates[3] == 1)
-        {
-            padGrid[middleY, 0] = 4;
-            padGrid[middleY - 1, 0] = 4;
-            padGrid[middleY + 1, 0] = 4;
-
-            collideGrid[middleY, 0] = 0;
-            collideGrid[middleY - 1, 0] = 0;
-            collideGrid[middleY + 1, 0] = 0;
-
-            collideGrid[middleY - 2, 1] = 0;
-            collideGrid[middleY + 2, 1] = 0;
-        }
-    }
-
-    private void SelectRoomType(Room room, RoomType roomTypeSelection = RoomType.Null)
-    {
-        if (roomTypeSelection == RoomType.Null)
-        {
-            int roomTypeCount = Enum.GetNames(typeof(RoomType)).Length;
-
-            // 0, 1, 2 are Null, Lobby and End - shouldn't randomly roll them
-            _roomType = (RoomType) UnityEngine.Random.Range(3, roomTypeCount);
-        }
-
-        else
-        {
-            _roomType = roomTypeSelection;
-        }
-
     }
 
     // SPAWN LOCATIONS
