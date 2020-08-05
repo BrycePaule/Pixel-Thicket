@@ -20,7 +20,7 @@ public class GameMaster : MonoBehaviour
     
     private void Awake()
     {
-        Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
+        // Cursor.SetCursor(_cursorSprite, new Vector2(16, 16), CursorMode.Auto);
     }
 
     private void Start()

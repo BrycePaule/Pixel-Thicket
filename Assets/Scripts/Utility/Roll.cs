@@ -4,7 +4,6 @@ using UnityEngine;
 
 public static class Roll
 {
-
     public static bool Chance(int chance)
     {
         int roll = Random.Range(0, 100);
@@ -16,5 +15,4 @@ public static class Roll
 
         return false;
     }
-
 }

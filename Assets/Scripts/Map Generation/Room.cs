@@ -36,6 +36,7 @@ public class Room : MonoBehaviour
             Width = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
             Height = Random.Range(RoomGenerator.Instance.roomLowerBound, RoomGenerator.Instance.roomUpperBound);
         }
+        
         SetGateways();
         SetPlayerSpawnsInsideGateway();
     }

@@ -1,10 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
-
-
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -41,6 +40,7 @@ public class RoomGenerator : MonoBehaviour
     private int[,] _collideGrid;
     private int[,] _spawnGrid;
 
+    private RoomType _roomType;
 
     private static RoomGenerator _instance;
 
@@ -96,18 +96,22 @@ public class RoomGenerator : MonoBehaviour
         GenerateZeroGrid(room, _spawnGrid);
 
         // TILE GEN
-        GenerateGrassArea(room, _baseGrid);
-        GenerateOuterWalls(room, _collideGrid);
-        GenerateInnerWalls(room, _collideGrid, 40);
-        FillEmptiesSurroundedByWalls(room, _collideGrid);
-        FillSingleSpaceGapsInWalls(room, _collideGrid);
-        GenerateGateways(room, _padGrid, _collideGrid, gates);
-        RemoveGatewayBlockers(room, _padGrid, _collideGrid);
+        GrassGenerate(room, _baseGrid);
+        WallsGenerateOuter(room, _collideGrid);
+        WallsGenerateInner(room, _collideGrid, 40);
+        WallsFillSurrounded(room, _collideGrid);
+        WallsFillSingleGaps(room, _collideGrid);
+        // ---------------
+        SelectRoomType(room);
+        RoomTypeGenerate(room, _collideGrid, _padGrid);
+        // ---------------
+        GatewaysGenerate(room, _padGrid, _collideGrid, gates);
+        GatewaysClearWallBlockers(room, _padGrid, _collideGrid);
         SetGridTiles(room, _baseGrid, _collideGrid, _padGrid, _baseTilemap, _collideTilemap, _padTilemap);
 
         // MOB GEN
-        GenerateSpawnGrid(room);
-        CalculateMobSlots(room);
+        SpawnableGridGenerate(room);
+        MobSpawnLocGenerate(room);
 
         return room;
     }
@@ -125,7 +129,7 @@ public class RoomGenerator : MonoBehaviour
         _collideGrid = new int[room.Height, room.Width];
         _spawnGrid = new int[room.Height, room.Width];
 
-        GenerateGateways(room, _padGrid, _collideGrid, gates);
+        GatewaysGenerate(room, _padGrid, _collideGrid, gates);
 
         room.MobCount = 0;
 
@@ -144,7 +148,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateGrassArea(Room room, int[,] baseGrid)
+    private void GrassGenerate(Room room, int[,] baseGrid)
     {
         for (int y = 0; y < room.Height; y++)
         {
@@ -155,7 +159,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateOuterWalls(Room room, int[,] wallGrid)
+    private void WallsGenerateOuter(Room room, int[,] collideGrid)
     {
         for (int y = 0; y < room.Height; y++)
         {
@@ -163,14 +167,14 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (y == 0 | x == 0 | y == (room.Height - 1) | x == (room.Width - 1))
                 {
-                    wallGrid[y, x] = 2;
+                    collideGrid[y, x] = 2;
                 }
 
             }
         }
     }
 
-    private void GenerateInnerWalls(Room room, int[,] wallGrid, int conversionThreshold = 33)
+    private void WallsGenerateInner(Room room, int[,] collideGrid, int conversionThreshold = 33)
     {
         for (int y = 0; y < room.Height; y++)
         {
@@ -178,12 +182,11 @@ public class RoomGenerator : MonoBehaviour
             {
                 if (y == 1 | x == 1 | y == (room.Height - 2) | x == (room.Width - 2))
                 {
-                    if (wallGrid[y, x] == 0)
+                    if (collideGrid[y, x] == 0)
                     {
-                        int roll = (int) Random.Range(0, 100);
-                        if (roll <= conversionThreshold)
+                        if (Roll.Chance(conversionThreshold))
                         {
-                            wallGrid[y, x] = 2;
+                            collideGrid[y, x] = 2;
                         }
                     }
                 }
@@ -192,7 +195,302 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateGateways(Room room, int[,] padGrid, int[,] wallGrid, int[] gates)
+    private void WallsFillSurrounded(Room room, int[,] collideGrid)
+    {
+        for (int y = 0; y < room.Height; y++)
+        {
+            for (int x = 0; x < room.Width; x++)
+            {
+                if (collideGrid[y, x] == 0)
+                {
+                    Vector2Int loc = new Vector2Int(x, y);
+                    int[,] neighbours = GridMath.GetNeighbours(collideGrid, loc);
+                    if (GridMath.CheckSurroundedCardinal(neighbours, 2)) 
+                    {
+                        collideGrid[y, x] = 2;
+                    }
+                } 
+            }
+        }
+    }
+    
+    private void WallsFillSingleGaps(Room room, int[,] collideGrid)
+    {
+
+        bool changed = true;
+
+        while (changed)
+        {
+
+            changed = false;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    if (collideGrid[y, x] != 0) { continue; }
+
+                    if (collideGrid[y - 1, x] == 2 & collideGrid[y + 1, x] == 2)
+                    {
+                        collideGrid[y, x] = 2;
+                        changed = true;
+                    }
+
+                    if (collideGrid[y, x - 1] == 2 & collideGrid[y, x + 1] == 2)
+                    {
+                        collideGrid[y, x] = 2;
+                        changed = true;
+                    }                    
+                }
+            }
+        }
+
+    }
+
+    private void RoomTypeGenerate(Room room, int[,] collideGrid, int[,] padGrid)
+    {
+        if (_roomType == RoomType.Lobby)
+        {
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    
+                }
+            }
+        }
+
+        if (_roomType == RoomType.End)
+        {
+
+        }
+
+        if (_roomType == RoomType.Clear)
+        {
+
+        }
+        
+        if (_roomType == RoomType.Box)
+        {
+            int boxWidth = UnityEngine.Random.Range(2, Mathf.FloorToInt(room.Width * 0.25f));
+            int boxHeight = UnityEngine.Random.Range(2, Mathf.FloorToInt(room.Height * 0.25f));
+
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxWidth;
+            int xUpper = xCentre + boxWidth;
+
+            int yLower = yCentre - boxHeight;
+            int yUpper = yCentre + boxHeight;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+                    
+                    _collideGrid[y, x] = 3;
+                }
+            }
+        }
+
+        if (_roomType == RoomType.RingClosed)
+        {
+            int boxWidth = UnityEngine.Random.Range(4, Mathf.FloorToInt(room.Width * 0.25f));
+            int boxHeight = UnityEngine.Random.Range(4, Mathf.FloorToInt(room.Height * 0.25f));
+
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxWidth;
+            int xUpper = xCentre + boxWidth;
+
+            int yLower = yCentre - boxHeight;
+            int yUpper = yCentre + boxHeight;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+
+                    // creates ring
+                    if (x == xLower | x == xUpper | y == yLower | y == yUpper) 
+                    {
+                        _collideGrid[y, x] = 3;
+                    }
+                }
+            }
+        }
+        
+        // if (_roomType == RoomType.RingOpen)
+        // {
+        //     int boxWidth = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Width * 0.25f));
+        //     int boxHeight = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Height * 0.25f));
+
+        //     int xCentre = Mathf.FloorToInt(room.Width / 2);
+        //     int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+        //     int xLower = xCentre - boxWidth;
+        //     int xUpper = xCentre + boxWidth;
+
+        //     int yLower = yCentre - boxHeight;
+        //     int yUpper = yCentre + boxHeight;
+
+        //     for (int y = 0; y < room.Height; y++)
+        //     {
+        //         for (int x = 0; x < room.Width; x++)
+        //         {
+        //             // bounds to centre box
+        //             if (x < xLower | x > xUpper) { continue; }
+        //             if (y < yLower | y > yUpper) { continue; }
+
+        //             // create ring
+        //             if (x == xLower | x == xUpper | y == yLower | y == yUpper) 
+        //             {
+        //                 _collideGrid[y, x] = 3;
+        //             }
+
+        //             // cut out entrances
+        //             if (x == xLower & (yCentre - 1 <= y & y <= yCentre + 1)) { _collideGrid[y, x] = 0; }
+        //             if (x == xUpper & (yCentre - 1 <= y & y <= yCentre + 1)) { _collideGrid[y, x] = 0; }
+        //             if (y == yLower & (xCentre - 1 <= x & x <= xCentre + 1)) { _collideGrid[y, x] = 0; }
+        //             if (y == yUpper & (xCentre - 1 <= x & x <= xCentre + 1)) { _collideGrid[y, x] = 0; }
+        //         }
+        //     }
+        // }
+
+        if (_roomType == RoomType.RingOpen)
+        {
+            if (room.Width <= 24 | room.Height <= 24) { return; }
+
+            int boxWidth = UnityEngine.Random.Range(6, Mathf.FloorToInt(room.Width * 0.25f));
+            int boxHeight = UnityEngine.Random.Range(6, Mathf.FloorToInt(room.Height * 0.25f));
+
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxWidth;
+            int xUpper = xCentre + boxWidth;
+
+            int yLower = yCentre - boxHeight;
+            int yUpper = yCentre + boxHeight;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+
+                    // create box
+                    _collideGrid[y, x] = 3;
+
+                    // cut out entrances
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        _collideGrid[y, x] = 0;
+                    }
+
+                    if ()
+                }
+            }
+        }
+        
+        if (_roomType == RoomType.Pillars)
+        {
+            int boxWidth = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Width * 0.25f));
+            int boxHeight = UnityEngine.Random.Range(5, Mathf.FloorToInt(room.Height * 0.25f));
+
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxWidth;
+            int xUpper = xCentre + boxWidth;
+
+            int yLower = yCentre - boxHeight;
+            int yUpper = yCentre + boxHeight;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+                    
+                    // fills box
+                    _collideGrid[y, x] = 3;
+
+                    // cuts walkways
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) | (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        _collideGrid[y, x] = 0;
+                    }
+                }
+            }
+        }
+        
+    }
+
+    private void GatewaysClearWallBlockers(Room room, int[,] padGrid, int[,] collideGrid)
+    {
+        for (int y = 0; y < room.Height; y++)
+        {
+            for (int x = 0; x < room.Width; x++)
+            {
+                if (padGrid[y, x] == 4)
+                {
+                    collideGrid[y, x] = 0;
+                }
+
+                // NORTH
+                if (y == room.Height - 1)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y - 1, x] = 0;
+                    }
+                }
+
+                // SOUTH
+                if (y == 0)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y + 1, x] = 0;
+                    }
+                }
+
+                // WEST
+                if (x == 0)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y, x + 1] = 0;
+                    }
+                }
+
+                // EAST
+                if (x == room.Width - 1)
+                {
+                    if (padGrid[y, x] == 4)
+                    {
+                        collideGrid[y, x - 1] = 0;
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void GatewaysGenerate(Room room, int[,] padGrid, int[,] collideGrid, int[] gates)
     {
         // GATE TILE PLACEMENT MADE OBSELETE
         // now gateways are handled by gameobjects with colliders placed after room gen
@@ -210,12 +508,12 @@ public class RoomGenerator : MonoBehaviour
             padGrid[room.Height - 1, middleX - 1] = 4;
             padGrid[room.Height - 1, middleX + 1] = 4;
 
-            wallGrid[room.Height - 1, middleX] = 0;
-            wallGrid[room.Height - 1, middleX - 1] = 0;
-            wallGrid[room.Height - 1, middleX + 1] = 0;
+            collideGrid[room.Height - 1, middleX] = 0;
+            collideGrid[room.Height - 1, middleX - 1] = 0;
+            collideGrid[room.Height - 1, middleX + 1] = 0;
 
-            wallGrid[room.Height - 2, middleX - 2] = 0;
-            wallGrid[room.Height - 2, middleX + 2] = 0;
+            collideGrid[room.Height - 2, middleX - 2] = 0;
+            collideGrid[room.Height - 2, middleX + 2] = 0;
         }
 
         // EAST
@@ -225,12 +523,12 @@ public class RoomGenerator : MonoBehaviour
             padGrid[middleY - 1, room.Width - 1] = 4;
             padGrid[middleY + 1, room.Width - 1] = 4;
 
-            wallGrid[middleY, room.Width - 1] = 0;
-            wallGrid[middleY - 1, room.Width - 1] = 0;
-            wallGrid[middleY + 1, room.Width - 1] = 0;
+            collideGrid[middleY, room.Width - 1] = 0;
+            collideGrid[middleY - 1, room.Width - 1] = 0;
+            collideGrid[middleY + 1, room.Width - 1] = 0;
 
-            wallGrid[middleY - 2, room.Width - 2] = 0;
-            wallGrid[middleY + 2, room.Width - 2] = 0;
+            collideGrid[middleY - 2, room.Width - 2] = 0;
+            collideGrid[middleY + 2, room.Width - 2] = 0;
         }
 
         // SOUTH
@@ -240,12 +538,12 @@ public class RoomGenerator : MonoBehaviour
             padGrid[0, middleX - 1] = 4;
             padGrid[0, middleX + 1] = 4;
 
-            wallGrid[0, middleX] = 0;
-            wallGrid[0, middleX - 1] = 0;
-            wallGrid[0, middleX + 1] = 0;
+            collideGrid[0, middleX] = 0;
+            collideGrid[0, middleX - 1] = 0;
+            collideGrid[0, middleX + 1] = 0;
 
-            wallGrid[1, middleX - 2] = 0;
-            wallGrid[1, middleX + 2] = 0;
+            collideGrid[1, middleX - 2] = 0;
+            collideGrid[1, middleX + 2] = 0;
 
         }
         
@@ -256,121 +554,27 @@ public class RoomGenerator : MonoBehaviour
             padGrid[middleY - 1, 0] = 4;
             padGrid[middleY + 1, 0] = 4;
 
-            wallGrid[middleY, 0] = 0;
-            wallGrid[middleY - 1, 0] = 0;
-            wallGrid[middleY + 1, 0] = 0;
+            collideGrid[middleY, 0] = 0;
+            collideGrid[middleY - 1, 0] = 0;
+            collideGrid[middleY + 1, 0] = 0;
 
-            wallGrid[middleY - 2, 1] = 0;
-            wallGrid[middleY + 2, 1] = 0;
+            collideGrid[middleY - 2, 1] = 0;
+            collideGrid[middleY + 2, 1] = 0;
         }
-
-        
     }
 
-    private void FillEmptiesSurroundedByWalls(Room room, int[,] wallGrid)
+    private void SelectRoomType(Room room)
     {
-        for (int y = 0; y < room.Height; y++)
-        {
-            for (int x = 0; x < room.Width; x++)
-            {
-                if (wallGrid[y, x] == 0)
-                {
-                    Vector2Int loc = new Vector2Int(x, y);
-                    int[,] neighbours = GridMath.GetNeighbours(wallGrid, loc);
-                    if (GridMath.CheckSurroundedCardinal(neighbours, 2)) 
-                    {
-                        wallGrid[y, x] = 2;
-                    }
-                } 
-            }
-        }
-    }
-    
-    private void FillSingleSpaceGapsInWalls(Room room, int[,] wallGrid)
-    {
+        int roomTypeCount = Enum.GetNames(typeof(RoomType)).Length;
 
-        bool changed = true;
+        // 0 and 1 are Lobby and End - shouldn't randomly roll them
+        _roomType = (RoomType) UnityEngine.Random.Range(2, roomTypeCount);
 
-        while (changed)
-        {
-
-            changed = false;
-
-            for (int y = 0; y < room.Height; y++)
-            {
-                for (int x = 0; x < room.Width; x++)
-                {
-                    if (wallGrid[y, x] != 0) { continue; }
-
-                    if (wallGrid[y - 1, x] == 2 & wallGrid[y + 1, x] == 2)
-                    {
-                        wallGrid[y, x] = 2;
-                        changed = true;
-                    }
-
-                    if (wallGrid[y, x - 1] == 2 & wallGrid[y, x + 1] == 2)
-                    {
-                        wallGrid[y, x] = 2;
-                        changed = true;
-                    }                    
-                }
-            }
-        }
-
+        _roomType = RoomType.RingOpen;
     }
 
-    private void RemoveGatewayBlockers(Room room, int[,] padGrid, int[,] wallGrid)
-    {
-        for (int y = 0; y < room.Height; y++)
-        {
-            for (int x = 0; x < room.Width; x++)
-            {
-                if (padGrid[y, x] == 4)
-                {
-                    wallGrid[y, x] = 0;
-                }
-
-                // NORTH
-                if (y == room.Height - 1)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        wallGrid[y - 1, x] = 0;
-                    }
-                }
-
-                // SOUTH
-                if (y == 0)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        wallGrid[y + 1, x] = 0;
-                    }
-                }
-
-                // WEST
-                if (x == 0)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        wallGrid[y, x + 1] = 0;
-                    }
-                }
-
-                // EAST
-                if (x == room.Width - 1)
-                {
-                    if (padGrid[y, x] == 4)
-                    {
-                        wallGrid[y, x - 1] = 0;
-                    }
-                }
-
-            }
-        }
-    }
-
-    private void GenerateSpawnGrid(Room room)
+    // SPAWN LOCATIONS
+    private void SpawnableGridGenerate(Room room)
     {
         for (int y = 0; y < room.Height; y++)
         {
@@ -387,7 +591,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void CalculateMobSlots(Room room)
+    private void MobSpawnLocGenerate(Room room)
     {
         int spawnTiles = 0;
         _spawnLocations = new List<Vector2>();
@@ -421,7 +625,7 @@ public class RoomGenerator : MonoBehaviour
     }
     
     // TILE DRAWING
-    private void SetGridTiles(Room room, int[,] baseGrid, int[,] wallGrid, int[,] padGrid, Tilemap baseTilemap, Tilemap wallTilemap, Tilemap padTilemap)
+    private void SetGridTiles(Room room, int[,] baseGrid, int[,] collideGrid, int[,] padGrid, Tilemap baseTilemap, Tilemap collideTilemap, Tilemap padTilemap)
     {
         for (int y = 0; y < room.Height; y++)
         {
@@ -432,19 +636,19 @@ public class RoomGenerator : MonoBehaviour
                     baseTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), SelectRandomGrassTile());
                 }
 
-                if (wallGrid[y, x] == 2) 
+                if (collideGrid[y, x] == 2) 
                 {
-                    wallTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), SelectWallTile(new Vector2Int(x, y), wallGrid));
+                    collideTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), SelectWallTile(new Vector2Int(x, y), collideGrid));
                 }
 
-                if (wallGrid[y, x] == 3) 
+                if (collideGrid[y, x] == 3) 
                 {
-                    wallTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), SelectRandomRockTile());
+                    collideTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), SelectRandomRockTile());
                 }
 
-                if (wallGrid[y, x] == 99) 
+                if (collideGrid[y, x] == 99) 
                 {
-                    wallTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), RedTestTile);
+                    collideTilemap.SetTile(new Vector3Int(x - (room.Width / 2), y - (room.Height / 2), 0), RedTestTile);
                 }
 
                 if (padGrid[y, x] == 4) 
@@ -459,19 +663,16 @@ public class RoomGenerator : MonoBehaviour
     private Tile SelectRandomGrassTile()
     {
         Tile selectedTile = Grass[0];
-        int roll = 0;
 
         // roll for shrub
-        roll = (int)Random.Range(0, 100);
-        if (roll <= 30)
+        if (Roll.Chance(30))
         {
-            selectedTile = Grass[(int)Random.Range(4, 7)];
+            selectedTile = Grass[(int) UnityEngine.Random.Range(4, 7)];
 
             // roll shrub for flower
-            roll = (int)Random.Range(0, 100);
-            if (roll <= 8)
+            if (Roll.Chance(8))
             {
-                selectedTile = Grass[(int)Random.Range(1, 4)];
+                selectedTile = Grass[(int) UnityEngine.Random.Range(1, 4)];
             }
         }
 
@@ -481,13 +682,13 @@ public class RoomGenerator : MonoBehaviour
 
     private Tile SelectRandomRockTile()
     {
-        return Rocks[(int) Random.Range(0, Rocks.Length)];
+        return Rocks[(int) UnityEngine.Random.Range(0, Rocks.Length)];
     }
 
-    private Tile SelectWallTile(Vector2Int loc, int[,] wallGrid)
+    private Tile SelectWallTile(Vector2Int loc, int[,] collideGrid)
     {
 
-        int[,] neighbours = GridMath.GetNeighbours(wallGrid, loc);
+        int[,] neighbours = GridMath.GetNeighbours(collideGrid, loc);
         string gridType = GridMath.WallComparison(neighbours);
         
         if (gridType != null)

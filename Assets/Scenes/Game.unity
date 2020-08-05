@@ -26019,6 +26019,16 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: Health
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: Fireball

@@ -20,10 +20,10 @@ public class Inventory : MonoBehaviour
         _gameEventSystem.onXPress += OnXPress;
     }
 
-    private void FixedUpdate()
-    {
-        print(Items.Count);
-    }
+    // private void FixedUpdate()
+    // {
+    //     print(Items.Count);
+    // }
 
     public void Add(RangedAttack item)
     {
