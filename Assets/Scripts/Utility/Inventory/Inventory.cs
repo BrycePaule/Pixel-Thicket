@@ -62,7 +62,7 @@ public class Inventory : MonoBehaviour
 
     private void OnXPress() 
     {
-        Add(Attacks[Attacks.Length - 1]);
+        Add(Attacks[1]);
         print("adding XXXX");
     }
 

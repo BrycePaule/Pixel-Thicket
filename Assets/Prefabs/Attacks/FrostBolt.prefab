@@ -4870,6 +4870,10 @@ MonoBehaviour:
   Direction: {x: 0, y: 0}
   Icon: {fileID: 21300000, guid: 22000de8e0afe2a49828343f5adbbbec, type: 3}
   Sprite: {fileID: 21300000, guid: 22000de8e0afe2a49828343f5adbbbec, type: 3}
+  _travelSound: 0
+  _landingSound: 0
+  _deathEffect: {fileID: 878073708473006882, guid: 4724b624d0eb9a74a966725ed96676e2,
+    type: 3}
   _maxLifetime: 10
 --- !u!212 &2963002480795039245
 SpriteRenderer:

@@ -54,7 +54,6 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _transform = transform;
         _gameEventSystem = GameEventSystem.Instance;
         _audioManager = AudioManager.Instance;
-        _healthBar = GetComponentInChildren<HealthBar>();
         _inputHandler = GetComponent<InputHandler>();
 
         _gameEventSystem.onDashPress += OnDashPress;

@@ -4889,6 +4889,8 @@ MonoBehaviour:
   Direction: {x: 0, y: 0}
   Icon: {fileID: 21300000, guid: 64b2330a270f14b41a175d77ace9a6de, type: 3}
   Sprite: {fileID: 21300000, guid: 64b2330a270f14b41a175d77ace9a6de, type: 3}
+  _travelSound: 5
+  _landingSound: 1
   _deathEffect: {fileID: 878073708473006882, guid: 3d4c9a974d24787489be40eac9276891,
     type: 3}
   _maxLifetime: 10

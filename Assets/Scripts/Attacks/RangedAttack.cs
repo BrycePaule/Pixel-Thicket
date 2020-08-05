@@ -16,6 +16,8 @@ public class RangedAttack : MonoBehaviour
     public Sprite Icon;
     public Sprite Sprite;
 
+    [SerializeField] private SoundType _travelSound;
+    [SerializeField] private SoundType _landingSound;
     [SerializeField] GameObject _deathEffect;
     [SerializeField] private float _maxLifetime = 10f;
     private float _birthTime;
@@ -23,7 +25,6 @@ public class RangedAttack : MonoBehaviour
     private Transform _transform;
     private Rigidbody2D _rb;
     private AudioManager _audioManager;
-    private AudioSource _travelSound;
 
     private bool _dying;
 
@@ -38,7 +39,7 @@ public class RangedAttack : MonoBehaviour
 
     private void Start()
     {
-        _travelSound = _audioManager.Play(SoundType.FireboltCrackle);
+        // _travelSound = _audioManager.Play(SoundType.FireboltCrackle);
     }
 
     private void Update() {
@@ -86,7 +87,7 @@ public class RangedAttack : MonoBehaviour
         _dying = true;
 
         _audioManager.Play(SoundType.Explosion, 0.3f);
-        _audioManager.Stop(_travelSound);
+        // _audioManager.Stop(_travelSound);
 
         if (_deathEffect != null)
         {
