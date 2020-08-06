@@ -10,7 +10,6 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private MobGenerator _mobGenerator;
     [SerializeField] private AudioManager _audioManager;
-    [SerializeField] private Inventory _playerInventory;
 
     [SerializeField] private SceneLoader _sceneLoader;
     private MapGenerator _mapGenerator;

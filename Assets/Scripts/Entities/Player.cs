@@ -20,7 +20,6 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private ParticleSystem _dashParticle;
     [SerializeField] private Camera _camera;
     [SerializeField] private HealthBar _healthBar;
-    [SerializeField] private GameEventSystem _gameEventSystem;
     [SerializeField] public Inventory Inventory;
 
     [Space(10)]
@@ -42,10 +41,11 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private float dashCooldownTracker;
     private bool _dashing;
 
+    private GameEventSystem _gameEventSystem;
     private Transform _transform;
-    private Vector2 _moveAxis;
     private AudioManager _audioManager;
     private InputHandler _inputHandler;
+    private Vector2 _moveAxis;
 
     private void Awake()
     {
@@ -233,7 +233,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         print("loading");
         SaveManager.LoadPlayer(SaveManager.LoadPlayerData(), this);
     }
-
+    
     private void OnZPress()
     {
         print("saving");

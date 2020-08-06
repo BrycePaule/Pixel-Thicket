@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RangedAttack : MonoBehaviour
 {
-
     public string Name;
     public int ID;
     public float Damage;
@@ -40,6 +39,12 @@ public class RangedAttack : MonoBehaviour
     private void Start()
     {
         // _travelSound = _audioManager.Play(SoundType.FireboltCrackle);
+    }
+
+    public void Fire(Vector2 direction)
+    {
+        _rb.AddForce(direction * MissileSpeed, ForceMode2D.Impulse);
+        Direction = direction;
     }
 
     private void Update() {

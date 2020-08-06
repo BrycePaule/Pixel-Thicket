@@ -42,7 +42,7 @@ public class Inventory : MonoBehaviour
     {
         if (Items.Count < _slots) { return; }
 
-        Items.Add(_rangedAttackManager.IDLookup[itemID]);
+        Items.Add(_rangedAttackManager.IDLookup[itemID].GetComponent<RangedAttack>());
         _gameEventSystem.OnInventoryChanged();
     }
 
@@ -86,11 +86,6 @@ public class Inventory : MonoBehaviour
     private void OnZPress() 
     {
         Add(Attacks[_attackSelector]);
-        print("adding spell");
-
-        print(_attackSelector);
-        print(Attacks.Length);
-
         _attackSelector = (_attackSelector >= Attacks.Length - 1) ? 0 : _attackSelector + 1; 
     }
 
