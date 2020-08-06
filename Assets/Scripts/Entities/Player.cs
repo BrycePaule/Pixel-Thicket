@@ -21,15 +21,15 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     [SerializeField] private Camera _camera;
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private GameEventSystem _gameEventSystem;
-    [SerializeField] private Inventory _inventory;
+    [SerializeField] public Inventory Inventory;
 
     [Space(10)]
-    [SerializeField] private float healthRegen;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float sprintMultiplier;
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashTime;
-    [SerializeField] private float dashCooldown;
+    [SerializeField] public float HealthRegen;
+    [SerializeField] public float MoveSpeed;
+    [SerializeField] public float SprintMultiplier;
+    [SerializeField] public float DashSpeed;
+    [SerializeField] public float DashTime;
+    [SerializeField] public float DashCooldown;
 
     private Vector2 _faceDirection;
     private bool _idle;
@@ -41,8 +41,6 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private float dashTimeCounter;
     private float dashCooldownTracker;
     private bool _dashing;
-
-    private float _inventoryPress;
 
     private Transform _transform;
     private Vector2 _moveAxis;
@@ -59,6 +57,9 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         _gameEventSystem.onDashPress += OnDashPress;
         _gameEventSystem.onSprintPress += OnSprintPress;
         _gameEventSystem.onSprintRelease += OnSprintRelease;
+
+        _gameEventSystem.onXPress += OnXPress;
+        _gameEventSystem.onZPress += OnZPress;
     }
 
     private void Start()
@@ -99,11 +100,11 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
         if (_sprinting)
         {
-            _rb.position += new Vector2(_moveAxis.x * moveSpeed * sprintMultiplier * timeDelta, _moveAxis.y * moveSpeed * sprintMultiplier * timeDelta);
+            _rb.position += new Vector2(_moveAxis.x * MoveSpeed * SprintMultiplier * timeDelta, _moveAxis.y * MoveSpeed * SprintMultiplier * timeDelta);
         }
         else
         {
-            _rb.position += new Vector2(_moveAxis.x * moveSpeed * timeDelta, _moveAxis.y * moveSpeed * timeDelta);
+            _rb.position += new Vector2(_moveAxis.x * MoveSpeed * timeDelta, _moveAxis.y * MoveSpeed * timeDelta);
         }
     }
 
@@ -115,9 +116,9 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
             if (Time.time <= dashCooldownTracker) { return; }
 
             _dashing = true;
-            dashTimeCounter = dashTime;
-            dashCooldownTracker = Time.time + dashCooldown;
-            _rb.AddForce(new Vector2(_moveAxis.x * dashSpeed, _moveAxis.y * dashSpeed), ForceMode2D.Impulse);
+            dashTimeCounter = DashTime;
+            dashCooldownTracker = Time.time + DashCooldown;
+            _rb.AddForce(new Vector2(_moveAxis.x * DashSpeed, _moveAxis.y * DashSpeed), ForceMode2D.Impulse);
             _audioManager.Play(SoundType.Dash);
         }
 
@@ -224,6 +225,19 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     // EVENTS
     private void OnDashPress() => _dashPress = 1;
     private void OnSprintPress() => _sprinting = true; 
+
     private void OnSprintRelease() => _sprinting = false;
+    
+    private void OnXPress()
+    {
+        print("loading");
+        SaveManager.LoadPlayer(SaveManager.LoadPlayerData(), this);
+    }
+
+    private void OnZPress()
+    {
+        print("saving");
+        SaveManager.SavePlayerData(this);
+    }
     
 }
