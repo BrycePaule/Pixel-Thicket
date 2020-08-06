@@ -41,25 +41,25 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private float dashCooldownTracker;
     private bool _dashing;
 
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
     private Transform _transform;
     private AudioManager _audioManager;
-    private InputHandler _inputHandler;
+    private InputManager _inputManager;
     private Vector2 _moveAxis;
 
     private void Awake()
     {
         _transform = transform;
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
         _audioManager = AudioManager.Instance;
-        _inputHandler = GetComponent<InputHandler>();
+        _inputManager = GetComponent<InputManager>();
 
-        _gameEventSystem.onDashPress += OnDashPress;
-        _gameEventSystem.onSprintPress += OnSprintPress;
-        _gameEventSystem.onSprintRelease += OnSprintRelease;
+        _gameEventManager.onDashPress += OnDashPress;
+        _gameEventManager.onSprintPress += OnSprintPress;
+        _gameEventManager.onSprintRelease += OnSprintRelease;
 
-        _gameEventSystem.onXPress += OnXPress;
-        _gameEventSystem.onZPress += OnZPress;
+        _gameEventManager.onXPress += OnXPress;
+        _gameEventManager.onZPress += OnZPress;
     }
 
     private void Start()
@@ -69,7 +69,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
     private void Update()
     {
-        _moveAxis = _inputHandler.PlayerMoveAxis;
+        _moveAxis = _inputManager.PlayerMoveAxis;
 
         CalculateDirection();
         UpdateAnimator();
@@ -154,7 +154,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
     private void CalculateDirection()
     {
-        Vector2 mousePos = _camera.ScreenToWorldPoint(_inputHandler.MousePos);
+        Vector2 mousePos = _camera.ScreenToWorldPoint(_inputManager.MousePos);
         Vector2 direction = mousePos - _rb.position;
         direction.Normalize();
 
@@ -207,7 +207,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
 
     public void Kill()
     {
-        _gameEventSystem.OnPlayerDeath();
+        _gameEventManager.OnPlayerDeath();
     }
 
     public IEnumerator RegenTimer()

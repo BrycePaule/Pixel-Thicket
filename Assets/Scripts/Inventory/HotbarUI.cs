@@ -13,22 +13,22 @@ public class HotbarUI : MonoBehaviour
     private HotbarSlot[] _slots;
     private int _slotCount;
 
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
     private Canvas _hotbarCanvas;
 
     private int _selected;
 
     private void Awake()
     {
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
 
-        _gameEventSystem.onInventoryChanged += OnInventoryChanged;
-        _gameEventSystem.onMouseScroll += context => OnMouseScroll(context);
-        _gameEventSystem.onSlot1Press += OnSlot1Press;
-        _gameEventSystem.onSlot2Press += OnSlot2Press;
-        _gameEventSystem.onSlot3Press += OnSlot3Press;
-        _gameEventSystem.onSlot4Press += OnSlot4Press;
-        _gameEventSystem.onSlot5Press += OnSlot5Press;
+        _gameEventManager.onInventoryChanged += OnInventoryChanged;
+        _gameEventManager.onMouseScroll += context => OnMouseScroll(context);
+        _gameEventManager.onSlot1Press += OnSlot1Press;
+        _gameEventManager.onSlot2Press += OnSlot2Press;
+        _gameEventManager.onSlot3Press += OnSlot3Press;
+        _gameEventManager.onSlot4Press += OnSlot4Press;
+        _gameEventManager.onSlot5Press += OnSlot5Press;
 
         PopulateSlots();
     }
@@ -76,7 +76,7 @@ public class HotbarUI : MonoBehaviour
         if (_selected == selectedSlot) { return; }
 
         _selected = selectedSlot;
-        _gameEventSystem.OnInventoryChanged();
+        _gameEventManager.OnInventoryChanged();
     }
 
     private void OnInventoryChanged() => UpdateHotbar();

@@ -8,14 +8,14 @@ public class Gateway : MonoBehaviour
     public Direction direction;
 
     private SceneLoader _sceneLoader;
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
     private Player _player;
 
 
     private void Awake()
     {
         _sceneLoader = SceneLoader.Instance;
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
         _player = FindObjectOfType<Player>();
     }
 
@@ -34,7 +34,7 @@ public class Gateway : MonoBehaviour
             if (_player.GatewayTravelLocked) { return; }
 
             _player.StartCoroutine("GatewayLock");
-            _gameEventSystem.OnGatewayEnter((int)direction);
+            _gameEventManager.OnGatewayEnter((int)direction);
         }
     }
 }

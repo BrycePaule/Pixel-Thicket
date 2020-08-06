@@ -10,6 +10,7 @@ public class RangedAttack : MonoBehaviour
     public float Cooldown;
     public float MissileSpeed;
     public bool Pierce;
+    public bool Knockback;
     public Transform Shooter;
     public Vector2 Direction;
     public Sprite Icon;
@@ -77,9 +78,9 @@ public class RangedAttack : MonoBehaviour
 
         if (!Pierce)
         {
-            IKnockable targetKnock = other.transform.GetComponent<IKnockable>();
-            if (targetKnock != null) {
-                targetKnock.Knockback(Direction * new Vector2(0.5f, 0.5f));
+            IKnockable knockableObject = other.transform.GetComponent<IKnockable>();
+            if (knockableObject != null & Knockback) {
+                knockableObject.Knockback(Direction * new Vector2(0.5f, 0.5f));
             }
 
             Die();

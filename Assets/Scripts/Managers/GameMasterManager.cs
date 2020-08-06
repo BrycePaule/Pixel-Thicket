@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameMaster : MonoBehaviour
+public class GameMasterManager : MonoBehaviour
 {
 
     [SerializeField] private Texture2D _cursorSprite;
@@ -13,7 +13,7 @@ public class GameMaster : MonoBehaviour
 
     [SerializeField] private SceneLoader _sceneLoader;
     private MapGenerator _mapGenerator;
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
     private Room[,] _rooms;
     private Room _currentRoom;
     
@@ -24,14 +24,14 @@ public class GameMaster : MonoBehaviour
 
     private void Start()
     {
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
         _sceneLoader = SceneLoader.Instance;
         _audioManager = AudioManager.Instance;
         _mapGenerator = MapGenerator.Instance;
         _mobGenerator = MobGenerator.Instance;
 
-        _gameEventSystem.onGatewayEnter += OnGatewayEnter;
-        _gameEventSystem.onPlayerDeath += OnPlayerDeath;
+        _gameEventManager.onGatewayEnter += OnGatewayEnter;
+        _gameEventManager.onPlayerDeath += OnPlayerDeath;
 
         _rooms = _mapGenerator.GenerateMap();
         SetupStartRoom();

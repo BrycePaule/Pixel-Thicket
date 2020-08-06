@@ -12,7 +12,7 @@ public class RangedAttackManager : MonoBehaviour
     public Dictionary<int, GameObject> IDLookup = new Dictionary<int, GameObject>();
     
     private Transform _transform;
-    private InputHandler _inputHandler;
+    private InputManager _inputManager;
 
     private float shootCooldown;
 
@@ -40,7 +40,7 @@ public class RangedAttackManager : MonoBehaviour
 
         _transform = transform;
 
-        _inputHandler = GetComponentInParent<InputHandler>();
+        _inputManager = GetComponentInParent<InputManager>();
     }
 
     private void Start()

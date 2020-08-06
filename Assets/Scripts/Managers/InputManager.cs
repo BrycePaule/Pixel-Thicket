@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputHandler : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
     private PlayerInput _playerInput;
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
 
     public Vector2 PlayerMoveAxis;
     public Vector2 MousePos;
@@ -16,7 +16,7 @@ public class InputHandler : MonoBehaviour
     private void Awake()
     {
         _playerInput = new PlayerInput();
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
 
         PlayerInput.MouseActions Mouse = _playerInput.Mouse;
         PlayerInput.MovementActions Movement = _playerInput.Movement;
@@ -67,7 +67,7 @@ public class InputHandler : MonoBehaviour
 
     private void OnScroll(Vector2 context)
     {
-        _gameEventSystem.OnMouseScroll(context.y);
+        _gameEventManager.OnMouseScroll(context.y);
     }
 
     private void OnPlayerMove(Vector2 context)
@@ -82,63 +82,63 @@ public class InputHandler : MonoBehaviour
 
     private void OnSprintPress()
     {
-        _gameEventSystem.OnSprintPress();
+        _gameEventManager.OnSprintPress();
     }
 
     private void OnSprintRelease()
     {
-        _gameEventSystem.OnSprintRelease();
+        _gameEventManager.OnSprintRelease();
     }
 
     private void OnDashPress()
     {
-        _gameEventSystem.OnDashPress();
+        _gameEventManager.OnDashPress();
     }
 
     private void OnInventoryPress()
     {
-        _gameEventSystem.OnInventoryPress();
+        _gameEventManager.OnInventoryPress();
     }
 
     private void OnSlot1Press()
     {
-        _gameEventSystem.OnSlot1Press();
+        _gameEventManager.OnSlot1Press();
     }
 
     private void OnSlot2Press()
     {
-        _gameEventSystem.OnSlot2Press();
+        _gameEventManager.OnSlot2Press();
     }
 
     private void OnSlot3Press()
     {
-        _gameEventSystem.OnSlot3Press();
+        _gameEventManager.OnSlot3Press();
     }
 
     private void OnSlot4Press()
     {
-        _gameEventSystem.OnSlot4Press();
+        _gameEventManager.OnSlot4Press();
     }
 
     private void OnSlot5Press()
     {
-        _gameEventSystem.OnSlot5Press();
+        _gameEventManager.OnSlot5Press();
     }
 
     private void OnShootPress()
     {
-        _gameEventSystem.OnShootPress(MousePos);
+        _gameEventManager.OnShootPress(MousePos);
     }
 
     // DEV KEYS
     private void OnZPress()
     {
-        _gameEventSystem.OnZPress();
+        _gameEventManager.OnZPress();
     }
 
     private void OnXPress()
     {
-        _gameEventSystem.OnXPress();
+        _gameEventManager.OnXPress();
     }
     
 }

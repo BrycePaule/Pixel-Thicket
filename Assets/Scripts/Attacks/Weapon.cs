@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Inventory _inventory;
 
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
     private RangedAttackManager _rangedAttackManager;
     private Transform _transform;
 
@@ -16,10 +16,10 @@ public class Weapon : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
         _rangedAttackManager = RangedAttackManager.Instance;
 
-        _gameEventSystem.onShootPress += context => OnShootPress(context);
+        _gameEventManager.onShootPress += context => OnShootPress(context);
     }
 
     private bool Shoot(Vector3 target)

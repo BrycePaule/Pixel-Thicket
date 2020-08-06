@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private RangedAttack[] Attacks;
     [SerializeField] private RangedAttackManager _rangedAttackManager;
 
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
 
     public List<RangedAttack> Items = new List<RangedAttack>();
     private int _slots;
@@ -18,16 +18,16 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
 
-        _gameEventSystem.onSlot1Press += OnSlot1Press;
-        _gameEventSystem.onSlot2Press += OnSlot2Press;
-        _gameEventSystem.onSlot3Press += OnSlot3Press;
-        _gameEventSystem.onSlot4Press += OnSlot4Press;
-        _gameEventSystem.onSlot5Press += OnSlot5Press;
+        _gameEventManager.onSlot1Press += OnSlot1Press;
+        _gameEventManager.onSlot2Press += OnSlot2Press;
+        _gameEventManager.onSlot3Press += OnSlot3Press;
+        _gameEventManager.onSlot4Press += OnSlot4Press;
+        _gameEventManager.onSlot5Press += OnSlot5Press;
 
-        _gameEventSystem.onZPress += OnZPress;
-        _gameEventSystem.onXPress += OnXPress;
+        _gameEventManager.onZPress += OnZPress;
+        _gameEventManager.onXPress += OnXPress;
     }
 
     public void Add(RangedAttack item)
@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
         if (Items.Count < _slots) { return; }
 
         Items.Add(item);
-        _gameEventSystem.OnInventoryChanged();
+        _gameEventManager.OnInventoryChanged();
     }
 
     public void Add(int itemID)
@@ -43,19 +43,19 @@ public class Inventory : MonoBehaviour
         if (Items.Count < _slots) { return; }
 
         Items.Add(_rangedAttackManager.IDLookup[itemID].GetComponent<RangedAttack>());
-        _gameEventSystem.OnInventoryChanged();
+        _gameEventManager.OnInventoryChanged();
     }
 
     public void Remove(RangedAttack item)
     {
         Items.Remove(item);
-        _gameEventSystem.OnInventoryChanged();
+        _gameEventManager.OnInventoryChanged();
     }
 
     public void ClearInventory()
     {
         Items = new List<RangedAttack>();
-        _gameEventSystem.OnInventoryChanged();
+        _gameEventManager.OnInventoryChanged();
     }
 
     public RangedAttack SelectedWeapon()
@@ -100,7 +100,7 @@ public class Inventory : MonoBehaviour
         if (Selected == selectedSlot) { return; }
 
         Selected = selectedSlot;
-        _gameEventSystem.OnInventoryChanged();
+        _gameEventManager.OnInventoryChanged();
     }
 
     private void OnSlot1Press() => ChangeSelection(0);

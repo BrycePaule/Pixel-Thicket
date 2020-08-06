@@ -111,13 +111,13 @@ public class SceneLoader : MonoBehaviour
     public IEnumerator BlankCrossfade()
     {
         _transition.SetBool("Curtain", true);
-        _player.GetComponent<InputHandler>().DisableControls();
+        _player.GetComponent<InputManager>().DisableControls();
         _player.StopAllMovement();
         yield return new WaitForSeconds(_transitionTime);
 
         _transition.SetBool("Curtain", false);
         yield return new WaitForSeconds(_transitionTime * 0.5f);
-        _player.GetComponent<InputHandler>().EnableControls();
+        _player.GetComponent<InputManager>().EnableControls();
     }
 
 }

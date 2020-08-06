@@ -7,7 +7,7 @@ public class InventoryUI : MonoBehaviour
 
     [SerializeField] private Inventory _inventory;
 
-    private GameEventSystem _gameEventSystem;
+    private GameEventManager _gameEventManager;
     private Canvas _inventoryCanvas;
     private Transform _inventoryContainer;
 
@@ -15,12 +15,12 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
-        _gameEventSystem = GameEventSystem.Instance;
+        _gameEventManager = GameEventManager.Instance;
         _inventoryCanvas = GetComponentInParent<Canvas>();
         _inventoryContainer = transform;
 
-        _gameEventSystem.onInventoryPress += OnInventoryPress;
-        _gameEventSystem.onInventoryChanged += OnInventoryChanged;
+        _gameEventManager.onInventoryPress += OnInventoryPress;
+        _gameEventManager.onInventoryChanged += OnInventoryChanged;
     }
 
     private void Start()

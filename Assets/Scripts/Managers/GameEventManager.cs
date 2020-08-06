@@ -3,20 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameEventSystem : MonoBehaviour
+public class GameEventManager : MonoBehaviour
 {
-    private static GameEventSystem _instance;
+    private static GameEventManager _instance;
 
-    public static GameEventSystem Instance
+    public static GameEventManager Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<GameEventSystem>();
+                _instance = FindObjectOfType<GameEventManager>();
                 if (_instance == null)
                 {
-                    _instance = new GameEventSystem();
+                    _instance = new GameEventManager();
                 }
             }
             return _instance;
