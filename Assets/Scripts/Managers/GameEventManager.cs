@@ -26,7 +26,7 @@ public class GameEventManager : MonoBehaviour
 
     private void Awake() 
     {
-        if (_instance != null) { Destroy(gameObject); print(_instance); }
+        if (_instance != null) { Destroy(gameObject); }
     }
 
     // EVENTS
@@ -166,7 +166,7 @@ public class GameEventManager : MonoBehaviour
         for(int index = 0;  index < eventSystemRaysastResults.Count; index ++)
         {
             RaycastResult curRaysastResult = eventSystemRaysastResults [index];
-            if (curRaysastResult.gameObject.layer == LayerMask.NameToLayer("UI"))
+            if (curRaysastResult.gameObject.layer == 5)
             {
                 return true;
             }

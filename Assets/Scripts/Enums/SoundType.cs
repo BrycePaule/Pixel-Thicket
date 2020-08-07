@@ -21,4 +21,7 @@ public enum SoundType
 
     // V: 0.1 | P: 1
     FireboltCrackle,
+
+    // V: 0.5 | P: 1
+    PlayerHit,
 }

@@ -34,6 +34,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     private bool _idle;
     private bool _idleChecking;
     private bool _regenChecking;
+    private bool _hit;
 
     private bool _sprinting;
     private float _dashPress;
@@ -119,7 +120,7 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
             dashTimeCounter = DashTime;
             dashCooldownTracker = Time.time + DashCooldown;
             _rb.AddForce(new Vector2(_moveAxis.x * DashSpeed, _moveAxis.y * DashSpeed), ForceMode2D.Impulse);
-            _audioManager.Play(SoundType.Dash);
+            _audioManager.PlayInstant(SoundType.Dash);
         }
 
         // continue dash
@@ -196,6 +197,11 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
     // HEALTH
     public void Damage(float damageTaken)
     {
+        _hit = true;
+        _animator.SetTrigger("Hit");
+        _audioManager.PlayInstant(SoundType.PlayerHit, 1, 1, true);
+        // _audioManager.PlayInstant(SoundType.PlayerHit);
+
         Health = ((Health - damageTaken) < 0) ? 0 : Health - damageTaken;
         _healthBar.SetHealth(Health);
 
@@ -240,4 +246,10 @@ public class Player : MonoBehaviour, IDamageable<float>, IKillable
         SaveManager.SavePlayerData(this);
     }
     
+    // CALLBACKS
+    private void HitFinish()
+    {
+        _animator.ResetTrigger("Hit");
+        _hit = false;
+    }
 }

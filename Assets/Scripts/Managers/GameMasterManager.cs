@@ -37,8 +37,8 @@ public class GameMasterManager : MonoBehaviour
         SetupStartRoom();
         PopulateRoomsWithMobs();
 
-        _audioManager.Play(SoundType.TemplePath);
-        _audioManager.Play(SoundType.Rain);
+        _audioManager.PlayInstant(SoundType.TemplePath);
+        _audioManager.PlayInstant(SoundType.Rain);
 
         _sceneLoader.FadeFromBlack();
     }

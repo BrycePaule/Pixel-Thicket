@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
 
     public Sound[] Sounds;
 
-    private Dictionary<SoundType, AudioSource[]> _soundDict = new Dictionary<SoundType, AudioSource[]>();
+    private Dictionary<SoundType, List<AudioSource>> _soundDict = new Dictionary<SoundType, List<AudioSource>>();
     private Dictionary<SoundGroup, AudioMixerGroup> _mixerDict = new Dictionary<SoundGroup, AudioMixerGroup>();
     
     private static AudioManager _instance;
@@ -41,25 +41,34 @@ public class AudioManager : MonoBehaviour
 
         BuildMixerDictionary();
         BuildSourceDictionary();
-
     }
 
-    public AudioSource Play(SoundType soundType, float volume = 1, bool playRandom = false)
+    private void Start()
     {
-        AudioSource[] sources;
-        try
+        foreach (var val in _soundDict[SoundType.PlayerHit])
+        {
+            print(val);
+        }
+    }
+
+    public AudioSource PlayInstant(SoundType soundType, float volume = 1f, float pitch = 1f, bool playRandom = false)
+    {
+        List<AudioSource> sources;
+
+        if (_soundDict.ContainsKey(soundType))
         {
             sources = _soundDict[soundType];
         }
-        catch
+        else
         {
             throw new KeyNotFoundException("<" + soundType + "> not found in sound library.");
         }
 
+
         if (playRandom)
         {
             List<int> rnd = new List<int>();
-            for (int n = 0; n < sources.Length; n++)
+            for (int n = 0; n < sources.Count; n++)
             {
                 rnd.Add(n);
             }
@@ -71,35 +80,47 @@ public class AudioManager : MonoBehaviour
                 AudioSource source = sources[index];
                 
                 if (source == null) { continue; }
-                
-                if (!source.isPlaying)
+                if (source.isPlaying) 
                 { 
-                    float currV = source.volume;
-
-                    source.volume = currV * volume;
-                    source.Play();
-
-                    source.volume = currV;
-                    return source;
+                    rnd.RemoveAt(index);
+                    continue; 
                 }
+               
+                float prevV = source.volume;
+                float prevP = source.pitch;
 
-                rnd.RemoveAt(index);
+                source.volume = prevV * volume;
+                source.pitch = prevP * pitch;
+
+                source.Play();
+                
+                source.volume = prevV;
+                source.pitch = prevP;
+
+                return source;
             }
         }
 
         else
         {
-            for (int i = 0; i < sources.Length; i++)
+            for (int i = 0; i < sources.Count; i++)
             {
                 AudioSource source = sources[i];
-                if (!source.isPlaying)
-                {
-                    float currV = source.volume;
-                    source.volume = currV * volume;
-                    source.Play();
-                    source.volume = currV;
-                    return source;
-                }
+                if (source == null) { continue; }
+                if (source.isPlaying) { continue; }
+
+                float prevV = source.volume;
+                float prevP = source.pitch;
+
+                source.volume = prevV * volume;
+                source.pitch = prevP * pitch;
+
+                source.Play();
+
+                source.volume = prevV;
+                source.pitch = prevP;
+
+                return source;
             }
         }
 
@@ -136,49 +157,36 @@ public class AudioManager : MonoBehaviour
 
     private void BuildSourceDictionary()
     {
-        foreach (Sound s in Sounds)
+        foreach (Sound sound in Sounds)
         {
-            AudioSource[] sources = new AudioSource[s.StackCount];
+            List<AudioSource> audioSources = new List<AudioSource>();
             
-            for (int i = 0; i < s.StackCount; i++)
+            for (int i = 0; i < sound.Counts; i++)
             {
-                AudioSource newSource = gameObject.AddComponent<AudioSource>();
-                newSource.clip = s.Clip;
-                newSource.outputAudioMixerGroup = _mixerDict[s.SoundGoup];
-                newSource.volume = s.ImportVolume;
-                newSource.pitch = s.ImportPitch;
-                newSource.loop = s.Loop;
-                newSource.playOnAwake = s.PlayOnAwake;
+                AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.clip = sound.Clip;
+                audioSource.outputAudioMixerGroup = _mixerDict[sound.SoundGoup];
+                audioSource.volume = sound.ImportVolume;
+                audioSource.pitch = sound.ImportPitch;
+                audioSource.loop = sound.Loop;
+                audioSource.playOnAwake = sound.PlayOnAwake;
 
-                sources[i] = newSource;
+                audioSources.Add(audioSource);
             }
 
-            s.Sources = sources;
+            sound.Sources = audioSources;
 
-            bool soundExists = _soundDict.ContainsKey(s.SoundType);
-            if (soundExists)
+            if (_soundDict.ContainsKey(sound.SoundType))
             {
-                AudioSource[] prevSources = _soundDict[s.SoundType];
-                AudioSource[] newSources = new AudioSource[s.StackCount + prevSources.Length];
-
-                for (int i = 0; i < prevSources.Length; i++)
+                foreach (AudioSource source in audioSources)
                 {
-                    newSources[i] = prevSources[i];
+                    _soundDict[sound.SoundType].Add(source);
                 }
-
-                for (int j = 0; j < sources.Length - 1 ; j++)
-                {
-                    newSources[prevSources.Length + j] = sources[j];
-                }
-
-                _soundDict.Remove(s.SoundType);
-                _soundDict.Add(s.SoundType, newSources);
-                continue;
             }
 
             else
             {
-                _soundDict.Add(s.SoundType, sources);
+                _soundDict[sound.SoundType] = audioSources;
             }
 
         }

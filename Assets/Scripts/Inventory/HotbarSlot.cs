@@ -7,6 +7,8 @@ public class HotbarSlot : InventorySlot
 {
     [SerializeField] private Image _selectImage;
 
+    public HotbarUI HotbarUI;
+
     public override void AddItem(RangedAttack newItem)
     {
         item = newItem;
@@ -24,6 +26,7 @@ public class HotbarSlot : InventorySlot
     public void Select()
     {
         _selectImage.enabled = true;
+        HotbarUI.ChangeSelection(SlotNumber);
     }
 
     public void Deselect()

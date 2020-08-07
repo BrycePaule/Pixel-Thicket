@@ -11,13 +11,12 @@ public class Sound
 
     public SoundType SoundType;
     public SoundGroup SoundGoup;
-    public int StackCount;
+    public int Counts;
 
     [Range(0f, 1f)] public float ImportVolume;
     [Range(0.1f, 3f)] public float ImportPitch;
     public bool Loop;
     public bool PlayOnAwake;
 
-    public AudioSource[] Sources;
-
+    public List<AudioSource> Sources;
 }

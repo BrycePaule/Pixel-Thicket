@@ -230,4 +230,5 @@ public abstract class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnock
         _animator.ResetTrigger("Hit");
         _hit = false;
     }
+
 }

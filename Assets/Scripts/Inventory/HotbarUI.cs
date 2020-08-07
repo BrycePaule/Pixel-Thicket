@@ -16,7 +16,7 @@ public class HotbarUI : MonoBehaviour
     private GameEventManager _gameEventManager;
     private Canvas _hotbarCanvas;
 
-    private int _selected;
+    private int _selected = 0;
 
     private void Awake()
     {
@@ -34,9 +34,15 @@ public class HotbarUI : MonoBehaviour
     }
 
     private void Start()
-    {
-        _slotCount = _inventory.GetComponent<Hotbar>().Slots;
+    {    
         _slots = _slotContainer.GetComponentsInChildren<HotbarSlot>();
+        _slotCount = _slots.Length;
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            _slots[i].SlotNumber = i;
+            _slots[i].HotbarUI = this;
+        }
+
         UpdateHotbar();
     }
 
@@ -71,11 +77,12 @@ public class HotbarUI : MonoBehaviour
         }
     }
 
-    private void ChangeSelection(int selectedSlot)
+    public void ChangeSelection(int selectedSlot)
     {
         if (_selected == selectedSlot) { return; }
 
         _selected = selectedSlot;
+        _inventory.Selected = _selected;
         _gameEventManager.OnInventoryChanged();
     }
 
@@ -85,7 +92,7 @@ public class HotbarUI : MonoBehaviour
     {
         if (direction > 0)
         {
-            _selected ++;
+            _selected++;
             if (_selected >= _slotCount) 
             { 
                 _selected = 0; 
@@ -94,7 +101,7 @@ public class HotbarUI : MonoBehaviour
 
         else
         {
-            _selected --;
+            _selected--;
             if (_selected < 0) 
             { 
                 _selected = _slotCount - 1;

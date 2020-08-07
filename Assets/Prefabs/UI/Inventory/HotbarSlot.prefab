@@ -195,7 +195,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4735150106848162956}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4592662059097062178}
+        m_TargetAssemblyTypeName: HotbarSlot, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4735150106893966867
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +258,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemImage: {fileID: 4735150106167452654}
+  SlotNumber: 0
   _selectImage: {fileID: 8578887044970692602}
+  HotbarUI: {fileID: 0}
 --- !u!1 &4811858289920988308
 GameObject:
   m_ObjectHideFlags: 0

@@ -92,7 +92,7 @@ public class RangedAttack : MonoBehaviour
         if (_dying) { return; }
         _dying = true;
 
-        _audioManager.Play(SoundType.Explosion, 0.3f);
+        _audioManager.PlayInstant(SoundType.Explosion, 0.3f);
         // _audioManager.Stop(_travelSound);
 
         if (_deathEffect != null)
