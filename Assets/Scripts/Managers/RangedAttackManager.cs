@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RangedAttackManager : MonoBehaviour
 {
+    private static RangedAttackManager _instance;
+
     [SerializeField] private Inventory _inventory;
 
     public Camera Camera;
@@ -15,8 +17,6 @@ public class RangedAttackManager : MonoBehaviour
     private InputManager _inputManager;
 
     private float shootCooldown;
-
-    private static RangedAttackManager _instance;
 
     public static RangedAttackManager Instance
     {

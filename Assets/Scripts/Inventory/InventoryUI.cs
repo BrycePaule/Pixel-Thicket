@@ -26,6 +26,11 @@ public class InventoryUI : MonoBehaviour
     private void Start()
     {
         _slots = _inventoryContainer.GetComponentsInChildren<InventorySlot>();
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            _slots[i].SlotNumber = i;
+        }
+
     }
 
     private void UpdateInventoryUI()

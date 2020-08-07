@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameEventManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class GameEventManager : MonoBehaviour
 
     private void Awake() 
     {
-        if (_instance != null) { Destroy(gameObject); }
+        if (_instance != null) { Destroy(gameObject); print(_instance); }
     }
 
     // EVENTS
@@ -84,8 +85,13 @@ public class GameEventManager : MonoBehaviour
 
     public void OnShootPress(Vector2 mousePos)
     {
-        if (onDashPress == null) { return; }
-        onShootPress(mousePos);
+        if (onShootPress == null) { return; }
+
+        if (!IsPointerOverUIElement(mousePos))
+        {
+            onShootPress(mousePos);
+        }
+
     }
 
     public void OnInventoryPress()
@@ -148,5 +154,37 @@ public class GameEventManager : MonoBehaviour
         onXPress();
     }
 
+    // MOUSEOVER CALCULATIONS
+    public bool IsPointerOverUIElement(Vector2 mousePos)
+    {
+        return IsPointerOverUIElement(GetEventSystemRaycastResults(mousePos));
+    }
+
+    ///Returns 'true' if we touched or hovering on Unity UI element.
+    public bool IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults )
+    {
+        for(int index = 0;  index < eventSystemRaysastResults.Count; index ++)
+        {
+            RaycastResult curRaysastResult = eventSystemRaysastResults [index];
+            if (curRaysastResult.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    ///Gets all event systen raycast results of current mouse or touch position.
+    private List<RaycastResult> GetEventSystemRaycastResults(Vector2 mousePos)
+    {   
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = mousePos;
+
+        List<RaycastResult> raysastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raysastResults);
+
+        return raysastResults;
+    }
 
 }

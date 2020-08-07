@@ -8,7 +8,15 @@ public class InventorySlot : MonoBehaviour
 
     [SerializeField] protected Image _itemImage; 
 
+    public int SlotNumber;
+    private bool _selected;
+
     protected RangedAttack item;
+
+    private void FixedUpdate()
+    {
+
+    }
 
     public virtual void AddItem(RangedAttack newItem)
     {
@@ -23,4 +31,6 @@ public class InventorySlot : MonoBehaviour
         _itemImage.sprite = null;
         _itemImage.enabled = false;
     }
+
+
 }

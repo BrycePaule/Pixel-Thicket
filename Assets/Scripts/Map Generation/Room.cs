@@ -13,6 +13,10 @@ public class Room : MonoBehaviour
     public Gateway East;
     public Gateway South;
     public Gateway West;
+    public Gateway NorthBlock;
+    public Gateway EastBlock;
+    public Gateway SouthBlock;
+    public Gateway WestBlock;
     public Vector3 NorthSpawn;
     public Vector3 EastSpawn;
     public Vector3 SouthSpawn;
@@ -83,15 +87,38 @@ public class Room : MonoBehaviour
         East.transform.position += new Vector3(right, 0, 0) + baseOffsetVector;
         South.transform.position -= new Vector3(0, bot, 0) - baseOffsetVector;
         West.transform.position -= new Vector3(left, 0, 0) - baseOffsetVector;
+
+        NorthBlock.transform.position += new Vector3(0, top + 1, 0) + baseOffsetVector;
+        EastBlock.transform.position += new Vector3(right + 1, 0, 0) + baseOffsetVector;
+        SouthBlock.transform.position -= new Vector3(0, bot + 1, 0) - baseOffsetVector;
+        WestBlock.transform.position -= new Vector3(left + 1, 0, 0) - baseOffsetVector;
     }
 
     private void RemoveExcessGateways()
     {
+        if (Gates[0] == 0) 
+        { 
+            Destroy(North.gameObject); 
+            Destroy(NorthBlock.gameObject); 
+        }
 
-        if (Gates[0] == 0) { Destroy(North.gameObject); }
-        if (Gates[1] == 0) { Destroy(East.gameObject); }
-        if (Gates[2] == 0) { Destroy(South.gameObject); }
-        if (Gates[3] == 0) { Destroy(West.gameObject); }
+        if (Gates[1] == 0) 
+        {
+            Destroy(East.gameObject); 
+            Destroy(EastBlock.gameObject); 
+        }
+
+        if (Gates[2] == 0) 
+        {
+            Destroy(South.gameObject); 
+            Destroy(SouthBlock.gameObject); 
+        }
+
+        if (Gates[3] == 0) 
+        {
+            Destroy(West.gameObject); 
+            Destroy(WestBlock.gameObject); 
+        }
     }
 
     private void SetPlayerSpawnsInsideGateway()

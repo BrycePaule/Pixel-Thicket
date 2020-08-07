@@ -4962,7 +4962,6 @@ MonoBehaviour:
   _dashParticle: {fileID: 5504559625158440260}
   _camera: {fileID: 0}
   _healthBar: {fileID: 0}
-  _gameEventSystem: {fileID: 0}
   Inventory: {fileID: 7143349222834219912}
   HealthRegen: 2
   MoveSpeed: 6
@@ -10047,7 +10046,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9043599099343029209}
   - component: {fileID: 1479255188}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

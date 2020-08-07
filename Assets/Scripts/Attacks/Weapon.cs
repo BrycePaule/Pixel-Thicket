@@ -24,16 +24,18 @@ public class Weapon : MonoBehaviour
 
     private bool Shoot(Vector3 target)
     {
-        RangedAttack selectedSpell = _inventory.SelectedWeapon();
-        if (selectedSpell == null) { return false; }
+        float angleOffset = 35f;
+
+        RangedAttack currSpell = _inventory.SelectedWeapon();
+        if (currSpell == null) { return false; }
         
         Vector3 direction = target - _transform.position;
         direction.Normalize();
 
         float shootAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-        Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - 35f);
+        Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - angleOffset);
 
-        GameObject projectile = _rangedAttackManager.GetAttackByIndex(selectedSpell.ID);
+        GameObject projectile = _rangedAttackManager.GetAttackByIndex(currSpell.ID);
         RangedAttack projectileRA = projectile.GetComponent<RangedAttack>();
             
         projectile.transform.position = _transform.position;
