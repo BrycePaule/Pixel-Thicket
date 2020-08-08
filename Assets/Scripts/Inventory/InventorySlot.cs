@@ -11,14 +11,14 @@ public class InventorySlot : MonoBehaviour
     public int SlotNumber;
     private bool _selected;
 
-    protected RangedAttack item;
+    protected Spell item;
 
     private void FixedUpdate()
     {
 
     }
 
-    public virtual void AddItem(RangedAttack newItem)
+    public virtual void AddItem(Spell newItem)
     {
         item = newItem;
         _itemImage.sprite = newItem.Icon;

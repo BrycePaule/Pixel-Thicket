@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedAttack : MonoBehaviour
+public class Spell : MonoBehaviour
 {
     public string Name;
     public int ID;

@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Inventory _inventory;
 
     private GameEventManager _gameEventManager;
-    private RangedAttackManager _rangedAttackManager;
+    private SpellManager _spellManager;
     private Transform _transform;
 
     private float _shootCooldown;
@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour
     {
         _transform = transform;
         _gameEventManager = GameEventManager.Instance;
-        _rangedAttackManager = RangedAttackManager.Instance;
+        _spellManager = SpellManager.Instance;
 
         _gameEventManager.onShootPress += context => OnShootPress(context);
     }
@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour
     {
         float angleOffset = 35f;
 
-        RangedAttack currSpell = _inventory.SelectedWeapon();
+        Spell currSpell = _inventory.SelectedWeapon();
         if (currSpell == null) { return false; }
         
         Vector3 direction = target - _transform.position;
@@ -35,8 +35,8 @@ public class Weapon : MonoBehaviour
         float shootAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - angleOffset);
 
-        GameObject projectile = _rangedAttackManager.GetAttackByID(currSpell.ID);
-        RangedAttack projectileRA = projectile.GetComponent<RangedAttack>();
+        GameObject projectile = Instantiate(_spellManager.GetSpell(currSpell.ID));
+        Spell projectileRA = projectile.GetComponent<Spell>();
             
         projectile.transform.position = _transform.position;
         projectile.transform.rotation = rotation;

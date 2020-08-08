@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedAttackManager : MonoBehaviour
+public class SpellManager : MonoBehaviour
 {
-    private static RangedAttackManager _instance;
+    private static SpellManager _instance;
 
     public Camera Camera;
-    public GameObject[] RangedAttacks;
+    public GameObject[] Spells;
 
     private Dictionary<int, GameObject> SpellLookup = new Dictionary<int, GameObject>();
     
@@ -15,16 +15,16 @@ public class RangedAttackManager : MonoBehaviour
 
     private float shootCooldown;
 
-    public static RangedAttackManager Instance
+    public static SpellManager Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<RangedAttackManager>();
+                _instance = FindObjectOfType<SpellManager>();
                 if (_instance == null)
                 {
-                    _instance = new RangedAttackManager();
+                    _instance = new SpellManager();
                 }
             }
             return _instance;
@@ -44,16 +44,16 @@ public class RangedAttackManager : MonoBehaviour
         shootCooldown = Time.time;
     }
     
-    public GameObject GetAttackByID(int ID)
+    public GameObject GetSpell(int ID)
     {      
-        return Instantiate(SpellLookup[ID]);
+        return SpellLookup[ID];
     }
 
     public void BuildIDLookup()
     {
-        foreach (var attack in RangedAttacks)
+        foreach (var attack in Spells)
         {
-            SpellLookup.Add(attack.GetComponent<RangedAttack>().ID, attack);
+            SpellLookup.Add(attack.GetComponent<Spell>().ID, attack);
         }
     }
 

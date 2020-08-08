@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 3098073701265755476}
   - component: {fileID: 5465552461446530176}
   - component: {fileID: 6585493961378873224}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 4302315077023728850}
   - component: {fileID: 5597789365617575352}
   - component: {fileID: 1519422383161605375}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 7279612254197780119}
   - component: {fileID: 1232586464214390251}
   - component: {fileID: 297905199731607446}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4488072466140317812}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: GatewayBlocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -667,7 +667,7 @@ GameObject:
   - component: {fileID: 2718567679092100496}
   - component: {fileID: 7564157097463786502}
   - component: {fileID: 4904048257990717684}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: North
   m_TagString: Untagged
   m_Icon: {fileID: 0}

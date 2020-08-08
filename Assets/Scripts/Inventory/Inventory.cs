@@ -6,12 +6,12 @@ public class Inventory : MonoBehaviour
 {
 
     public int Selected;
-    [SerializeField] private RangedAttack[] Attacks;
+    [SerializeField] private Spell[] Attacks;
 
-    private RangedAttackManager _rangedAttackManager;
+    private SpellManager _spellManager;
     private GameEventManager _gameEventManager;
 
-    public List<RangedAttack> Items = new List<RangedAttack>();
+    public List<Spell> Items = new List<Spell>();
     private int _slots;
 
     private int _attackSelector = 0;
@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         _gameEventManager = GameEventManager.Instance;
-        _rangedAttackManager = RangedAttackManager.Instance;
+        _spellManager = SpellManager.Instance;
 
         _gameEventManager.onSlot1Press += OnSlot1Press;
         _gameEventManager.onSlot2Press += OnSlot2Press;
@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
         _gameEventManager.onXPress += OnXPress;
     }
 
-    public void Add(RangedAttack item)
+    public void Add(Spell item)
     {
         if (Items.Count < _slots) { return; }
 
@@ -43,11 +43,11 @@ public class Inventory : MonoBehaviour
     {
         if (Items.Count < _slots) { return; }
 
-        Items.Add(_rangedAttackManager.GetAttackByID(itemID).GetComponent<RangedAttack>());
+        Items.Add(_spellManager.GetSpell(itemID).GetComponent<Spell>());
         _gameEventManager.OnInventoryChanged();
     }
 
-    public void Remove(RangedAttack item)
+    public void Remove(Spell item)
     {
         Items.Remove(item);
         _gameEventManager.OnInventoryChanged();
@@ -55,11 +55,11 @@ public class Inventory : MonoBehaviour
 
     public void ClearInventory()
     {
-        Items = new List<RangedAttack>();
+        Items = new List<Spell>();
         _gameEventManager.OnInventoryChanged();
     }
 
-    public RangedAttack SelectedWeapon()
+    public Spell SelectedWeapon()
     {
         if (Items.Count > Selected)
         {

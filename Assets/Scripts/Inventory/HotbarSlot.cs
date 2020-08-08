@@ -9,7 +9,7 @@ public class HotbarSlot : InventorySlot
 
     public HotbarUI HotbarUI;
 
-    public override void AddItem(RangedAttack newItem)
+    public override void AddItem(Spell newItem)
     {
         item = newItem;
         _itemImage.sprite = newItem.Icon;
