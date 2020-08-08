@@ -17,6 +17,8 @@ public class SceneLoader : MonoBehaviour
     public bool _finA;
     public bool _finB;
 
+    private InputManager _inputManager;
+
     public static SceneLoader Instance
     {
         get
@@ -35,7 +37,9 @@ public class SceneLoader : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null) { Destroy(this.gameObject); }
+        // if (_instance != null) { Destroy(this.gameObject); }
+
+        _inputManager = InputManager.Instance;
     }
 
     private void LoadGame()
@@ -111,13 +115,13 @@ public class SceneLoader : MonoBehaviour
     public IEnumerator BlankCrossfade()
     {
         _transition.SetBool("Curtain", true);
-        _player.GetComponent<InputManager>().DisableControls();
-        _player.StopAllMovement();
+        _inputManager.DisableControls();
+        _player.GetComponentInChildren<PlayerMovement>().StopAllMovement();
         yield return new WaitForSeconds(_transitionTime);
 
         _transition.SetBool("Curtain", false);
         yield return new WaitForSeconds(_transitionTime * 0.5f);
-        _player.GetComponent<InputManager>().EnableControls();
+        _inputManager.EnableControls();
     }
 
 }

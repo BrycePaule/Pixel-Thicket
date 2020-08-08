@@ -8,6 +8,8 @@ public class GameEventManager : MonoBehaviour
 {
     private static GameEventManager _instance;
 
+    private InputManager _inputManager;
+
     public static GameEventManager Instance
     {
         get
@@ -26,13 +28,15 @@ public class GameEventManager : MonoBehaviour
 
     private void Awake() 
     {
-        if (_instance != null) { Destroy(gameObject); }
+        // if (_instance != null) { Destroy(gameObject); }
+
+        _inputManager = InputManager.Instance;
     }
 
     // EVENTS
     public event Action<CardinalDirection> onGatewayEnter;
 
-    public event Action<Vector2> onShootPress;
+    public event Action<Vector3> onShootPress;
     public event Action onPlayerDeath;
     public event Action onSprintPress;
     public event Action onSprintRelease;
@@ -87,7 +91,7 @@ public class GameEventManager : MonoBehaviour
 
         if (!IsPointerOverUIElement(mousePos))
         {
-            onShootPress(mousePos);
+            onShootPress(_inputManager.MousePosWorld);
         }
     }
 

@@ -4,29 +4,25 @@ using UnityEngine;
 
 public class Gateway : MonoBehaviour
 {
-
-    public CardinalDirection direction;
+    [SerializeField] private CardinalDirection direction;
 
     private SceneLoader _sceneLoader;
     private GameEventManager _gameEventManager;
     private Player _player;
 
-
     private void Awake()
     {
         _sceneLoader = SceneLoader.Instance;
         _gameEventManager = GameEventManager.Instance;
+
         _player = FindObjectOfType<Player>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.layer == 12)
-        {
-            if (_player.GatewayTravelLocked) { return; }
+        IGatewayTravelLockable lockable = other.transform.GetComponentInChildren<IGatewayTravelLockable>();
+        if (lockable == null) { return; }
 
-            _player.StartCoroutine("GatewayLock");
-            _gameEventManager.OnGatewayEnter(direction);
-        }
+        lockable.LockGatewayTravel(direction);
     }
 }

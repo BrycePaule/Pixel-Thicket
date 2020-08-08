@@ -4,11 +4,32 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private Camera _camera;
+
     private PlayerInput _playerInput;
     private GameEventManager _gameEventManager;
 
     public Vector2 PlayerMoveAxis;
     public Vector2 MousePos;
+    public Vector3 MousePosWorld;
+
+    private static InputManager _instance;
+
+    public static InputManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<InputManager>();
+                if (_instance == null)
+                {
+                    _instance = new InputManager();
+                }
+            }
+            return _instance;
+        }
+    }
 
     private void OnEnable() => EnableControls();
     private void OnDisable() => DisableControls();
@@ -57,10 +78,17 @@ public class InputManager : MonoBehaviour
         _playerInput.Enable();
     }
 
+    private void ConvertMousePosToWorld(Vector2 mousePos)
+    {
+            MousePosWorld = _camera.ScreenToWorldPoint(mousePos);
+            MousePosWorld.z = 0f;
+    }
+
     // EVENTS
     private void OnMouseMove(Vector2 context)
     {
         MousePos = context;
+        ConvertMousePosToWorld(context);
     }
 
     private void OnScroll(Vector2 context)

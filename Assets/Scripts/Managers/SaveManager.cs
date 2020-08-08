@@ -39,18 +39,22 @@ public static class SaveManager
 
     public static void LoadPlayer(PlayerData data, Player player)
     {
-        player.MaxHealth = data.MaxHealth;
-        player.HealthRegen = data.HealthRegen;
-        player.MoveSpeed = data.MoveSpeed;
-        player.SprintMultiplier = data.SprintMultiplier;
-        player.DashSpeed = data.DashSpeed;
-        player.DashTime = data.DashTime;
-        player.DashCooldown = data.DashCooldown;
+        PlayerMovement playerMovement = player.GetComponentInChildren<PlayerMovement>();
+        PlayerHealth playerHealth = player.GetComponentInChildren<PlayerHealth>();
+        Inventory playerInventory = player.GetComponentInChildren<Inventory>();
 
-        player.Inventory.ClearInventory();
+        playerHealth.MaxHealth = data.MaxHealth;
+        playerHealth.HealthRegen = data.HealthRegen;
+        playerMovement.MoveSpeed = data.MoveSpeed;
+        playerMovement.SprintMultiplier = data.SprintMultiplier;
+        playerMovement.DashSpeed = data.DashSpeed;
+        playerMovement.DashTime = data.DashTime;
+        playerMovement.DashCooldown = data.DashCooldown;
+
+        playerInventory.ClearInventory();
         foreach (var ID in data.ItemIDs)
         {
-            player.Inventory.Add(ID);
+            playerInventory.Add(ID);
         }
     }
 }

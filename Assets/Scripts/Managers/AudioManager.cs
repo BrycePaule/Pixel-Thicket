@@ -5,7 +5,6 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-
     [SerializeField] private AudioMixer _mixer;
     [SerializeField] private AudioMixerGroup _master;
     [SerializeField] private AudioMixerGroup _music;
@@ -37,7 +36,7 @@ public class AudioManager : MonoBehaviour
         
     private void Awake()
     {
-        if (_instance != null) { Destroy(this.gameObject); }
+        // if (_instance != null) { Destroy(this.gameObject); }
 
         BuildMixerDictionary();
         BuildSourceDictionary();

@@ -17,7 +17,7 @@ public class GameMasterManager : MonoBehaviour
     private Room[,] _rooms;
     private Room _currentRoom;
     
-    private void Start()
+    private void Awake()
     {
         _gameEventManager = GameEventManager.Instance;
         _sceneLoader = SceneLoader.Instance;
@@ -27,7 +27,10 @@ public class GameMasterManager : MonoBehaviour
 
         _gameEventManager.onGatewayEnter += OnGatewayEnter;
         _gameEventManager.onPlayerDeath += OnPlayerDeath;
+    }
 
+    private void Start()
+    {
         _rooms = _mapGenerator.GenerateMap();
         SetupRooms();
         PopulateRoomsWithMobs();

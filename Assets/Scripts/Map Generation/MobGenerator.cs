@@ -30,7 +30,7 @@ public class MobGenerator : MonoBehaviour
     // UNITY METHODS
     private void Awake()
     {
-        if (_instance != null) { Destroy(this.gameObject); }
+        // if (_instance != null) { Destroy(this.gameObject); }
 
         _mobs = new Dictionary<MobTypes, Mob>();
         FillMobsDictionary();

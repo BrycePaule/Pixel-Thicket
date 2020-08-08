@@ -33,7 +33,7 @@ public class SpellManager : MonoBehaviour
 
     private void Awake() 
     {
-        if (_instance != null) { Destroy(this.gameObject); }
+        // if (_instance != null) { Destroy(this.gameObject); }
 
         _transform = transform;
     }

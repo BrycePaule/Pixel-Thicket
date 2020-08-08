@@ -22,14 +22,14 @@ public class Weapon : MonoBehaviour
         _gameEventManager.onShootPress += context => OnShootPress(context);
     }
 
-    private bool Shoot(Vector3 target)
+    private bool Shoot(Vector3 mousePosWorld)
     {
         float angleOffset = 35f;
 
         Spell currSpell = _inventory.SelectedWeapon();
         if (currSpell == null) { return false; }
         
-        Vector3 direction = target - _transform.position;
+        Vector3 direction = mousePosWorld - _transform.position;
         direction.Normalize();
 
         float shootAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
@@ -50,13 +50,10 @@ public class Weapon : MonoBehaviour
     }
 
     // EVENTS
-    private void OnShootPress(Vector2 mousePos)
+    private void OnShootPress(Vector3 mousePosWorld)
     {
         if (Time.time >= _shootCooldown) 
         { 
-            Vector3 mousePosWorld = _camera.ScreenToWorldPoint(mousePos);
-            mousePosWorld.z = 0f;
-
             Shoot(mousePosWorld);
         }
     }
