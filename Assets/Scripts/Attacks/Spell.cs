@@ -71,14 +71,14 @@ public class Spell : MonoBehaviour
         // terrain colliders
         if (other.gameObject.layer == 16) { Die(); }
         
-        IDamageable<float> targetDmg = other.transform.GetComponent<IDamageable<float>>();
+        IDamageable<float> targetDmg = other.transform.GetComponentInChildren<IDamageable<float>>();
         if (targetDmg != null) {
             targetDmg.Damage(Damage);
         }
 
         if (!Pierce)
         {
-            IKnockable knockableObject = other.transform.GetComponent<IKnockable>();
+            IKnockable knockableObject = other.transform.GetComponentInChildren<IKnockable>();
             if (knockableObject != null & Knockback) {
                 knockableObject.Knockback(Direction * new Vector2(0.5f, 0.5f));
             }

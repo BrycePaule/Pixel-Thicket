@@ -60,7 +60,7 @@ public class Room : MonoBehaviour
         {
             Vector2 loc = MobSpawnLocations[Random.Range(0, MobSpawnLocations.Count)];
             mob.transform.position = new Vector3(loc.x, loc.y, 0);
-            mob.StartCoroutine("MoveWait", Random.Range(0f, 2f));
+            mob.GetComponentInChildren<MobMovement>().StartCoroutine("MoveWait", Random.Range(0f, 2f));
         }
     }
 

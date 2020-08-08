@@ -32,8 +32,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
+        _rb = GetComponentInParent<Rigidbody2D>();
+        _animator = GetComponentInParent<Animator>();
 
         _audioManager = AudioManager.Instance;
         _inputManager = InputManager.Instance;

@@ -21,8 +21,8 @@ public class PlayerData
 
     public PlayerData(Player player)
     {
-        PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        PlayerMovement playerMovement = player.GetComponentInChildren<PlayerMovement>();
+        PlayerHealth playerHealth = player.GetComponentInChildren<PlayerHealth>();
         Inventory playerInventory = player.GetComponentInChildren<Inventory>();
 
         MaxHealth = playerHealth.MaxHealth;
