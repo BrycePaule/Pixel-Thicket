@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable<float>, IKillable
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInParent<Animator>();
 
         _transform = transform;
         _gameEventManager = GameEventManager.Instance;

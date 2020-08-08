@@ -57,7 +57,7 @@ public class Mob : MonoBehaviour
 
         if (other.gameObject.layer == 12) 
         {
-            IDamageable<float> target = other.transform.GetComponent<IDamageable<float>>();
+            IDamageable<float> target = other.transform.GetComponentInChildren<IDamageable<float>>();
             if (target == null) { return; }
 
             target.Damage(_damage);

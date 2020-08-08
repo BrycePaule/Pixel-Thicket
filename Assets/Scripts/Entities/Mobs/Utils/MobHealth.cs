@@ -28,7 +28,6 @@ public class MobHealth : MonoBehaviour, IDamageable<float>, IKnockable, IKillabl
     private void Start() 
     {
         _healthBar.SetMaxHealth(_health);
-        _mob.DisableHealthbar();
     }
 
     public void Damage(float damageTaken)

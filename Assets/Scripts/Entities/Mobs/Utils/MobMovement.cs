@@ -184,7 +184,6 @@ public class MobMovement : MonoBehaviour
 
     private IEnumerator HopEnd()
     {
-        print("hop end");
         _hopWait = true;
         _hopInAir = false;
 
