@@ -7,8 +7,8 @@ public class Inventory : MonoBehaviour
 
     public int Selected;
     [SerializeField] private RangedAttack[] Attacks;
-    [SerializeField] private RangedAttackManager _rangedAttackManager;
 
+    private RangedAttackManager _rangedAttackManager;
     private GameEventManager _gameEventManager;
 
     public List<RangedAttack> Items = new List<RangedAttack>();
@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         _gameEventManager = GameEventManager.Instance;
+        _rangedAttackManager = RangedAttackManager.Instance;
 
         _gameEventManager.onSlot1Press += OnSlot1Press;
         _gameEventManager.onSlot2Press += OnSlot2Press;

@@ -446,9 +446,9 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.7
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 000000003397845385121c2b39ae619c3b1da8ac41d574e0a12b87896b38932f
+  m_ApplyToSortingLayers: 000000003397845385121c2b39ae619c3b1da8ac41d574e0a12b87896b38932f855ff163
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -12341,7 +12341,7 @@ GameObject:
   - component: {fileID: 752326294}
   - component: {fileID: 752326293}
   m_Layer: 0
-  m_Name: GameEventSystem
+  m_Name: GameEventManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13811,7 +13811,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 6c788dba5ca70dd4d84410fdfd284a96, type: 3}
     SoundType: 2
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.8
     ImportPitch: 1
     Loop: 0
@@ -13821,7 +13821,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: f90d6a9f39e5db24c8c3ab4130ed8186, type: 3}
     SoundType: 1
     SoundGoup: 3
-    Counts: 0
+    Counts: 10
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13831,7 +13831,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: c535d5bfb962bcc4fb0a4996e79affea, type: 3}
     SoundType: 0
     SoundGoup: 2
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.03
     ImportPitch: 1
     Loop: 1
@@ -13841,7 +13841,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 1578e652edaca7543921920421a1c7ab, type: 3}
     SoundType: 3
     SoundGoup: 1
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.07
     ImportPitch: 0.5
     Loop: 1
@@ -13851,7 +13851,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: b718797c22155304396aebaf36c680fc, type: 3}
     SoundType: 4
     SoundGoup: 3
-    Counts: 0
+    Counts: 2
     ImportVolume: 0.1
     ImportPitch: 1
     Loop: 0
@@ -13861,7 +13861,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 7a58fc7e0d4724a41857745ae3450601, type: 3}
     SoundType: 4
     SoundGoup: 3
-    Counts: 0
+    Counts: 2
     ImportVolume: 0.1
     ImportPitch: 1
     Loop: 0
@@ -13871,7 +13871,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: f36c63bd855d01d4485856a93cfd4f33, type: 3}
     SoundType: 4
     SoundGoup: 3
-    Counts: 0
+    Counts: 2
     ImportVolume: 0.1
     ImportPitch: 1
     Loop: 0
@@ -13881,7 +13881,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 735c74dadbda9044ba97c3e3de0f3b91, type: 3}
     SoundType: 4
     SoundGoup: 3
-    Counts: 0
+    Counts: 2
     ImportVolume: 0.1
     ImportPitch: 1
     Loop: 0
@@ -13891,7 +13891,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 01e2562783e050f469241ea9cc6cc2cf, type: 3}
     SoundType: 4
     SoundGoup: 3
-    Counts: 0
+    Counts: 2
     ImportVolume: 0.1
     ImportPitch: 1
     Loop: 0
@@ -13911,7 +13911,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 70b64c06aac76d64fbaafa93c303aedb, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13921,7 +13921,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: b9744ffe6c6dc694da9b3bfa09ed77ab, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13931,7 +13931,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 931c4e4191a8d0446827c675dddb5013, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13941,7 +13941,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 7eed4b07e849e434a80bd9ee191fa426, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13951,7 +13951,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 259aefdd387989b46b380dfbadcaf766, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13961,7 +13961,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: a27115daa85a2e64f95b1b7ffae95a22, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13971,7 +13971,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: f66903d6a483e944b820f2970792584e, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13981,7 +13981,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 762468a4f6a26fd4fb70cc01d36718c8, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -13991,7 +13991,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 503756fa63c52c34c8098e38e3f36500, type: 3}
     SoundType: 6
     SoundGoup: 3
-    Counts: 0
+    Counts: 1
     ImportVolume: 0.5
     ImportPitch: 1
     Loop: 0
@@ -14382,6 +14382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1314899113}
+  - component: {fileID: 1314899114}
   m_Layer: 0
   m_Name: RangedAttackManager
   m_TagString: Player
@@ -14403,6 +14404,23 @@ Transform:
   m_Father: {fileID: 536480973}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1314899114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314899112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 408ed770ec8db534cbd2ec2c421fd45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 519420031}
+  RangedAttacks:
+  - {fileID: 4032580402455488149, guid: eee3ca4b702c0d1499b3e9cc592b74fc, type: 3}
+  - {fileID: 7532906127812178983, guid: 49a1d6d590c00a343bdb30d2fd69633d, type: 3}
+  - {fileID: 7393239133091840823, guid: 4e923dffa6d54c740b1161acebffbd7d, type: 3}
 --- !u!1001 &1460379367
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26725,21 +26743,6 @@ PrefabInstance:
       propertyPath: _healthBar
       value: 
       objectReference: {fileID: 5328679913868785731}
-    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
-        type: 3}
-      propertyPath: MaxHealth
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
-        type: 3}
-      propertyPath: Health
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
-        type: 3}
-      propertyPath: _rangedAttackManager
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!224 &4694751248843330740 stripped

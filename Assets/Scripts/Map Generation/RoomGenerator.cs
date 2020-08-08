@@ -946,11 +946,11 @@ public class RoomGenerator : MonoBehaviour
 
     private Tile SelectGatewayTile(Room room, Vector2Int loc, int[,] padGrid)
     {
-        if (loc.x == 0) { return _wallTiles["wall_gateway_left"]; }
-        if (loc.y == 0) { return _wallTiles["wall_gateway_bottom"]; }
+        // if (loc.x == 0) { return _wallTiles["wall_gateway_left"]; }
+        // if (loc.y == 0) { return _wallTiles["wall_gateway_bottom"]; }
 
-        if (loc.x == room.Width - 1) { return _wallTiles["wall_gateway_right"]; }
-        if (loc.y == room.Height - 1) { return _wallTiles["wall_gateway_top"]; }
+        // if (loc.x == room.Width - 1) { return _wallTiles["wall_gateway_right"]; }
+        // if (loc.y == room.Height - 1) { return _wallTiles["wall_gateway_top"]; }
 
         return null;
     }

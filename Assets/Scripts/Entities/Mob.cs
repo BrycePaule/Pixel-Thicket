@@ -2,6 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 
+// 
+// 
+// 
+// 
+// pads in base are shop for extra stats
+// other one is shop for upgrading mob level etc - at different mob levels you get different kinds of monsters - upgraded slimes etc
+//     maybe buy upgrades to different spells and stuff
+// end room in the maze is a platform
+// make every mobs soul light it up (give everything a light) - means mobs can drop soul, that you spend to light up the world or some shit idk
+//     means you can make the mood of the game darker, and add light sources throughout the game with new sprite
+// 
+// 
+// 
+// NOTES FROM SHOWER ^^^^^^^^^^^^^
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+
 public abstract class Mob : MonoBehaviour, IDamageable<float>, IKillable, IKnockable
 {
 

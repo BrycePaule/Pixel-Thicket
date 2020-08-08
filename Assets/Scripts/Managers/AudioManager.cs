@@ -43,14 +43,6 @@ public class AudioManager : MonoBehaviour
         BuildSourceDictionary();
     }
 
-    private void Start()
-    {
-        foreach (var val in _soundDict[SoundType.PlayerHit])
-        {
-            print(val);
-        }
-    }
-
     public AudioSource PlayInstant(SoundType soundType, float volume = 1f, float pitch = 1f, bool playRandom = false)
     {
         List<AudioSource> sources;
@@ -136,7 +128,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(Lower(source, seconds));
+            // StartCoroutine(Lower(source, seconds));
         }
     }
 
