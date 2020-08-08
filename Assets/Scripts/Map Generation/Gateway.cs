@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gateway : MonoBehaviour
 {
 
-    public Direction direction;
+    public CardinalDirection direction;
 
     private SceneLoader _sceneLoader;
     private GameEventManager _gameEventManager;
@@ -19,14 +19,6 @@ public class Gateway : MonoBehaviour
         _player = FindObjectOfType<Player>();
     }
 
-    public enum Direction 
-    {
-        North = 0,
-        East = 1,
-        South = 2,
-        West = 3
-    }
-
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.gameObject.layer == 12)
@@ -34,7 +26,7 @@ public class Gateway : MonoBehaviour
             if (_player.GatewayTravelLocked) { return; }
 
             _player.StartCoroutine("GatewayLock");
-            _gameEventManager.OnGatewayEnter((int)direction);
+            _gameEventManager.OnGatewayEnter(direction);
         }
     }
 }

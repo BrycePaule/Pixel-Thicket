@@ -30,30 +30,28 @@ public class GameEventManager : MonoBehaviour
     }
 
     // EVENTS
-    public event Action<int> onGatewayEnter;
+    public event Action<CardinalDirection> onGatewayEnter;
 
+    public event Action<Vector2> onShootPress;
+    public event Action onPlayerDeath;
     public event Action onSprintPress;
     public event Action onSprintRelease;
     public event Action onDashPress;
-    public event Action<Vector2> onShootPress;
-    public event Action onPlayerDeath;
 
     public event Action onInventoryPress;
     public event Action onInventoryChanged;
-
     public event Action onSlot1Press;
     public event Action onSlot2Press;
     public event Action onSlot3Press;
     public event Action onSlot4Press;
     public event Action onSlot5Press;
-
     public event Action<float> onMouseScroll;
 
     // DEV KEYS
     public event Action onZPress;
     public event Action onXPress;
 
-    public void OnGatewayEnter(int direction)
+    public void OnGatewayEnter(CardinalDirection direction)
     {
         if (onGatewayEnter == null) { return; }
         onGatewayEnter(direction);
@@ -61,13 +59,13 @@ public class GameEventManager : MonoBehaviour
 
     public void OnSprintPress()
     {
-        if (onDashPress == null) { return; }
+        if (onSprintPress == null) { return; }
         onSprintPress();
     }
 
     public void OnSprintRelease()
     {
-        if (onDashPress == null) { return; }
+        if (onSprintRelease == null) { return; }
         onSprintRelease();
     }
 
@@ -91,7 +89,6 @@ public class GameEventManager : MonoBehaviour
         {
             onShootPress(mousePos);
         }
-
     }
 
     public void OnInventoryPress()
@@ -132,7 +129,7 @@ public class GameEventManager : MonoBehaviour
 
     public void OnInventoryChanged()
     {
-        if (onDashPress == null) { return; }
+        if (onInventoryChanged == null) { return; }
         onInventoryChanged();
     }
 
@@ -160,10 +157,10 @@ public class GameEventManager : MonoBehaviour
         return IsPointerOverUIElement(GetEventSystemRaycastResults(mousePos));
     }
 
-    ///Returns 'true' if we touched or hovering on Unity UI element.
+    /// Returns 'true' if we touched or hovering on Unity UI element.
     public bool IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults )
     {
-        for(int index = 0;  index < eventSystemRaysastResults.Count; index ++)
+        for(int index = 0; index < eventSystemRaysastResults.Count; index ++)
         {
             RaycastResult curRaysastResult = eventSystemRaysastResults [index];
             if (curRaysastResult.gameObject.layer == 5)
@@ -175,7 +172,7 @@ public class GameEventManager : MonoBehaviour
         return false;
     }
 
-    ///Gets all event systen raycast results of current mouse or touch position.
+    /// Gets all event systen raycast results of current mouse or touch position.
     private List<RaycastResult> GetEventSystemRaycastResults(Vector2 mousePos)
     {   
         PointerEventData eventData = new PointerEventData(EventSystem.current);

@@ -446,7 +446,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.7
+  m_Intensity: 0.6
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 000000003397845385121c2b39ae619c3b1da8ac41d574e0a12b87896b38932f855ff163
   m_LightCookieSprite: {fileID: 0}
@@ -11311,12 +11311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4328decd6cce3945a71d0b09f27b9e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cursorSprite: {fileID: 2800000, guid: 8a4269055cf5b8f4491a55bc0341ee4f, type: 3}
   _roomContainer: {fileID: 2079201157}
   _player: {fileID: 8949773460302801570}
-  _mobGenerator: {fileID: 1134795953}
-  _audioManager: {fileID: 1243006128}
-  _sceneLoader: {fileID: 28498986}
 --- !u!4 &536480973
 Transform:
   m_ObjectHideFlags: 0
@@ -26743,6 +26739,16 @@ PrefabInstance:
       propertyPath: _healthBar
       value: 
       objectReference: {fileID: 5328679913868785731}
+    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872667156367417982, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: Health
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!224 &4694751248843330740 stripped

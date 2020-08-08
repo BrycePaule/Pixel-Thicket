@@ -43,7 +43,7 @@ public class Inventory : MonoBehaviour
     {
         if (Items.Count < _slots) { return; }
 
-        Items.Add(_rangedAttackManager.IDLookup[itemID].GetComponent<RangedAttack>());
+        Items.Add(_rangedAttackManager.GetAttackByID(itemID).GetComponent<RangedAttack>());
         _gameEventManager.OnInventoryChanged();
     }
 

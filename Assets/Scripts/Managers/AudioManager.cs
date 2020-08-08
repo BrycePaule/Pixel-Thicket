@@ -151,8 +151,8 @@ public class AudioManager : MonoBehaviour
     {
         foreach (Sound sound in Sounds)
         {
+            // Create list of sources
             List<AudioSource> audioSources = new List<AudioSource>();
-            
             for (int i = 0; i < sound.Counts; i++)
             {
                 AudioSource audioSource = gameObject.AddComponent<AudioSource>();
@@ -168,6 +168,7 @@ public class AudioManager : MonoBehaviour
 
             sound.Sources = audioSources;
 
+            // If SoundType already exists in dictionary
             if (_soundDict.ContainsKey(sound.SoundType))
             {
                 foreach (AudioSource source in audioSources)
@@ -193,3 +194,4 @@ public class AudioManager : MonoBehaviour
     }
 
 }
+

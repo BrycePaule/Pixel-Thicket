@@ -35,11 +35,12 @@ public class Weapon : MonoBehaviour
         float shootAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         Quaternion rotation = Quaternion.Euler(0, 0, shootAngle - angleOffset);
 
-        GameObject projectile = _rangedAttackManager.GetAttackByIndex(currSpell.ID);
+        GameObject projectile = _rangedAttackManager.GetAttackByID(currSpell.ID);
         RangedAttack projectileRA = projectile.GetComponent<RangedAttack>();
             
         projectile.transform.position = _transform.position;
         projectile.transform.rotation = rotation;
+        projectileRA.SetShooter(_transform);
         projectileRA.Fire(direction);
 
         // set cooldown time

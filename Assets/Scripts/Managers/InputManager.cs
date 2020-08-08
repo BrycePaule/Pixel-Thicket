@@ -29,10 +29,8 @@ public class InputManager : MonoBehaviour
 
         Movement.Move.performed += ctx => OnPlayerMove(ctx.ReadValue<Vector2>());
         Movement.Move.canceled += ctx => OnPlayerStopMove();
-
         Movement.Sprint.performed += ctx => OnSprintPress();
         Movement.Sprint.canceled += ctx => OnSprintRelease();
-
         Movement.Dash.performed += ctx => OnDashPress();
 
         Attack.Shoot.performed += ctx => OnShootPress();

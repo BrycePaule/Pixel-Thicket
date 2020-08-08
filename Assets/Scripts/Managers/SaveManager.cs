@@ -5,18 +5,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveManager
 {
-
     static string path = Application.persistentDataPath + "/player.save";
 
     public static void SavePlayerData(Player player)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Create);
+        FileStream file = new FileStream(path, FileMode.Create);
 
-        PlayerData data = new PlayerData(player);
+        PlayerData playerData = new PlayerData(player);
 
-        formatter.Serialize(stream, data);
-        stream.Close();
+        formatter.Serialize(file, playerData);
+        file.Close();
     }
 
     public static PlayerData LoadPlayerData()
@@ -24,12 +23,12 @@ public static class SaveManager
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            FileStream file = new FileStream(path, FileMode.Open);
 
-            PlayerData data = formatter.Deserialize(stream) as PlayerData;
-            stream.Close();
+            PlayerData playerData = formatter.Deserialize(file) as PlayerData;
+            file.Close();
 
-            return data;
+            return playerData;
         }
         else
         {
