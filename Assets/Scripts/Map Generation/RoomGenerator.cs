@@ -162,6 +162,46 @@ public class RoomGenerator : MonoBehaviour
         return room;
     }
 
+    public Room GenerateEndRoom(int[] gates)
+    {
+        Room room = Instantiate(RoomPrefab);
+
+        _groundTilemap = room.transform.Find("Ground").gameObject.GetComponent<Tilemap>();
+        _padTilemap = room.transform.Find("Pads").gameObject.GetComponent<Tilemap>();
+        _collideTilemap = room.transform.Find("Collidables").gameObject.GetComponent<Tilemap>();
+
+        _groundGrid = new int[room.Height, room.Width];
+        _padGrid = new int[room.Height, room.Width];
+        _collideGrid = new int[room.Height, room.Width];
+        _spawnGrid = new int[room.Height, room.Width];
+
+        // GRID GEN
+        GenerateZeroGrid(room, _groundGrid);
+        GenerateZeroGrid(room, _padGrid);
+        GenerateZeroGrid(room, _collideGrid);
+        GenerateZeroGrid(room, _spawnGrid);
+        SelectRoomType(room, RoomType.End);
+
+        // TILE GEN
+        GrassGenerate(room, _groundGrid);
+        WallsGenerateOuter(room, _collideGrid);
+        WallsGenerateInner(room, _collideGrid, 40);
+        WallsFillSurrounded(room, _collideGrid);
+        WallsFillSingleGaps(room, _collideGrid);
+
+        RoomTypeGenerate(room, _collideGrid, _padGrid);
+
+        GatewaysGenerate(room, _padGrid, _collideGrid, gates);
+        GatewaysClearWallBlockers(room, _padGrid, _collideGrid);
+        SetGridTiles(room, _groundGrid, _collideGrid, _padGrid, _groundTilemap, _collideTilemap, _padTilemap);
+
+        // MOB GEN
+        SpawnableGridGenerate(room);
+        MobSpawnLocGenerate(room);
+
+        return room;
+    }
+
     // ROOM GENERATION
     private void GenerateZeroGrid(Room room, int[,] grid)
     {
@@ -412,6 +452,10 @@ public class RoomGenerator : MonoBehaviour
             _roomType = roomTypeSelection;
         }
 
+        room.RoomType = _roomType;
+
+        // _roomType = RoomType.End;
+
     }
 
     private void RoomTypeGenerate(Room room, int[,] collideGrid, int[,] padGrid)
@@ -508,7 +552,65 @@ public class RoomGenerator : MonoBehaviour
 
         if (_roomType == RoomType.End)
         {
+            int boxHalfWidth = 4;
+            int boxHalfHeight = 4;
 
+            int xCentre = Mathf.FloorToInt(room.Width / 2);
+            int yCentre = Mathf.FloorToInt(room.Height / 2);
+
+            int xLower = xCentre - boxHalfWidth;
+            int xUpper = xCentre + boxHalfWidth;
+
+            int yLower = yCentre - boxHalfHeight;
+            int yUpper = yCentre + boxHalfHeight;
+
+            for (int y = 0; y < room.Height; y++)
+            {
+                for (int x = 0; x < room.Width; x++)
+                {
+                    // bounds to centre box
+                    if (x < xLower | x > xUpper) { continue; }
+                    if (y < yLower | y > yUpper) { continue; }
+                    
+
+                    // bound the centre pad
+                    if (x == xCentre - 2 | x == xCentre + 2 | y == yCentre - 2 | y == yCentre + 2 |
+                        x == xCentre - 1 | x == xCentre + 1 | y == yCentre - 1 | y == yCentre + 1)
+                    {
+                        collideGrid[y, x] = 3;
+                    }
+
+                    // cut out entrances
+                    if (x == xCentre| y == yCentre)
+                    {
+                        collideGrid[y, x] = 0;
+                    }
+
+                    // centre pad
+                    if ((xCentre - 1 <= x & x <= xCentre + 1) & (yCentre - 1 <= y & y <= yCentre + 1))
+                    {
+                        collideGrid[y, x] = 0;
+                        padGrid[y, x] = 70;
+                    }
+                }
+            }
+
+            // LIGHTS
+            List<Vector2> lightLocations = new List<Vector2>
+            {
+                new Vector2(-4, 1),
+                new Vector2(-2, 1),
+
+                new Vector2(2, 1),
+                new Vector2(4, 1),
+            };
+
+            foreach (Vector2 loc in lightLocations)
+            {
+                Vector3 worldLocation = new Vector3(loc.x + 0.5f, loc.y + 0.5f, 0f);
+                GameObject torch = Instantiate(_torchPrefab, worldLocation, Quaternion.identity);
+                torch.transform.parent = room.LightContainer;
+            }
         }
 
         if (_roomType == RoomType.Clear)

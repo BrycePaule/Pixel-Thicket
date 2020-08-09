@@ -48,7 +48,7 @@ public class GameMasterManager : MonoBehaviour
         {
             if (room == null) { continue; }
 
-            if (room.name.Contains("Lobby"))
+            if (room.RoomType == RoomType.Lobby)
             {
                 _currentRoom = room;
             }

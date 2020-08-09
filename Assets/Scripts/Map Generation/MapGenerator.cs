@@ -313,6 +313,7 @@ public class MapGenerator : MonoBehaviour
         RemoveUnreachableNodes();
 
         bool placedLobby = false;
+        bool placedEnd = false;
 
         for (int y = 0; y < mapSize; y++)
         {
@@ -345,6 +346,30 @@ public class MapGenerator : MonoBehaviour
                     _Rooms[y, x] = room;
                 }
 
+            }
+        }
+
+        for (int y = mapSize - 1; y > 0; y--)
+        {
+            if (placedEnd) { break; }
+
+            for (int x = mapSize - 1; x > 0; x--)
+            {
+                if (placedEnd) { break; }
+                if (_mapGrid[y, x] == 0) { continue; }
+
+                Destroy(_Rooms[y, x].gameObject);
+
+                int[] gates = CalculateGatesNeeded(new Vector2Int(x, y));
+
+                Room room = RoomGenerator.Instance.GenerateEndRoom(gates);
+                room.Gates = gates;
+                room.location = new Vector2Int(x, y);
+                room.name = "Room (" + x + ", " + y + ") - End";
+                room.transform.SetParent(roomContainer);
+                _Rooms[y, x] = room;
+
+                placedEnd = true;
             }
         }
 

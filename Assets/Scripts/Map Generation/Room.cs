@@ -11,6 +11,7 @@ public class Room : MonoBehaviour
     public Vector2Int location;
     public int Width;
     public int Height;
+    public RoomType RoomType;
 
     [Space(10)]
     public int[] Gates = new int[4];
