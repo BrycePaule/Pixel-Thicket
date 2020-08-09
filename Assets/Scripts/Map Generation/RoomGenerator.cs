@@ -26,14 +26,17 @@ public class RoomGenerator : MonoBehaviour
 
     public Room LobbyPrefab;
     public Room RoomPrefab;
-    [Space(10)]
 
+    [Space(10)]
     public Tile RedTestTile;
     public Tile PurpleTestTile;
     public Tile[] Grass;
     public Tile[] Walls;
     public Tile[] Pads;
     public Tile[] Rocks;
+
+    [Space(10)]
+    [SerializeField] private GameObject _torchPrefab;
 
     [Space(10)]
     public List<Vector2> SpawnLocations;
@@ -114,6 +117,9 @@ public class RoomGenerator : MonoBehaviour
         // MOB GEN
         SpawnableGridGenerate(room);
         MobSpawnLocGenerate(room);
+
+        // ROOM OBJECTS
+        LightGenerate(room, _collideGrid);
 
         return room;
     }
@@ -482,6 +488,22 @@ public class RoomGenerator : MonoBehaviour
                     // }
                 }
             }
+        
+            // LIGHTS
+            List<Vector2> lightLocations = new List<Vector2>
+            {
+                new Vector2(-5, 2),
+                new Vector2(-5, -2),
+                new Vector2(5, 2),
+                new Vector2(5, -2),
+            };
+
+            foreach (Vector2 loc in lightLocations)
+            {
+                Vector3 worldLocation = new Vector3(loc.x + 0.5f, loc.y + 0.5f, 0f);
+                GameObject torch = Instantiate(_torchPrefab, worldLocation, Quaternion.identity);
+                torch.transform.parent = room.LightContainer;
+            }
         }
 
         if (_roomType == RoomType.End)
@@ -794,6 +816,31 @@ public class RoomGenerator : MonoBehaviour
             }
         }
         
+    }
+
+    private void LightGenerate(Room room, int[,] collideGrid)
+    {
+        for (int y = 0; y < room.Height; y++)
+        {
+            for (int x = 0; x < room.Width; x++)
+            {
+                if (collideGrid[y, x] != 3) { continue; }
+
+                int[,] neighbours = GridMath.GetNeighbours(collideGrid, new Vector2Int(x, y), 0);
+
+                // if empty below
+                if (neighbours[2, 1] == 0)
+                {
+                    if (Roll.Chance(5))
+                    {
+                        Vector3 worldLocation = new Vector3(x - Mathf.FloorToInt(room.Width / 2) + 0.5f, y - Mathf.FloorToInt(room.Height / 2) + 0.5f, 0f);
+
+                        GameObject torch = Instantiate(_torchPrefab, worldLocation, Quaternion.identity);
+                        torch.transform.parent = room.LightContainer;
+                    }
+                }
+            }
+        }
     }
 
     // SPAWN LOCATIONS

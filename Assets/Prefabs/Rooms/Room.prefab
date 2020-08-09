@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7196427777092265455}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &902701234701629849
 GameObject:
@@ -381,7 +381,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7196427777092265455}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4184728204751527230
 GameObject:
@@ -791,8 +791,8 @@ Transform:
   - {fileID: 8887285514280574043}
   - {fileID: 6780114645847813253}
   - {fileID: 4488072466140317812}
-  - {fileID: 3070762805023564123}
   - {fileID: 7896409150457932628}
+  - {fileID: 3070762805023564123}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -820,6 +820,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7562c831b8c95b14eaebdb13d921b693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MobContainer: {fileID: 3070762805023564123}
+  LightContainer: {fileID: 7896409150457932628}
   location: {x: 0, y: 0}
   Width: 0
   Height: 0
@@ -836,11 +838,9 @@ MonoBehaviour:
   EastSpawn: {x: 0, y: 0, z: 0}
   SouthSpawn: {x: 0, y: 0, z: 0}
   WestSpawn: {x: 0, y: 0, z: 0}
-  MobContainer: {fileID: 3070762805023564123}
   Mobs: []
   MobSpawnLocations: []
   MobCount: 0
-  _outOfBoundsCollider: {fileID: 0}
 --- !u!1 &8038579627025000938
 GameObject:
   m_ObjectHideFlags: 0

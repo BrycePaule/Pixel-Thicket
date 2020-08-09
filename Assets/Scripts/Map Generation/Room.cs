@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+    [SerializeField] public Transform MobContainer;
+    [SerializeField] public Transform LightContainer;
 
+    [Space(10)]
     public Vector2Int location;
     public int Width;
     public int Height;
+
+    [Space(10)]
     public int[] Gates = new int[4];
     public Gateway North;
     public Gateway East;
@@ -21,12 +26,11 @@ public class Room : MonoBehaviour
     public Vector3 EastSpawn;
     public Vector3 SouthSpawn;
     public Vector3 WestSpawn;
-    public Transform MobContainer;
+
+    [Space(10)]
     public List<Mob> Mobs = new List<Mob>();
     public List<Vector2> MobSpawnLocations = new List<Vector2>();
     public int MobCount;
-
-    [SerializeField] Transform _outOfBoundsCollider;
 
     private Transform  _transform;
     private MobGenerator _mobGenerator;
