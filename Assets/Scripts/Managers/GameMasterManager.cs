@@ -109,7 +109,6 @@ public class GameMasterManager : MonoBehaviour
         }
     }
 
-
     // MOB SPAWNING
     private void PopulateRoomsWithMobs()
     {
@@ -124,7 +123,7 @@ public class GameMasterManager : MonoBehaviour
             {
                 Mob newMob = _mobGenerator.Spawn(MobTypes.Slime);
                 newMob.transform.SetParent(room.MobContainer);
-                // newMob.GetComponent<Slime>().Color;
+                newMob.GetComponentInChildren<MobMovement>().Room = room;
                 newMob.gameObject.SetActive(false);
                 room.Mobs.Add(newMob);
 

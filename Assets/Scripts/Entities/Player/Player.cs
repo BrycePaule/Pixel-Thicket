@@ -7,10 +7,13 @@ using UnityEngine.InputSystem.Utilities;
 public class Player : MonoBehaviour
 {
     private GameEventManager _gameEventManager;
+    private PlayerHealth _playerHealth;
 
     private void Awake()
     {
         _gameEventManager = GameEventManager.Instance;
+
+        _playerHealth = GetComponentInChildren<PlayerHealth>();
 
         _gameEventManager.onXPress += OnXPress;
         _gameEventManager.onZPress += OnZPress;
@@ -29,4 +32,10 @@ public class Player : MonoBehaviour
         SaveManager.SavePlayerData(this);
     }
     
+    // CALLBACKS
+    private void HitFinish()
+    {
+        _playerHealth.HitFinish();
+    }
+
 }

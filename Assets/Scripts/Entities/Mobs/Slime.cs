@@ -22,8 +22,6 @@ public class Slime : Mob
 
     protected override void Start()
     {
-        DisableHealthbar();
-
         Color randomColour = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 255f);
 
         _sr.color = randomColour;

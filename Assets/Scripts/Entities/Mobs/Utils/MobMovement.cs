@@ -6,6 +6,7 @@ public class MobMovement : MonoBehaviour
 {
     public MovementPattern MovePattern;
     public MovementStyle _moveStyle;
+    public Room Room;
 
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _moveSpeedAggro;
@@ -55,7 +56,7 @@ public class MobMovement : MonoBehaviour
     // MOVEMENT
     private void Move() 
     {
-        if (_mob._hit) { return; }
+        if (_mob.Hit) { return; }
 
         DoMovePattern();
         DoMoveStyle();
@@ -104,7 +105,7 @@ public class MobMovement : MonoBehaviour
         {
             _animator.SetBool("Hopping", false);
 
-            if (_mob._aggro)
+            if (_mob.Aggro)
             {
                 _rb.position += new Vector2(_direction.x * _moveSpeedAggro * Time.deltaTime, _direction.y * _moveSpeedAggro * Time.deltaTime);
             }
@@ -123,7 +124,7 @@ public class MobMovement : MonoBehaviour
             {
                 _hopInAir = true;
 
-                if (_mob._aggro)
+                if (_mob.Aggro)
                 {
                     _rb.position += new Vector2(_direction.x * _moveSpeedAggro * Time.deltaTime, _direction.y * _moveSpeedAggro * Time.deltaTime);
                 }
@@ -140,7 +141,8 @@ public class MobMovement : MonoBehaviour
         if (MovePattern == MovementPattern.RandomLocation)
         {
             // IMPLEMENT PROPER ROOM BASED RANDOM DESTINATION
-            _dest = new Vector2(Random.Range(-20, 20), Random.Range(-20, 20));
+            // _dest = new Vector2(Random.Range(-20, 20), Random.Range(-20, 20));
+            _dest = Room.MobSpawnLocations[Random.Range(0, Room.MobSpawnLocations.Count)];
         }
 
         else if (MovePattern == MovementPattern.FollowPlayer)

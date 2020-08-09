@@ -31,8 +31,8 @@ public class Mob : MonoBehaviour
     [Space(10)]
     [SerializeField] private float _damage;
 
-    public bool _aggro;
-    public bool _hit;
+    public bool Aggro;
+    public bool Hit;
 
     protected Transform _transform;
     protected Animator _animator;
@@ -47,7 +47,7 @@ public class Mob : MonoBehaviour
 
     protected virtual void Start() 
     {
-        DisableHealthbar();
+
     }
 
     // COLLISION
@@ -64,11 +64,6 @@ public class Mob : MonoBehaviour
         } 
     }
 
-    // UI
-    public void EnableHealthbar() => GetComponentInChildren<Canvas>(true).gameObject.SetActive(true);
-
-    public void DisableHealthbar() => GetComponentInChildren<Canvas>(true).gameObject.SetActive(false);
-
     // CALLBACKS
     private void ShootFinish()
     {
@@ -78,7 +73,7 @@ public class Mob : MonoBehaviour
     private void HitFinish()
     {
         _animator.ResetTrigger("Hit");
-        _hit = false;
+        Hit = false;
     }
 
     private void HopEnd()

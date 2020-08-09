@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467816098982583340}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0133283, y: 0.03552006, z: 1.2245058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6182453381176457104}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &8944860035845309659
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4911,8 +4911,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2368936459647733731}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0133283, y: -0.03552006, z: -1.2245058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3411367630027147217}
@@ -4973,8 +4973,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _aggro: 0
-  _hit: 0
+  Aggro: 0
+  Hit: 0
   _sr: {fileID: 7691601069554619621}
   _color: {r: 1, g: 1, b: 1, a: 1}
   _jellyParticle: {fileID: 8944860035845309659}
@@ -5097,7 +5097,7 @@ GameObject:
   - component: {fileID: 5540210976996466027}
   - component: {fileID: 6956845193061093189}
   m_Layer: 15
-  m_Name: Aggro Radius
+  m_Name: Aggro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5189,6 +5189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 4198309030632064845}
+  _healthBarCanvas: {fileID: 8589969453332707544}
   _maxHealth: 100
   _health: 100
 --- !u!1 &6922220670621267637
@@ -5236,6 +5237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovePattern: 0
   _moveStyle: 1
+  Room: {fileID: 0}
   _moveSpeed: 5
   _moveSpeedAggro: 8
   _chanceToMoveWait: 30
@@ -5437,6 +5439,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6289465983310609428, guid: 3984a5385e758da4f83a7141528ede20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6289465984078711797, guid: 3984a5385e758da4f83a7141528ede20,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -5457,6 +5464,12 @@ PrefabInstance:
 --- !u!224 &3645451232646736826 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3250631263858812307, guid: 3984a5385e758da4f83a7141528ede20,
+    type: 3}
+  m_PrefabInstance: {fileID: 2273105589884046889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &8589969453332707544 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7547473089385494257, guid: 3984a5385e758da4f83a7141528ede20,
     type: 3}
   m_PrefabInstance: {fileID: 2273105589884046889}
   m_PrefabAsset: {fileID: 0}

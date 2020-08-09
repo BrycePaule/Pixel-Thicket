@@ -25704,6 +25704,12 @@ PrefabInstance:
       objectReference: {fileID: 801300543}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e9135cc229bd443bb2ef66a7808b2e, type: 3}
+--- !u!198 &1940829269 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4309377481313028998, guid: 1316f99f527ce694f8d63517a575a4b6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3264014765159287004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1945696361
 GameObject:
   m_ObjectHideFlags: 0
@@ -26704,6 +26710,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomGenerator
       objectReference: {fileID: 0}
+    - target: {fileID: 3233887410633772399, guid: 08506b937d7357a41a319175feba05ef,
+        type: 3}
+      propertyPath: Rocks.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3c07c599886b51541bad61f050bb1991,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08506b937d7357a41a319175feba05ef, type: 3}
 --- !u!1001 &3264014765159287004
@@ -26717,10 +26729,35 @@ PrefabInstance:
       propertyPath: _healthBar
       value: 
       objectReference: {fileID: 5328679913868785731}
+    - target: {fileID: 383321374, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
+      propertyPath: HealthRegenWaitTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 383321374, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
+      propertyPath: _healthRegenParticles
+      value: 
+      objectReference: {fileID: 1940829269}
+    - target: {fileID: 383321374, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
+      propertyPath: MaxHealth
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 383321374, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
+      propertyPath: Health
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 383321374, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
+      propertyPath: HealthRegenOutOfCombatTimer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1479255188, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
       propertyPath: _camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 1797840606809360897, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5872667156367417976, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
       propertyPath: m_LocalPosition.x

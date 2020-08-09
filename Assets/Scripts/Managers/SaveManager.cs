@@ -44,7 +44,7 @@ public static class SaveManager
         Inventory playerInventory = player.GetComponentInChildren<Inventory>();
 
         playerHealth.MaxHealth = data.MaxHealth;
-        playerHealth.HealthRegen = data.HealthRegen;
+        playerHealth.HealthRegenPerSecond = data.HealthRegen;
         playerMovement.MoveSpeed = data.MoveSpeed;
         playerMovement.SprintMultiplier = data.SprintMultiplier;
         playerMovement.DashSpeed = data.DashSpeed;

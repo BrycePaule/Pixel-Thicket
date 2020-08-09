@@ -18,6 +18,7 @@ public class RoomGenerator : MonoBehaviour
         71 = purple pad
     */
 
+    private static RoomGenerator _instance;
 
     [Range(0, 100)] public int roomLowerBound;
     [Range(0, 100)] public int roomUpperBound;
@@ -34,9 +35,11 @@ public class RoomGenerator : MonoBehaviour
     public Tile[] Pads;
     public Tile[] Rocks;
 
+    [Space(10)]
+    public List<Vector2> SpawnLocations;
+
     private Dictionary<string, Tile> _wallTiles = new Dictionary<string, Tile>();
     private Dictionary<string, Tile> _padTiles = new Dictionary<string, Tile>();
-    private List<Vector2> _spawnLocations;
     private Tilemap _groundTilemap;
     private Tilemap _padTilemap;
     private Tilemap _collideTilemap;
@@ -44,10 +47,7 @@ public class RoomGenerator : MonoBehaviour
     private int[,] _padGrid;
     private int[,] _collideGrid;
     private int[,] _spawnGrid;
-
     private RoomType _roomType;
-
-    private static RoomGenerator _instance;
 
     public static RoomGenerator Instance
     {
@@ -817,7 +817,7 @@ public class RoomGenerator : MonoBehaviour
     private void MobSpawnLocGenerate(Room room)
     {
         int spawnTiles = 0;
-        _spawnLocations = new List<Vector2>();
+        SpawnLocations = new List<Vector2>();
 
         for (int y = 0; y < room.Height; y++)
         {
@@ -827,13 +827,13 @@ public class RoomGenerator : MonoBehaviour
                 
                 // locations are offset by 50% of room width / height to centre them around the middle
                 // locations are also already in world coords because each square in the grid is 1 to 1 size
-                _spawnLocations.Add(new Vector2(x - Mathf.FloorToInt(room.Width / 2), y - Mathf.FloorToInt(room.Height / 2)));
+                SpawnLocations.Add(new Vector2(x - Mathf.FloorToInt(room.Width / 2), y - Mathf.FloorToInt(room.Height / 2)));
                 spawnTiles++;
             }
         }
         
         room.MobCount = Mathf.FloorToInt(spawnTiles * 0.02f);
-        room.MobSpawnLocations = _spawnLocations;
+        room.MobSpawnLocations = SpawnLocations;
     }
 
     private void PrintGrid(Room room, int[,] grid)
@@ -916,6 +916,7 @@ public class RoomGenerator : MonoBehaviour
     private Tile SelectRandomRockTile()
     {
         return Rocks[(int) UnityEngine.Random.Range(0, Rocks.Length)];
+        // return Rocks[0];
     }
 
     private Tile SelectWallTile(Vector2Int loc, int[,] collideGrid)

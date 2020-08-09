@@ -6,6 +6,7 @@ public class MobHealth : MonoBehaviour, IDamageable<float>, IKnockable, IKillabl
 {
 
     [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private Canvas _healthBarCanvas;
 
     [Space(10)]
     [SerializeField] private float _maxHealth;
@@ -25,6 +26,14 @@ public class MobHealth : MonoBehaviour, IDamageable<float>, IKnockable, IKillabl
         _animator = GetComponentInParent<Animator>();
     }
 
+    private void OnEnable()
+    {
+        if (_health == _maxHealth)
+        {
+            DisableHealthbar();
+        }
+    }
+
     private void Start() 
     {
         _healthBar.SetMaxHealth(_health);
@@ -33,21 +42,21 @@ public class MobHealth : MonoBehaviour, IDamageable<float>, IKnockable, IKillabl
     public void Damage(float damageTaken)
     {
         _animator.SetTrigger("Hit");
-        _mob._hit = true;
+        _mob.Hit = true;
 
         _health = Mathf.Clamp(_health - damageTaken, 0, 99999);
         _healthBar.SetHealth(_health);
 
         if (_health <= 0) { Kill(); }
 
-        if (!_mob._aggro) 
+        if (!_mob.Aggro) 
         {
-            _mob._aggro = true; 
+            _mob.Aggro = true; 
         }
 
         if (_health != _maxHealth) 
         { 
-            _mob.EnableHealthbar(); 
+            EnableHealthbar(); 
         }
     }
 
@@ -58,4 +67,8 @@ public class MobHealth : MonoBehaviour, IDamageable<float>, IKnockable, IKillabl
 
     public void Kill() => Destroy(_mob.gameObject);
 
+    // UI
+    public void EnableHealthbar() => _healthBarCanvas.enabled = true;
+
+    public void DisableHealthbar() => _healthBarCanvas.enabled = false;
 }

@@ -5,12 +5,15 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IDamageable<float>, IKillable
 {
     [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private ParticleSystem _healthRegenParticles;
 
     [Space(10)]
     public float MaxHealth;
     public float Health;
-    public float HealthRegen;
+    public float HealthRegenPerSecond;
+    public float HealthRegenOutOfCombatTimer;
     
+    private bool _regen;
     private bool _regenChecking;
     private bool _hit;
 
@@ -30,12 +33,46 @@ public class PlayerHealth : MonoBehaviour, IDamageable<float>, IKillable
 
     private void Start()
     {
-        _healthBar.SetMaxHealth(Health);
+        _healthBar.SetMaxHealth(MaxHealth);
     }
    
-    // HEALTH
+    private void FixedUpdate()
+    {
+        if (_regen)
+        {
+            RegenerateHealth();
+        }
+    }
+
+    private void RegenerateHealth()
+    {
+        Health += HealthRegenPerSecond * Time.deltaTime;
+        Health = Mathf.Clamp(Health, 0, MaxHealth);
+        _healthBar.SetHealth(Health);
+
+        if (Health >= MaxHealth | _hit | HealthRegenPerSecond == 0)
+        {
+            StopRegen();
+        }
+    }
+
+    private void StartRegen()
+    {
+        _regen = true;
+        _healthRegenParticles.gameObject.SetActive(true);
+    }
+
+    private void StopRegen()
+    {
+        _regen = false;
+        _healthRegenParticles.gameObject.SetActive(false);
+    }
+
     public void Damage(float damageTaken)
     {
+        StopAllCoroutines();
+        StartCoroutine(RegenTimer());
+
         _hit = true;
         _animator.SetTrigger("Hit");
         _audioManager.PlayInstant(SoundType.PlayerHit, 1, 1, true);
@@ -57,11 +94,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable<float>, IKillable
 
     public IEnumerator RegenTimer()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(HealthRegenOutOfCombatTimer);
+
+        StartRegen();
     } 
 
     // CALLBACKS
-    private void HitFinish()
+    public void HitFinish()
     {
         _animator.ResetTrigger("Hit");
         _hit = false;

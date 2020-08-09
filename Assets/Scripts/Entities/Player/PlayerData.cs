@@ -26,7 +26,7 @@ public class PlayerData
         Inventory playerInventory = player.GetComponentInChildren<Inventory>();
 
         MaxHealth = playerHealth.MaxHealth;
-        HealthRegen = playerHealth.HealthRegen;
+        HealthRegen = playerHealth.HealthRegenPerSecond;
         MoveSpeed = playerMovement.MoveSpeed;
         SprintMultiplier = playerMovement.SprintMultiplier;
         DashSpeed = playerMovement.DashSpeed;
