@@ -19,7 +19,7 @@ public class LightPulser : MonoBehaviour
         _random = transform.parent.GetInstanceID();
     }
 
-    private void FixedUpdate() 
+    private void Update() 
     {
         _light.intensity = Mathf.Clamp(Mathf.Sin(_random + Time.time * _speed) * _flashTime, _intensityMinMax.x, _intensityMinMax.y);
     }
