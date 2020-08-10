@@ -18,7 +18,7 @@ public class Spell : MonoBehaviour
 
     [SerializeField] private SoundType _travelSound;
     [SerializeField] private SoundType _landingSound;
-    [SerializeField] GameObject _deathEffect;
+    [SerializeField] Effect _deathEffect;
     [SerializeField] private float _maxLifetime = 10f;
     private float _birthTime;
 

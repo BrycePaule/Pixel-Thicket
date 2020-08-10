@@ -6,7 +6,7 @@ public class Inventory : MonoBehaviour
 {
 
     public int Selected;
-    [SerializeField] private Spell[] Attacks;
+    [SerializeField] private Spell[] Spells;
 
     private SpellManager _spellManager;
     private GameEventManager _gameEventManager;
@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
     public List<Spell> Items = new List<Spell>();
     private int _slots;
 
-    private int _attackSelector = 0;
+    private int _spellSelector;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
         _gameEventManager.onXPress += OnXPress;
     }
 
-    public void Add(Spell item)
+    public void AddItem(Spell item)
     {
         if (Items.Count < _slots) { return; }
 
@@ -39,7 +39,7 @@ public class Inventory : MonoBehaviour
         _gameEventManager.OnInventoryChanged();
     }
 
-    public void Add(int itemID)
+    public void AddItem(int itemID)
     {
         if (Items.Count < _slots) { return; }
 
@@ -86,8 +86,8 @@ public class Inventory : MonoBehaviour
     // EVENTS
     private void OnZPress() 
     {
-        Add(Attacks[_attackSelector]);
-        _attackSelector = (_attackSelector >= Attacks.Length - 1) ? 0 : _attackSelector + 1; 
+        AddItem(Spells[_spellSelector]);
+        _spellSelector = (_spellSelector >= Spells.Length - 1) ? 0 : _spellSelector + 1; 
     }
 
     private void OnXPress() 

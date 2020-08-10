@@ -54,7 +54,7 @@ public static class SaveManager
         playerInventory.ClearInventory();
         foreach (var ID in data.ItemIDs)
         {
-            playerInventory.Add(ID);
+            playerInventory.AddItem(ID);
         }
     }
 }
