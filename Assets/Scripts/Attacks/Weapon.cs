@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour
     private GameEventManager _gameEventManager;
     private SpellManager _spellManager;
     private Transform _transform;
+    private GlobalContainer _globalContainer;
 
     private float _shootCooldown;
 
@@ -18,6 +19,7 @@ public class Weapon : MonoBehaviour
         _transform = transform;
         _gameEventManager = GameEventManager.Instance;
         _spellManager = SpellManager.Instance;
+        _globalContainer = GlobalContainer.Instance;
 
         _gameEventManager.onShootPress += context => OnShootPress(context);
     }
@@ -40,6 +42,7 @@ public class Weapon : MonoBehaviour
             
         projectile.transform.position = _transform.position;
         projectile.transform.rotation = rotation;
+        projectile.transform.parent = _globalContainer.SpellContainer;
         projectileRA.SetShooter(_transform);
         projectileRA.Fire(direction);
 

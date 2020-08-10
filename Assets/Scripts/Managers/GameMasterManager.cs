@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameMasterManager : MonoBehaviour
 {
-
-    [SerializeField] private GameObject _roomContainer;
     [SerializeField] private Player _player;
 
     private GameEventManager _gameEventManager;
@@ -13,6 +11,7 @@ public class GameMasterManager : MonoBehaviour
     private AudioManager _audioManager;
     private MapGenerator _mapGenerator;
     private MobGenerator _mobGenerator;
+    private GlobalContainer _globalContainer;
 
     private Room[,] _rooms;
     private Room _currentRoom;
@@ -24,6 +23,7 @@ public class GameMasterManager : MonoBehaviour
         _audioManager = AudioManager.Instance;
         _mapGenerator = MapGenerator.Instance;
         _mobGenerator = MobGenerator.Instance;
+        _globalContainer = GlobalContainer.Instance;
 
         _gameEventManager.onGatewayEnter += OnGatewayEnter;
         _gameEventManager.onPlayerDeath += OnPlayerDeath;
@@ -79,6 +79,7 @@ public class GameMasterManager : MonoBehaviour
     private void DeactivateCurrentRoom()
     {
         _currentRoom.gameObject.SetActive(false);
+        _globalContainer.ClearAllSpells();
     }
 
     private void PlacePlayerOnGatewayEnter(CardinalDirection direction)
