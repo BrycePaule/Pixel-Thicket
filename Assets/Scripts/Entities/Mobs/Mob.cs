@@ -80,5 +80,4 @@ public class Mob : MonoBehaviour
     {
         GetComponentInChildren<MobMovement>().StartCoroutine("HopEnd");
     }
-
 }

@@ -27,7 +27,7 @@ public class GlobalContainer : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance != null) { Destroy(this.gameObject); }
+        // if (_instance != null) { Destroy(this.gameObject); }
     }
 
     public void ClearAllSpells()

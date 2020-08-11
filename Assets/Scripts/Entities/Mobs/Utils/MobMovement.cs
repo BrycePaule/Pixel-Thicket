@@ -56,8 +56,6 @@ public class MobMovement : MonoBehaviour
     // MOVEMENT
     private void Move() 
     {
-        if (_mob.Hit) { return; }
-
         DoMovePattern();
         DoMoveStyle();
 

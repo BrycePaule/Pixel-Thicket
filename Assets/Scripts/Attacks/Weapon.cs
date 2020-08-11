@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour
 
     private bool Shoot(Vector3 mousePosWorld)
     {
-        float angleOffset = 35f;
+        float angleOffset = 90f;
 
         Spell currSpell = _inventory.SelectedWeapon();
         if (currSpell == null) { return false; }

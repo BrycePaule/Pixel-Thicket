@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2136468120145767291}
   - component: {fileID: 2298573681848717372}
   m_Layer: 0
-  m_Name: Water Splash
+  m_Name: Poison Splash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ Animator:
   m_GameObject: {fileID: 878073708473006882}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6a60b715e173e3f4c804509726c1a233, type: 2}
+  m_Controller: {fileID: 9100000, guid: 832f77ab2e41ec64eb922fa8c4432116, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 1
-  m_Color: {r: 0.5330188, g: 1, b: 0.99556434, a: 1}
+  m_Color: {r: 0.18396229, g: 1, b: 0.20043166, a: 1}
   m_Intensity: 0.6
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 3397845385121c2b39ae619c000000003b1da8ac855ff16341d574e0a12b87896b38932f
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 6
+  m_PointLightOuterRadius: 4
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5

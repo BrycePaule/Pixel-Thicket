@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2960116985457915203
+--- !u!1 &658870163662447416
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3836630575403431726}
-  - component: {fileID: 6870723888463772668}
+  - component: {fileID: 5621547712447068450}
+  - component: {fileID: 1688158692595943252}
   m_Layer: 0
   m_Name: Point Light 2D
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3836630575403431726
+--- !u!4 &5621547712447068450
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2960116985457915203}
+  m_GameObject: {fileID: 658870163662447416}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,13 +31,13 @@ Transform:
   m_Father: {fileID: 1503778982120439163}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6870723888463772668
+--- !u!114 &1688158692595943252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2960116985457915203}
+  m_GameObject: {fileID: 658870163662447416}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
@@ -46,10 +46,10 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 1
-  m_Color: {r: 0.56103253, g: 1, b: 0.5424528, a: 1}
-  m_Intensity: 0.6
+  m_Color: {r: 0.56078434, g: 1, b: 0.5411765, a: 1}
+  m_Intensity: 0.4
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 3397845385121c2b39ae619c000000003b1da8ac855ff16341d574e0a12b87896b38932f
+  m_ApplyToSortingLayers: 6b38932f
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -59,23 +59,25 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 6
+  m_PointLightOuterRadius: 2
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 9.99
-  m_ShapeLightFalloffOffset: {x: -1.73, y: 0}
+  m_ShapeLightFalloffSize: 0
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -0.34141818, y: -0.23213267, z: 0}
-  - {x: 0.079485916, y: -0.19157127, z: 0}
-  - {x: 0.30591932, y: -0.118267745, z: 0}
-  - {x: 0.42472747, y: 0.037453804, z: 0}
-  - {x: 0.42738768, y: 0.24477097, z: 0}
-  - {x: 0.1963827, y: 0.32905063, z: 0}
-  - {x: -0.079181224, y: 0.20893742, z: 0}
-  - {x: -0.34213817, y: -0.19354856, z: 0}
+  - {x: 0.43642616, y: -0.15971124, z: 0}
+  - {x: 0.76465917, y: -0.98209983, z: 0}
+  - {x: 0.83342373, y: -0.44065922, z: 0}
+  - {x: 0.7430021, y: 0.04328431, z: 0}
+  - {x: 0.49140972, y: 0.4723524, z: 0}
+  - {x: 0.09165941, y: 0.686365, z: 0}
+  - {x: -0.48843193, y: 0.84963113, z: 0}
+  - {x: -0.9404212, y: 0.86526835, z: 0}
+  - {x: -0.21019849, y: 0.47259182, z: 0}
+  - {x: 0.17888859, y: 0.21488383, z: 0}
 --- !u!1 &7393239133091840823
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +109,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2176885446338028209}
-  - {fileID: 3836630575403431726}
+  - {fileID: 5621547712447068450}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,7 +138,8 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 8cbc659d4310fb348a0c0db30f9b2993, type: 3}
   _travelSound: 0
   _landingSound: 0
-  _deathEffect: {fileID: 0}
+  _deathEffect: {fileID: 2298573681848717372, guid: 0a99e3c61efdb024db66ba63a337e3c1,
+    type: 3}
   _maxLifetime: 10
 --- !u!50 &2993515883227756832
 Rigidbody2D:
