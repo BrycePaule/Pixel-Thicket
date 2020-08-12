@@ -83,6 +83,23 @@ public class Inventory : MonoBehaviour
         return IDs;
     }
 
+    public void ChangeSelection(int slotNumber)
+    {
+        if (Selected == slotNumber) { return; }
+
+        Selected = slotNumber;
+        _gameEventManager.OnInventoryChanged();
+    }
+
+    public void SwapSlots(int slot1, int slot2)
+    {
+        Spell item1 = (slot1 < Items.Count) ? Items[slot1] : null;
+        Spell item2 = (slot2 < Items.Count) ? Items[slot2] : null;
+
+        Items[slot1] = item2;
+        Items[slot2] = item1;
+    }
+
     // EVENTS
     private void OnZPress() 
     {
@@ -94,14 +111,6 @@ public class Inventory : MonoBehaviour
     {
         // Add(Attacks[1]);
         // print("adding XXXX");
-    }
-
-    private void ChangeSelection(int selectedSlot)
-    {
-        if (Selected == selectedSlot) { return; }
-
-        Selected = selectedSlot;
-        _gameEventManager.OnInventoryChanged();
     }
 
     private void OnSlot1Press() => ChangeSelection(0);

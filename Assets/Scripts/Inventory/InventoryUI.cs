@@ -12,6 +12,7 @@ public class InventoryUI : MonoBehaviour
     private Transform _inventoryContainer;
 
     private InventorySlot[] _slots;
+    private int _selectedSlot = -1;
 
     private void Awake()
     {
@@ -25,12 +26,7 @@ public class InventoryUI : MonoBehaviour
 
     private void Start()
     {
-        _slots = _inventoryContainer.GetComponentsInChildren<InventorySlot>();
-        for (int i = 0; i < _slots.Length; i++)
-        {
-            _slots[i].SlotNumber = i;
-        }
-
+        NumberAllSlots();
     }
 
     private void UpdateInventoryUI()
@@ -50,7 +46,46 @@ public class InventoryUI : MonoBehaviour
 
     public void ToggleInventory() => _inventoryCanvas.enabled = !_inventoryCanvas.enabled;
 
+    public void OnSlotClick(int slotNumber)
+    {
+        if (_selectedSlot == -1)
+        {
+            _selectedSlot = slotNumber;
+            _slots[_selectedSlot]._pickedUp = true;
+        }
+
+        else if (_selectedSlot != -1)
+        {
+            // if (_selectedSlot == slotNumber) 
+            // { 
+            //     return; 
+            // }
+
+            _inventory.SwapSlots(_selectedSlot, slotNumber);
+            _slots[_selectedSlot].ResetItemPosition();
+            _slots[slotNumber].ResetItemPosition();
+
+            _gameEventManager.OnInventoryChanged();
+            ResetSelectedSlot();
+        }
+    }
+
+    public void ResetSelectedSlot()
+    {
+        _selectedSlot = -1;
+    }
+
+    private void NumberAllSlots()
+    {
+        _slots = _inventoryContainer.GetComponentsInChildren<InventorySlot>();
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            _slots[i].SlotNumber = i;
+        }
+    }
+
     // EVENTS
     private void OnInventoryPress() => ToggleInventory();
     private void OnInventoryChanged() => UpdateInventoryUI();
+
 }
