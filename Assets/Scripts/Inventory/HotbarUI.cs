@@ -37,29 +37,21 @@ public class HotbarUI : MonoBehaviour
     {    
         _slots = _slotContainer.GetComponentsInChildren<HotbarSlot>();
         _slotCount = _slots.Length;
+
         for (int i = 0; i < _slots.Length; i++)
         {
             _slots[i].SlotNumber = i;
             _slots[i].HotbarUI = this;
         }
-
-        UpdateHotbar();
     }
 
     private void UpdateHotbar()
     {
-        for (int i = 0; i < _slots.Length; i++)
+        for (int i = 0; i < _slotCount; i++)
         {
-            if (i < _inventory.Items.Count)
-            {
-                _slots[i].AddItem(_inventory.Items[i]);
-            }
-            else
-            {
-                _slots[i].ClearSlot();
-            }
-
+            _slots[i].ClearSlot();
             _slots[i].Deselect();
+            _slots[i].AddItem(_inventory.Items[i]);
         }
 
         _slots[_selected].Select();

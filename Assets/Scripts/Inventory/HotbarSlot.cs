@@ -9,20 +9,6 @@ public class HotbarSlot : InventorySlot
 
     public HotbarUI HotbarUI;
 
-    public override void AddItem(Spell newItem)
-    {
-        item = newItem;
-        _itemImage.sprite = newItem.Icon;
-        _itemImage.enabled = true;
-    }
-
-    public override void ClearSlot()
-    {
-        item = null;
-        _itemImage.sprite = null;
-        _itemImage.enabled = false;
-    }
-
     public void Select()
     {
         _selectImage.enabled = true;

@@ -31,25 +31,31 @@ public class InventoryUI : MonoBehaviour
 
     private void UpdateInventoryUI()
     {
-        for (int i = 0; i < _slots.Length; i++)
+        for (int i = 0; i < _inventory.SlotCount; i++)
         {
-            if (i < _inventory.Items.Count)
-            {
-                _slots[i].AddItem(_inventory.Items[i]);
-            }
-            else
-            {
-                _slots[i].ClearSlot();
-            }
+            _slots[i].ClearSlot();
+            _slots[i].AddItem(_inventory.Items[i]);
         }
     }
 
-    public void ToggleInventory() => _inventoryCanvas.enabled = !_inventoryCanvas.enabled;
+    public void ToggleInventory()
+    {
+        if (_inventoryCanvas.enabled == true)
+        {
+            ResetSelectedSlot();
+            ResetHeldItem();
+        }
+        
+        _inventoryCanvas.enabled = !_inventoryCanvas.enabled;
+    } 
+        
 
     public void OnSlotClick(int slotNumber)
     {
         if (_selectedSlot == -1)
         {
+            if (_slots[slotNumber].Item == null) { return; }
+
             _selectedSlot = slotNumber;
             _slots[_selectedSlot]._pickedUp = true;
         }
@@ -81,6 +87,14 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < _slots.Length; i++)
         {
             _slots[i].SlotNumber = i;
+        }
+    }
+
+    private void ResetHeldItem()
+    {
+        foreach (InventorySlot slot in _slots)
+        {
+            slot.ResetItemPosition();
         }
     }
 

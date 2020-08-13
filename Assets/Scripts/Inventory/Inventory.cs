@@ -5,19 +5,21 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
 
+    public int SlotCount;
+    public Spell[] Items;
     public int Selected;
     [SerializeField] private Spell[] Spells;
 
     private SpellManager _spellManager;
     private GameEventManager _gameEventManager;
 
-    public List<Spell> Items = new List<Spell>();
-    private int _slots;
 
     private int _spellSelector;
 
     private void Awake()
     {
+        Items = new Spell[SlotCount];
+
         _gameEventManager = GameEventManager.Instance;
         _spellManager = SpellManager.Instance;
 
@@ -33,35 +35,55 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(Spell item)
     {
-        if (Items.Count < _slots) { return; }
-
-        Items.Add(item);
-        _gameEventManager.OnInventoryChanged();
+        for (int i = 0; i < SlotCount; i++)
+        {
+            if (Items[i] == null)
+            {
+                Items[i] = item;
+                _gameEventManager.OnInventoryChanged();
+                break;
+            }
+        }
     }
 
     public void AddItem(int itemID)
     {
-        if (Items.Count < _slots) { return; }
+        if (itemID == -1 ) { return; }
 
-        Items.Add(_spellManager.GetSpell(itemID).GetComponent<Spell>());
-        _gameEventManager.OnInventoryChanged();
+        for (int i = 0; i < SlotCount; i++)
+        {
+            if (Items[i] == null)
+            {
+                Spell item = _spellManager.GetSpell(itemID).GetComponent<Spell>();
+                Items[i] = item;
+                _gameEventManager.OnInventoryChanged();
+                break;
+            }
+        }
     }
 
     public void Remove(Spell item)
     {
-        Items.Remove(item);
-        _gameEventManager.OnInventoryChanged();
+        for (int i = 0; i < SlotCount; i++)
+        {
+            if (Items[i] == item)
+            {
+                Items[i] = null;
+                _gameEventManager.OnInventoryChanged();
+                break;
+            }
+        }
     }
 
     public void ClearInventory()
     {
-        Items = new List<Spell>();
+        Items = new Spell[30];
         _gameEventManager.OnInventoryChanged();
     }
 
     public Spell SelectedWeapon()
     {
-        if (Items.Count > Selected)
+        if (Items.Length > Selected)
         {
             return Items[Selected];
         }
@@ -73,11 +95,18 @@ public class Inventory : MonoBehaviour
 
     public int[] ItemIDs()
     {
-        int[] IDs = new int[Items.Count];
+        int[] IDs = new int[SlotCount];
 
-        for (int i = 0; i < Items.Count; i++)
+        for (int i = 0; i < SlotCount; i++)
         {
-            IDs[i] = Items[i].ID;
+            if (Items[i] == null) 
+            { 
+                IDs[i] = -1;
+            }
+            else
+            {
+                IDs[i] = Items[i].ID;
+            }
         }
 
         return IDs;
@@ -93,8 +122,10 @@ public class Inventory : MonoBehaviour
 
     public void SwapSlots(int slot1, int slot2)
     {
-        Spell item1 = (slot1 < Items.Count) ? Items[slot1] : null;
-        Spell item2 = (slot2 < Items.Count) ? Items[slot2] : null;
+        print("Swapping (" + slot1 + " - " + slot2 + ")");
+
+        Spell item1 = Items[slot1];
+        Spell item2 = Items[slot2];
 
         Items[slot1] = item2;
         Items[slot2] = item1;

@@ -27029,6 +27029,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
         type: 3}
+      propertyPath: Items.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
       propertyPath: Spells.Array.data[0]
       value: 
       objectReference: {fileID: 7612892692419237182, guid: 9ef59f7ae3c447644bbeead37a436cce,
@@ -27051,6 +27056,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4092356719754850460, guid: 4e923dffa6d54c740b1161acebffbd7d,
         type: 3}
+    - target: {fileID: 7143349222834219912, guid: 1316f99f527ce694f8d63517a575a4b6,
+        type: 3}
+      propertyPath: SlotCount
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1316f99f527ce694f8d63517a575a4b6, type: 3}
 --- !u!224 &4694751248843330740 stripped

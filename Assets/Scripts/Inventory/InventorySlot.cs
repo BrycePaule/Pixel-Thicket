@@ -10,14 +10,14 @@ public class InventorySlot : MonoBehaviour
     [SerializeField] protected Image _itemImage; 
 
     public int SlotNumber;
+    public Spell Item;
     public bool _pickedUp;
+
     private Vector3 _itemImagePosition;
     private Vector3 _itemImagePositionLocal;
-
     private float pickupXOffset = 20f;
     private float pickupYOffset = -20f;
 
-    protected Spell item;
     private InputManager _inputManager;
 
     private void Awake()
@@ -41,14 +41,16 @@ public class InventorySlot : MonoBehaviour
 
     public virtual void AddItem(Spell newItem)
     {
-        item = newItem;
+        if (newItem == null) { return; }
+
+        Item = newItem;
         _itemImage.sprite = newItem.Icon;
         _itemImage.enabled = true;
     }
 
     public virtual void ClearSlot()
     {
-        item = null;
+        Item = null;
         _itemImage.sprite = null;
         _itemImage.enabled = false;
     }
