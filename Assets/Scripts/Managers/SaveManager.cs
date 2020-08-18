@@ -56,5 +56,7 @@ public static class SaveManager
         {
             playerInventory.AddItem(ID);
         }
+
+        // Debug.Log("loading");
     }
 }
